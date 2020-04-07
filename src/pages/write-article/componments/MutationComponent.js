@@ -22,31 +22,29 @@ class MutationComponent extends React.Component {
       message.error('文章标题或者内容不能为空~');
       return;
     }
-    createArticle().then(() => {
+    createArticle({
+      variables: {
+        userId: 1,
+        articleContent: editorState.toHTML(),
+        articleSubTitle: this.delHtmlTag(editorState.toHTML()).substring(
+          0,
+          100,
+        ),
+        articleTitle,
+      }
+    }).then(() => {
       history.push('/')
       history.go()
     });
   };
 
   render() {
-    const { articleTitle, editorState } = this.props;
     return (
       <Mutation
         mutation={ADD_ARTICLE}
-        variables={{
-          userId: 1,
-          articleContent: editorState.toHTML(),
-          articleSubTitle: this.delHtmlTag(editorState.toHTML()).substring(
-            0,
-            100,
-          ),
-          articleTitle,
-        }}
-        onError={{}}
-      >
+        onError={{}}>
         {(createArticle, { data, loading, error }) => {
           if (error) {
-            console.log('error', error);
             return <div>error</div>;
           }
           return (
@@ -56,8 +54,7 @@ class MutationComponent extends React.Component {
                 <div>
                   <Button
                     type="submit"
-                    onClick={this.submit.bind(this, createArticle)}
-                  >
+                    onClick={this.submit.bind(this, createArticle)}>
                     提交
                   </Button>
                 </div>

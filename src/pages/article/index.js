@@ -26,7 +26,7 @@ export default class Articles extends React.Component {
         console.log('this.props', this.props)
         let id = this.props.match.params.id;
         return (
-            <Query
+            <Query 
                 query={ARTICLE_DETIAL}
                 variables={{ id }}
             >

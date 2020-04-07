@@ -9,6 +9,7 @@ export const ARTICLE_DETIAL = gql`
       articleTitle
       articleContent
       articlePageView
+      articlePraiseCount
       articleDislikeCount
       articleCommentCount
       created_at
@@ -81,3 +82,12 @@ export const ADD_COMMENT = gql`
     }
   }
 `;
+
+// 添加查看文章次数
+export const ADD_WATCH_COUNT = gql`
+mutation addWatchCount($articleId:ID!){
+  addWatchCount(articleId:$articleId){
+    articlePageView
+  }
+}
+`

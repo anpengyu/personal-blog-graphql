@@ -1,18 +1,10 @@
-// import 'braft-extensions/dist/code-highlighter.css';
-// import 'braft-editor/dist/index.css';
 import React, { Fragment } from 'react';
 import { Input, message, Button } from 'antd';
 import BraftEditor from 'braft-editor';
 import _ from 'lodash';
-// import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
 import MutaionComponent from './componments/MutationComponent';
 import BraftEditorComponent from './componments/BraftEditorComponent';
 import { buildPreviewHtml } from './buildHtml';
-// BraftEditor.use(
-//   CodeHighlighter({
-//     includeEditors: ['editor-with-code-highlighter'],
-//   }),
-// );
 
 /**
  * 添加新文章
@@ -63,8 +55,7 @@ export default class AddArticle extends React.Component{
       <div style={{ display: 'flex' }}>
         <BraftEditorComponent
           changeTitle={this.changeTitle}
-          handleChange={this.handleChange}
-        />
+          handleChange={this.handleChange}/>
 
         <MutaionComponent
           articleTitle={articleTitle}

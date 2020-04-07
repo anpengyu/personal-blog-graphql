@@ -1,7 +1,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import styles from '../index.less';
+import '../index.scss';
 import { Link } from "react-router-dom";
 /**
  * 首页-文章列表-条目
@@ -72,21 +72,21 @@ export default class ArticleItemComponent extends React.Component {
                 }}
                 src={require('../../../assets/head.jpg')}
               />
-              <div className={styles.user_name}>{user.name}</div>
+              <div className='user_name'>{user.username}</div>
             </div>
-            <div className={styles.article_bottom}>
+            <div className='article_bottom'>
               发布时间：{this.times(item.created_at)}
             </div>
           </div>
           {/* <div className={styles.article_bottom}>有疑问：{item.articledislikeCount}</div> */}
           <div style={{ display: 'flex', marginRight: 10 }}>
-            <div className={styles.article_bottom}>
+            <div className='article_bottom'>
               访问：{item.articlePageView}
             </div>
-            <div className={styles.article_bottom}>
+            <div className='article_bottom'>
               评论：{item.articleCommentCount}
             </div>
-            <div className={styles.article_bottom}>
+            <div className='article_bottom'>
               获赞：{item.articlePraiseCount}
             </div>
           </div>

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 're
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import HeaderPage from './pages/title';
+import TitleComponment from './pages/componments/TitleComponment'
 import routers from './routerMap';
 import NotFoundPage from './pages/error';
 import monent_cn from './moment-cn'
@@ -25,7 +26,7 @@ class RootPage extends Component {
     return (
       <ApolloProvider client={client}>
         <Router>   
-          <HeaderPage />
+          <TitleComponment />
           <div style={{ backgroundColor: '#eee', width: '100%', display: 'flex', justifyContent: 'center' ,padding:20}}>
 
             <Switch>

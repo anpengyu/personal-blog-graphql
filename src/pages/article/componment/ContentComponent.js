@@ -1,8 +1,28 @@
 import React from 'react';
 import '../index.less';
 import { buildPreviewHtml } from '../buildhtml.js';
+import { withApollo } from 'react-apollo';
+import { ADD_WATCH_COUNT } from '../graphql';
+import { ALL_ARTICLES } from '../../home/graphql';
+
 let moment = require('moment');
+
 class ContentComponent extends React.Component {
+
+  componentDidMount() {
+    const { article } = this.props;
+    console.log('dddddddddd')
+    let { mutate } = this.props.client;
+    //自动调用添加功能
+    mutate({
+      mutation: ADD_WATCH_COUNT,
+      variables: {
+        articleId: article.id,
+      },
+      refetchQueries: [{ query: ALL_ARTICLES }]//重新获取数据
+    })
+
+  }
 
   //发帖距现在多长时间
   times(date) {
@@ -24,25 +44,13 @@ class ContentComponent extends React.Component {
         </div>
 
         <div
-          style={{
-            display: 'flex',
-            height: '50px',
-            lineHeight: '50px',
-            justifyContent: 'space-between',
-          }}
-        >
+          style={{ display: 'flex', height: '50px', lineHeight: '50px', justifyContent: 'space-between', }}>
           <div style={{ display: 'flex' }}>
             <div
               style={{ display: 'flex', cursor: 'pointer' }}
-              onClick={this.clickUserName.bind(this, user.id)}
-            >
+              onClick={this.clickUserName.bind(this, user.id)}>
               <img
-                style={{
-                  height: 40,
-                  width: 40,
-                  marginTop: 5,
-                  borderRadius: 50,
-                }}
+                style={{ height: 40, width: 40, marginTop: 5, borderRadius: 50, }}
                 src={require('../../../assets/head.jpg')}
               />
               <div className='user_name'>{user.username}</div>
@@ -54,15 +62,17 @@ class ContentComponent extends React.Component {
           {/* <div className={styles.article_bottom}>有疑问：{item.articledislikeCount}</div> */}
           <div style={{ display: 'flex', marginRight: 10 }}>
             <div className='article_bottom'>
-              阅读数：{article.articlePageView}
+              {article.articlePageView}阅读数
             </div>
-            {/* <div className={styles.article_bottom}>
-                    评论：{article.articleCommentCount}
-                  </div>
-                  <div className={styles.article_bottom}>
-                    获赞：{article.articlePraiseCount}
-                  </div> */}
-            <div className='article_bottom'>收藏</div>
+            <div className='article_bottom'>
+              {article.articleCommentCount}评论
+            </div>
+            <div className='article_bottom' >
+              {article.articlePraiseCount}赞
+            </div>
+            <div className='article_bottom'>
+              {article.articleDislikeCount}收藏
+              </div>
           </div>
         </div>
         <div
@@ -76,4 +86,4 @@ class ContentComponent extends React.Component {
   }
 }
 
-export default ContentComponent;
+export default withApollo(ContentComponent);
