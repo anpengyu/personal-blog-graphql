@@ -91,3 +91,25 @@ mutation addWatchCount($articleId:ID!){
   }
 }
 `
+
+/**
+ * 点赞
+ */
+export const ADD_PRAISE_COUNT = gql`
+mutation addPraiseCount($articleId:ID!){
+  addPraiseCount(articleId:$articleId){
+    articlePraiseCount
+  }
+}
+`
+
+/**
+ * 1:点赞列表 2:收藏列表 3:浏览记录 4:关注的作者 5:评论列表 6:文章列表
+ */
+export const CHANGE_USERINFO = gql`
+mutation changeUserInfo($userId:ID!,$id:ID!,$type:Int!){
+  changeUserInfo(userId:$userId,id:$id,type:$type){
+    id
+  }
+}
+`
