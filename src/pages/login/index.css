@@ -1,0 +1,86 @@
+/* 
+.normal {
+  height: 100%;
+  min-height: 750px;
+  text-align: center;
+  font-size: 14px;
+  background-color: #f1f1f1;
+} */
+.title_select{
+  font-weight: 200px;
+  display: inline-block;
+  padding: 20px;
+  font-size: 20px;
+  border-bottom: 2px solid #ea6f5a;
+  color:#ea6f5a;
+}
+.login_title{
+  font-weight: 200px;
+  display: inline-block;
+  padding: 20px;
+  font-size: 20px;
+}
+
+.moushOverTitle{
+  font-weight: 200px;
+  display: inline-block;
+  padding: 20px;
+  font-size: 20px;
+  border-bottom: 2px solid #ea6f5a;
+}
+
+.card{
+  width: 400px;
+  margin: 60px auto 0;
+  padding: 10px 50px 30px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0,0,0,.1);
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.ant-form-item{
+  margin-bottom: 0px;
+}
+.ant-form-item-with-help{
+margin-bottom: 0px;
+}
+
+.input_root{
+  background-color: 1px solid #c8c8c8;
+  margin-top: 20px;
+}
+
+.login_input{
+  /* padding-top: 15px;*/
+  /* padding-bottom: 25px;  */
+  height: 55px;
+  
+}
+.ant-input-suffix{
+  align-self: center;
+}
+.ant-input-prefix{
+  align-self: center;
+}
+
+.btn{
+  width:100%;
+  /* margin: 20px; */
+  margin-top: 20px;
+  height: 40px;
+}
+
+
+.bg{
+  height: 100%;
+  min-height: 750px;
+  text-align: center;
+  font-size: 14px;
+  background-color: #eee;
+}
+
+.tv{
+  width: 80px;
+}

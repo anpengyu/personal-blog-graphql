@@ -3,6 +3,7 @@ import './index.scss';
 import { Input, Button, Menu, Dropdown } from 'antd';
 import _ from 'lodash';
 import { Link, withRouter } from "react-router-dom";
+import {AUTH_TOKEN} from '../../utils/Constant';
 
 const tabs = [
     { name: '技术', index: 0 },
@@ -39,17 +40,7 @@ class TitleComponment extends React.Component {
             case MenuKeys.SETTING:
                 break;
             case MenuKeys.LOGOUT:
-                // this.props.dispatch({
-                //     type: 'base/logout',
-                //     callback: () => {
-                //         // this.setState({
-                //         //   isLogin: false,
-                //         //   userInfo: { username: '' },
-                //         // });
-
-                //         window.location.reload(false);
-                //     },
-                // });
+                localStorage.removeItem(AUTH_TOKEN)
                 break;
         }
     };
@@ -151,14 +142,12 @@ class TitleComponment extends React.Component {
                                     type="primary"
                                     shape="round"
                                     // icon={<FontColorsOutlined />}
-                                    onClick={this.clickWriteArticle}
-                                >写博客</Button>
-                                <Link to={`/write`}>写文章</Link>
+                                    onClick={this.clickWriteArticle}>写博客</Button>
                             </div>
                             {isLogin ? (
                                 this.loginUserTitle()
                             ) : (
-                                    <Link to="/register">登录/注册</Link>
+                                    <Link to="/login">登录/注册</Link>
                                 )}
                         </div>
                     </div>

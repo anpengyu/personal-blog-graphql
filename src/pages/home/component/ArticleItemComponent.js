@@ -56,13 +56,11 @@ export default class ArticleItemComponent extends React.Component {
             height: '50px',
             lineHeight: '50px',
             justifyContent: 'space-between',
-          }}
-        >
+          }}>
           <div style={{ display: 'flex' }}>
             <div
               style={{ display: 'flex', cursor: 'pointer' }}
-              onClick={this.clickUserName.bind(this, user.id)}
-            >
+              onClick={this.clickUserName.bind(this, user.id)}>
               <img
                 style={{
                   height: 40,

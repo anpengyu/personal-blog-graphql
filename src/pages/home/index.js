@@ -5,10 +5,13 @@ import Loading from '../Loading';
 import ArticleItemComponent from './component/ArticleItemComponent';
 
 export default class Articles extends React.Component {
-    shouldComponentUpdate(){
-        return (this.props.router.location.action === 'POP');
+
+    componentDidMount(){
+        console.log('...........')
     }
+
     render() {
+
         return (
             <Fragment>
                 <div style={{ display: 'inline-block', width: '70%' }}>
@@ -16,7 +19,7 @@ export default class Articles extends React.Component {
                         {({ loading, data, error, refetch }) => {
                             if (error) return <Loading isCenter={true} />;
                             if (loading) return <Loading isCenter={true} />;
-                            console.log('d',data)
+                          
                             // refetch();
                             return (
                                 <Fragment>

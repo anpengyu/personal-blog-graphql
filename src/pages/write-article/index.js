@@ -57,10 +57,10 @@ export default class AddArticle extends React.Component{
           changeTitle={this.changeTitle}
           handleChange={this.handleChange}/>
 
-        <MutaionComponent
+        {/* <MutaionComponent
           articleTitle={articleTitle}
           editorState={editorState}
-        />
+        /> */}
         <div
           style={{ height: '100vh', marginLeft: 100 }}
           dangerouslySetInnerHTML={{

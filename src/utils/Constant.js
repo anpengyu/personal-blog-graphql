@@ -9,6 +9,9 @@ export const CHANGE_USER_INFO_TYPE = {
     ARTICLE:6//发布的文章
 }
 
+export const AUTH_TOKEN = 'auth-token'
+
 export default {
-    CHANGE_USER_INFO_TYPE
+    CHANGE_USER_INFO_TYPE,
+    AUTH_TOKEN
 }
