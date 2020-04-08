@@ -100,9 +100,9 @@ mutation addWatchCount($articleId:ID!){
  * 点赞
  */
 export const ADD_PRAISE_COUNT = gql`
-mutation addPraiseCount($articleId:ID!,$type:Int!){
-  addPraiseCount(articleId:$articleId,type:$type){
-    articlePraiseCount
+mutation addPraiseCount($articleId:ID!,$flag:Int!,$type:Int!){
+  addPraiseCount(articleId:$articleId,flag:$flag,type:$type){
+    id
   }
 }
 `

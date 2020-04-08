@@ -36,20 +36,27 @@ class ContentComponent extends React.Component {
     // history.push('/userInfo');
   };
 
-  //点赞
-  praiseClick = () => {
+  //点赞/关注/收藏
+  praiseClick = (flag) => {
     const { article } = this.props;
     let { mutate } = this.props.client;
     const { user } = article;
-    let likes = JSON.parse(user.likes);
+    let data = '';
+    switch (flag) {
+      case CHANGE_USER_INFO_TYPE.LIKES: data = user.likes;
+        break;
+      case CHANGE_USER_INFO_TYPE.COLLECTS: data = user.collects;
+        break;
+    }
     let type = 1;
-    if (_.includes(likes, article.id)) {
+    if (_.includes(JSON.parse(data), article.id)) {
       type = 2;
     }
     mutate({
       mutation: ADD_PRAISE_COUNT,
       variables: {
         articleId: article.id,
+        flag,
         type
       },
       refetchQueries: [{
@@ -62,18 +69,18 @@ class ContentComponent extends React.Component {
       }],
     })
 
-    this.changeUserInfo(1, article.id, CHANGE_USER_INFO_TYPE.LIKES);
+    this.changeUserInfo(1, article.id, flag);
   }
 
   // 1:点赞列表 2:收藏列表 3:浏览记录 4:关注的作者 5:评论列表 6:文章列表
-  changeUserInfo = (userId, id, type) => {
+  changeUserInfo = (userId, id, flag) => {
     let { mutate } = this.props.client;
     mutate({
       mutation: CHANGE_USERINFO,
       variables: {
         userId: userId,
         id: id,
-        type: type
+        type: flag
       },
       update: (proxy, mutationResult) => {
         // console.log('proxy', proxy)
@@ -84,9 +91,15 @@ class ContentComponent extends React.Component {
 
   render() {
     const { article } = this.props;
-    const { user } = article;
-    let likes = JSON.parse(user.likes);
-    console.log('user', JSON.parse(user.likes))
+    const { user, comment } = article;
+    let likes = JSON.parse(user.likes);//赞
+    let collects = JSON.parse(user.collects);//收藏
+    console.log('comment', comment)
+    let commentCount = 0;//评论条数
+    comment.map((item, index) => {
+      commentCount += item.comment.length + 1
+    })
+    console.log('commentCount', commentCount)
     return (
       <div className='content'>
         <div>
@@ -115,15 +128,16 @@ class ContentComponent extends React.Component {
               {article.articlePageView}阅读数
             </div>
             <div className='article_bottom'>
-              {article.articleCommentCount}评论
+              {commentCount}评论
             </div>
-            <div className='article_bottom' onClick={this.praiseClick.bind(this)}>
+            <div className='article_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES)}>
               {article.articlePraiseCount}
               {_.includes(likes, article.id) ? '已赞' : '赞'}
             </div>
-            <div className='article_bottom'>
-              {article.articleDislikeCount}收藏
-              </div>
+            <div className='article_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS)}>
+              {article.articleDislikeCount}
+              {_.includes(collects, article.id) ? '已收藏' : '收藏'}
+            </div>
           </div>
         </div>
         <div
