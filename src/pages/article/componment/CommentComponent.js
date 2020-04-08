@@ -19,7 +19,6 @@ class ContentComponent extends React.Component {
     render() {
         const { article } = this.props;
         const { comment } = article;
-        console.log('comment', comment);
         return (
             <div className='content'>
                 {comment.map((item, index, ) => {

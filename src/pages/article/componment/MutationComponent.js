@@ -13,7 +13,6 @@ class MutationComponent extends React.Component {
     };
     render() {
         const { content, articleId, index11 ,replyToCommentId} = this.props;
-        console.log('index11', index11);
         return (
             <Mutation
                 mutation={ADD_COMMENT}
@@ -37,7 +36,6 @@ class MutationComponent extends React.Component {
                 onError={{}}
             >
                 {(createComment, { data, loading, error }) => {
-                    console.log('eeeee');
                     if (error) {
                         console.log('error', error);
                         return <div>error</div>;

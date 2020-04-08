@@ -18,6 +18,10 @@ export const ARTICLE_DETIAL = gql`
         username
         headImg
         sex
+        likes
+        attention
+        collects
+        historys
       }
       comment {
         articleId
@@ -96,8 +100,8 @@ mutation addWatchCount($articleId:ID!){
  * 点赞
  */
 export const ADD_PRAISE_COUNT = gql`
-mutation addPraiseCount($articleId:ID!){
-  addPraiseCount(articleId:$articleId){
+mutation addPraiseCount($articleId:ID!,$type:Int!){
+  addPraiseCount(articleId:$articleId,type:$type){
     articlePraiseCount
   }
 }
