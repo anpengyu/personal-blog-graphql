@@ -11,3 +11,13 @@ query login($username:String!,$password:String!){
   }
 }
 `
+//登录之后获取用户信息
+export const USER_INFO = gql`
+  query UserInfo($id:ID!){
+    user(id: $id) {
+      id
+      username
+      headImg
+    }
+  }
+`;

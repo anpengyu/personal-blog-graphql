@@ -10,6 +10,7 @@ export const CHANGE_USER_INFO_TYPE = {
 }
 
 export const AUTH_TOKEN = 'auth-token'
+export const CONSTANT_USER_INFO = 'user_info'
 
 export default {
     CHANGE_USER_INFO_TYPE,

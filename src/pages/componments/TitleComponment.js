@@ -3,7 +3,9 @@ import './index.scss';
 import { Input, Button, Menu, Dropdown } from 'antd';
 import _ from 'lodash';
 import { Link, withRouter } from "react-router-dom";
-import {AUTH_TOKEN} from '../../utils/Constant';
+import { AUTH_TOKEN, CONSTANT_USER_INFO } from '../../utils/Constant';
+import { LOGOUT } from './graphql';
+import { withApollo } from 'react-apollo';
 
 const tabs = [
     { name: '技术', index: 0 },
@@ -40,18 +42,27 @@ class TitleComponment extends React.Component {
             case MenuKeys.SETTING:
                 break;
             case MenuKeys.LOGOUT:
+                let { query } = this.props.client;
+                //自动调用添加功能
+                query({
+                    query: LOGOUT
+                    // refetchQueries: [{ query: ALL_ARTICLES }]//重新获取数据
+                })
                 localStorage.removeItem(AUTH_TOKEN)
+                window.location.reload(false);
                 break;
         }
     };
 
     componentDidMount() {
-        let userInfo = localStorage.getItem('userInfo');
-        if (userInfo && !_.isEmpty(JSON.parse(userInfo))) {
-            console.log('userInfo', userInfo);
+        let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
+        let token = localStorage.getItem(AUTH_TOKEN);
+        console.log('userInfo', userInfo, token)
+        if (userInfo && !_.isEmpty(userInfo) && !_.isEmpty(token)) {
+            userInfo = JSON.parse(userInfo)
             this.setState({
                 isLogin: true,
-                userInfo: JSON.parse(userInfo),
+                userInfo,
             });
         }
     }
@@ -157,4 +168,4 @@ class TitleComponment extends React.Component {
     }
 }
 
-export default withRouter(TitleComponment)
+export default withApollo(TitleComponment)
