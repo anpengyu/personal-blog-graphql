@@ -1,4 +1,3 @@
-import { ApolloProvider } from 'react-apollo'
 import { createHttpLink } from 'apollo-link-http'
 import { ApolloLink } from 'apollo-link';
 import { ApolloClient } from 'apollo-client'

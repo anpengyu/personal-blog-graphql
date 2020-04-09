@@ -2,7 +2,7 @@ import React from 'react';
 import { ApolloProvider } from 'react-apollo'
 import { AUTH_TOKEN } from './utils/Constant';
 import routers from './routerMap';
-import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import NotFoundPage from './pages/error';
 import _ from 'lodash'
 import TitleComponment from './pages/componments/TitleComponment'

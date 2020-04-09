@@ -1,8 +1,8 @@
-
 import React from 'react';
-import moment from 'moment';
 import '../index.scss';
 import { Link } from "react-router-dom";
+let moment = require('moment');
+
 /**
  * 首页-文章列表-条目
  *
@@ -62,6 +62,7 @@ export default class ArticleItemComponent extends React.Component {
               style={{ display: 'flex', cursor: 'pointer' }}
               onClick={this.clickUserName.bind(this, user.id)}>
               <img
+              alt='個人頭像'
                 style={{
                   height: 40,
                   width: 40,

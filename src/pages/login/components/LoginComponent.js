@@ -4,7 +4,7 @@ import { Input, Button, Divider, Checkbox } from 'antd';
 import { UserOutlined, PhoneOutlined } from '@ant-design/icons';
 import { LOGIN, USER_INFO } from '../graphql';
 import { withApollo } from 'react-apollo';
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { AUTH_TOKEN, CONSTANT_USER_INFO, LAST_PATH_NAME } from '../../../utils/Constant'
 import _ from 'lodash'
 import { connect } from 'dva';
@@ -20,14 +20,14 @@ class LoginComponent extends React.Component {
     }
 
     onChangeLogin = async () => {
-        this.props.dispatch({
-            type:'home/loadData',
-            payload:{
-                name:'login'
-            }
-        })
-        this.props.history.push('/')
-        return;
+        // this.props.dispatch({
+        //     type:'home/loadData',
+        //     payload:{
+        //         name:'login'
+        //     }
+        // })
+        // this.props.history.push('/')
+        // return;
         const {username,password} = this.state;
         let { query } = this.props.client;
         localStorage.setItem(AUTH_TOKEN, 'login')

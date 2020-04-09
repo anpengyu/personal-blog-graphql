@@ -1,6 +1,7 @@
 import React from 'react';
 import '../index.less';
 import MutationComponent from './MutationComponent';
+import _ from 'lodash';
 let moment = require('moment');
 
 class ContentComponent extends React.Component {
@@ -22,7 +23,7 @@ class ContentComponent extends React.Component {
       <div>
         <div>
           {creator.username}
-          {replyTo.id == -1 ? '' : '回复: ' + username}
+          {_.eq(replyTo.id,-1)? '' : '回复: ' + username}
         </div>
         <div>内容：{content}</div>
         <div
