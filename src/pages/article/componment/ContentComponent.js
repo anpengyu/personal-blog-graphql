@@ -94,12 +94,10 @@ class ContentComponent extends React.Component {
     const { user, comment } = article;
     let likes = JSON.parse(user.likes);//赞
     let collects = JSON.parse(user.collects);//收藏
-    console.log('comment', comment)
     let commentCount = 0;//评论条数
     comment.map((item, index) => {
       commentCount += item.comment.length + 1
     })
-    console.log('commentCount', commentCount)
     return (
       <div className='content'>
         <div>

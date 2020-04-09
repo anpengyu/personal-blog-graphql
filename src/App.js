@@ -17,6 +17,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
 import { AUTH_TOKEN } from './utils/Constant';
 import { onError } from 'apollo-link-error';
+import _ from 'lodash'
 let moment = require('moment');
 
 const authLink = setContext((_, { headers }) => {
@@ -65,9 +66,7 @@ class RootPage extends Component {
     moment.locale('zh-cn', monent_cn)
   }
   render() {
-    // let token = this.props.token
-    let token = true;
-
+    let token = !_.isEmpty(localStorage.getItem(AUTH_TOKEN));
     return (
       <ApolloProvider client={client}>
         <Router>
@@ -78,7 +77,7 @@ class RootPage extends Component {
               {routers.map((item, index) => {
                 return <Route key={index} path={item.path} exact
                   render={props => !item.auth ?
-                    <item.component {...props} /> :
+                    <item.component {...props}/> :
                     token ?
                       <item.component {...props} /> :
                       <Redirect to={{

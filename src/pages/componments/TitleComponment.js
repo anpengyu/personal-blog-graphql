@@ -37,7 +37,7 @@ class TitleComponment extends React.Component {
     clickLogout = (key: number) => {
         switch (key) {
             case MenuKeys.USER_INFO:
-                // history.push('/userInfo');
+                this.props.history.push('/userInfo');
                 break;
             case MenuKeys.SETTING:
                 break;
@@ -46,7 +46,6 @@ class TitleComponment extends React.Component {
                 //自动调用添加功能
                 query({
                     query: LOGOUT
-                    // refetchQueries: [{ query: ALL_ARTICLES }]//重新获取数据
                 })
                 localStorage.removeItem(AUTH_TOKEN)
                 window.location.reload(false);
@@ -57,7 +56,6 @@ class TitleComponment extends React.Component {
     componentDidMount() {
         let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
         let token = localStorage.getItem(AUTH_TOKEN);
-        console.log('userInfo', userInfo, token)
         if (userInfo && !_.isEmpty(userInfo) && !_.isEmpty(token)) {
             userInfo = JSON.parse(userInfo)
             this.setState({
@@ -75,6 +73,7 @@ class TitleComponment extends React.Component {
 
     clickWriteArticle = () => {
         this.props.history.push('/write')
+        // history.go();
     };
 
     loginUserTitle = () => {
@@ -104,68 +103,74 @@ class TitleComponment extends React.Component {
     };
 
     clickToHome = () => {
-        // history.push('/');
+        this.props.history.push('/');
+        // history.go();
     };
 
     render() {
+        let pathname = this.props.history.location.pathname;
+        let noTitle = ['/write', '/login']
         const { currentTab, isLogin, userInfo } = this.state;
-        console.log('isLogin', isLogin);
-        console.log(currentTab);
         return (
+            <>
+            {_.includes(noTitle,pathname)?null:
             <div className='normal'>
-                <div className='nav'>
-                    <div className='nav_row'>
-                        <div className='nav_title'>
-                            <img
-                                onClick={this.clickToHome}
-                                style={{
-                                    height: 50,
-                                    width: 50,
-                                    marginRight: 30,
-                                    cursor: 'pointer',
-                                }}
-                                src={require('../../assets/timg.jpg')}
-                            />
-                            {tabs.map((item, index) => {
-                                return (
-                                    <div
-                                        key={index}
-                                        className={
-                                            currentTab === index ? 'currentTab' : 'tab'
-                                        }
-                                        onClick={this.changeTab.bind(this, index)}
-                                    >
-                                        {item.name}
-                                    </div>
-                                );
-                            })}
-                            <Input.Search
-                                placeholder="搜索"
-                                onSearch={value => console.log(value)}
-                                enterButton
-                                className='search'
-                            />
-                        </div>
+            <div className='nav'>
+                <div className='nav_row'>
+                    <div className='nav_title'>
+                        <img
+                            onClick={this.clickToHome}
+                            style={{
+                                height: 50,
+                                width: 50,
+                                marginRight: 30,
+                                cursor: 'pointer',
+                            }}
+                            src={require('../../assets/timg.jpg')}
+                        />
+                        {tabs.map((item, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className={
+                                        currentTab === index ? 'currentTab' : 'tab'
+                                    }
+                                    onClick={this.changeTab.bind(this, index)}
+                                >
+                                    {item.name}
+                                </div>
+                            );
+                        })}
+                        <Input.Search
+                            placeholder="搜索"
+                            onSearch={value => console.log(value)}
+                            enterButton
+                            className='search'
+                        />
+                    </div>
 
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ marginRight: 20 }}>
-                                <Button
-                                    type="primary"
-                                    shape="round"
-                                    // icon={<FontColorsOutlined />}
-                                    onClick={this.clickWriteArticle}>写博客</Button>
-                            </div>
-                            {isLogin ? (
-                                this.loginUserTitle()
-                            ) : (
-                                    <Link to="/login">登录/注册</Link>
-                                )}
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ marginRight: 20 }}>
+                            <Button
+                                type="primary"
+                                shape="round"
+                                // icon={<FontColorsOutlined />}
+                                onClick={this.clickWriteArticle}>写博客</Button>
                         </div>
+                        {isLogin ? (
+                            this.loginUserTitle()
+                        ) : (
+                                <Link to="/login">登录/注册</Link>
+                            )}
                     </div>
                 </div>
             </div>
+        </div>
+            }
+            </>
+            
         );
     }
 }
 
-export default withApollo(TitleComponment)
+export default withApollo(withRouter(TitleComponment))

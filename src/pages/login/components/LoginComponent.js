@@ -4,9 +4,10 @@ import { Input, Button, Divider, Checkbox } from 'antd';
 import { UserOutlined, PhoneOutlined } from '@ant-design/icons';
 import { LOGIN, USER_INFO } from '../graphql';
 import { withApollo } from 'react-apollo';
-import { AUTH_TOKEN, CONSTANT_USER_INFO } from '../../../utils/Constant'
+import { Link, withRouter } from "react-router-dom";
+import { AUTH_TOKEN, CONSTANT_USER_INFO, LAST_PATH_NAME } from '../../../utils/Constant'
 import _ from 'lodash'
-import { createHashHistory, createBrowserHistory } from 'history'; //
+import {createBrowserHistory} from 'history';
 const history = createBrowserHistory();
 
 class LoginComponent extends React.Component {
@@ -20,17 +21,16 @@ class LoginComponent extends React.Component {
     }
 
     onChangeLogin = async () => {
+        const {username,password} = this.state;
         let { query } = this.props.client;
         localStorage.setItem(AUTH_TOKEN, 'login')
-        //自动调用添加功能
         const result = await query({
             query: LOGIN,
             variables: {
-                username: 'apyaxd',
-                password: 'anpengyu'
+                username,
+                password
             },
         });
-        console.log('login', result)
         const login = result.data.login
         if (!_.isEmpty(login)) {
             localStorage.setItem(AUTH_TOKEN, login.token)
@@ -48,17 +48,21 @@ class LoginComponent extends React.Component {
         }).then(res => {
             let userInfo = res.data.user;
             !_.isEmpty(userInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(res.data.user))
-            // history.goBack();
-            history.push('/');
-            history.go();
-            console.log('res', res)
+            let pathname = this.props.history
+            // this.props.history.push(pathname);
+            let lastPathname = localStorage.getItem(LAST_PATH_NAME);
+            if(!_.isEmpty(lastPathname)){
+                this.props.history.push(lastPathname)
+            }else{
+                this.props.history.push('/')
+            }
+            // history.go(-1);
         }).catch(err => {
             console.log('err', err)
         });
     }
 
     onChangeUserName = e => {
-        console.log(e.target.value)
         this.setState({
             username: e.target.value
         })
@@ -91,4 +95,4 @@ class LoginComponent extends React.Component {
     }
 }
 
-export default withApollo(LoginComponent);
+export default withApollo(withRouter(LoginComponent));

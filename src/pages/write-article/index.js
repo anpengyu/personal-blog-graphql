@@ -5,12 +5,12 @@ import _ from 'lodash';
 import MutaionComponent from './componments/MutationComponent';
 import BraftEditorComponent from './componments/BraftEditorComponent';
 import { buildPreviewHtml } from './buildHtml';
-
+import { Link, withRouter } from "react-router-dom";
 /**
  * 添加新文章
  * @date 2020-03-24
  */
-export default class AddArticle extends React.Component{
+class AddArticle extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,8 +18,6 @@ export default class AddArticle extends React.Component{
       articleTitle: '', //文章标题
       articleContent: '', //文章内容
     };
-    let userInfo = localStorage.getItem('userInfo');
-    console.log('userInfo', userInfo);
   }
 
   handleChange = (editorState) => {
@@ -36,10 +34,9 @@ export default class AddArticle extends React.Component{
       message.error('文章标题或者内容不能为空~');
       return;
     }
-    createArticle().then(() => 
-    // history.push('/')
-    console.log('history.push')
-    );
+    createArticle().then(() => {
+      this.props.history.push('/')
+    });
   };
 
   changeTitle = (e) => {
@@ -54,8 +51,10 @@ export default class AddArticle extends React.Component{
     return (
       <div style={{ display: 'flex' }}>
         <BraftEditorComponent
+          articleTitle={articleTitle}
+          editorState={editorState}
           changeTitle={this.changeTitle}
-          handleChange={this.handleChange}/>
+          handleChange={this.handleChange} />
 
         {/* <MutaionComponent
           articleTitle={articleTitle}
@@ -71,3 +70,5 @@ export default class AddArticle extends React.Component{
     );
   }
 }
+
+export default withRouter(AddArticle);

@@ -3,12 +3,9 @@ import { Query} from "react-apollo";
 import { ALL_ARTICLES } from './graphql';
 import Loading from '../Loading';
 import ArticleItemComponent from './component/ArticleItemComponent';
+import Base from '../Base'
 
-export default class Articles extends React.Component {
-
-    componentDidMount(){
-        console.log('...........')
-    }
+export default class Articles extends Base {
 
     render() {
 

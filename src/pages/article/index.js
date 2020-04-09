@@ -7,8 +7,9 @@ import ContentComponent from './componment/ContentComponent';
 import CommentComponent from './componment/CommentComponent';
 import MutationComponent from './componment/MutationComponent';
 import { Input } from "antd";
+import Base from "../Base";
 
-export default class Articles extends React.Component {
+export default class Articles extends Base {
     
     constructor(props) {
         super(props);
@@ -23,7 +24,6 @@ export default class Articles extends React.Component {
     }
 
     render() {
-        console.log('this.props', this.props)
         let id = this.props.match.params.id;
         return (
             <Query 
