@@ -6,7 +6,7 @@ import { Link, withRouter } from "react-router-dom";
 import { AUTH_TOKEN, CONSTANT_USER_INFO } from '../../utils/Constant';
 import { LOGOUT } from './graphql';
 import { withApollo } from 'react-apollo';
-
+import { connect } from 'dva';
 const tabs = [
     { name: '技术', index: 0 },
     { name: '问答', index: 1 },
@@ -33,8 +33,7 @@ class TitleComponment extends React.Component {
             userInfo: {},
         };
     }
-
-    clickLogout = (key: number) => {
+    clickLogout = (key) => {
         switch (key) {
             case MenuKeys.USER_INFO:
                 this.props.history.push('/userInfo');
@@ -104,7 +103,6 @@ class TitleComponment extends React.Component {
 
     clickToHome = () => {
         this.props.history.push('/');
-        // history.go();
     };
 
     render() {
@@ -113,64 +111,70 @@ class TitleComponment extends React.Component {
         const { currentTab, isLogin, userInfo } = this.state;
         return (
             <>
-            {_.includes(noTitle,pathname)?null:
-            <div className='normal'>
-            <div className='nav'>
-                <div className='nav_row'>
-                    <div className='nav_title'>
-                        <img
-                            onClick={this.clickToHome}
-                            style={{
-                                height: 50,
-                                width: 50,
-                                marginRight: 30,
-                                cursor: 'pointer',
-                            }}
-                            src={require('../../assets/timg.jpg')}
-                        />
-                        {tabs.map((item, index) => {
-                            return (
-                                <div
-                                    key={index}
-                                    className={
-                                        currentTab === index ? 'currentTab' : 'tab'
-                                    }
-                                    onClick={this.changeTab.bind(this, index)}
-                                >
-                                    {item.name}
+                {_.includes(noTitle, pathname) ? null :
+                    <div className='normal'>
+                        {this.props.home.name}
+                        <div className='nav'>
+                            <div className='nav_row'>
+                                <div className='nav_title'>
+                                    <img
+                                        onClick={this.clickToHome}
+                                        style={{
+                                            height: 50,
+                                            width: 50,
+                                            marginRight: 30,
+                                            cursor: 'pointer',
+                                        }}
+                                        src={require('../../assets/timg.jpg')}
+                                    />
+                                    {tabs.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className={
+                                                    _.eq(currentTab, index) ? 'currentTab' : 'tab'
+                                                }
+                                                onClick={this.changeTab.bind(this, index)}
+                                            >
+                                                {item.name}
+                                            </div>
+                                        );
+                                    })}
+                                    <Input.Search
+                                        placeholder="搜索"
+                                        onSearch={value => console.log(value)}
+                                        enterButton
+                                        className='search'
+                                    />
                                 </div>
-                            );
-                        })}
-                        <Input.Search
-                            placeholder="搜索"
-                            onSearch={value => console.log(value)}
-                            enterButton
-                            className='search'
-                        />
-                    </div>
 
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ marginRight: 20 }}>
-                            <Button
-                                type="primary"
-                                shape="round"
-                                // icon={<FontColorsOutlined />}
-                                onClick={this.clickWriteArticle}>写博客</Button>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ marginRight: 20 }}>
+                                        <Button
+                                            type="primary"
+                                            shape="round"
+                                            // icon={<FontColorsOutlined />}
+                                            onClick={this.clickWriteArticle}>写博客</Button>
+                                    </div>
+                                    {isLogin ? (
+                                        this.loginUserTitle()
+                                    ) : (
+                                            <Link to="/login">登录/注册</Link>
+                                        )}
+                                </div>
+                            </div>
                         </div>
-                        {isLogin ? (
-                            this.loginUserTitle()
-                        ) : (
-                                <Link to="/login">登录/注册</Link>
-                            )}
                     </div>
-                </div>
-            </div>
-        </div>
-            }
+                }
             </>
-            
+
         );
     }
 }
 
-export default withApollo(withRouter(TitleComponment))
+// export default connect(({ home }) => ({
+//     home,
+// }))(Articles);
+export default withApollo(withRouter(connect(({ home }) => ({
+    home,
+}))(TitleComponment)));

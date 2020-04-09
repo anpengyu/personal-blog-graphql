@@ -7,8 +7,7 @@ import { withApollo } from 'react-apollo';
 import { Link, withRouter } from "react-router-dom";
 import { AUTH_TOKEN, CONSTANT_USER_INFO, LAST_PATH_NAME } from '../../../utils/Constant'
 import _ from 'lodash'
-import {createBrowserHistory} from 'history';
-const history = createBrowserHistory();
+import { connect } from 'dva';
 
 class LoginComponent extends React.Component {
 
@@ -21,6 +20,14 @@ class LoginComponent extends React.Component {
     }
 
     onChangeLogin = async () => {
+        this.props.dispatch({
+            type:'home/loadData',
+            payload:{
+                name:'login'
+            }
+        })
+        this.props.history.push('/')
+        return;
         const {username,password} = this.state;
         let { query } = this.props.client;
         localStorage.setItem(AUTH_TOKEN, 'login')
@@ -95,4 +102,6 @@ class LoginComponent extends React.Component {
     }
 }
 
-export default withApollo(withRouter(LoginComponent));
+export default withApollo(withRouter(connect(({ home }) => ({
+    home,
+}))(LoginComponent)));

@@ -2,11 +2,9 @@ import React, { Fragment } from 'react';
 import { message, Button } from 'antd';
 import _ from 'lodash';
 import { Mutation } from 'react-apollo';
-import { createHashHistory, createBrowserHistory } from 'history'; //
-import {
-  ADD_ARTICLE,
-} from '../graphql';
-const history = createBrowserHistory();
+import {ADD_ARTICLE,} from '../graphql';
+import { withRouter } from 'react-router';
+
 /**
  * 添加新文章
  * @date 2020-03-24
@@ -33,8 +31,8 @@ class MutationComponent extends React.Component {
         articleTitle,
       }
     }).then(() => {
-      history.push('/')
-      history.go()
+      this.props.history.push('/')
+      // history.go()
     });
   };
 
@@ -66,4 +64,4 @@ class MutationComponent extends React.Component {
     );
   }
 }
-export default MutationComponent;
+export default withRouter(MutationComponent);

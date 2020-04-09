@@ -7,7 +7,6 @@ import { Input, message, Button } from 'antd';
 import BraftEditor from 'braft-editor';
 import _ from 'lodash';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
-import { createHashHistory, createBrowserHistory } from 'history';
 import { withApollo } from 'react-apollo';
 import { Link, withRouter } from "react-router-dom";
 import { CONSTANT_USER_INFO } from '../../../utils/Constant';

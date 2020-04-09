@@ -4,8 +4,8 @@ import { ALL_ARTICLES } from './graphql';
 import Loading from '../Loading';
 import ArticleItemComponent from './component/ArticleItemComponent';
 import Base from '../Base'
-
-export default class Articles extends Base {
+import { connect } from 'dva';
+class Articles extends Base {
 
     render() {
 
@@ -37,3 +37,7 @@ export default class Articles extends Base {
         );
     }
 }
+
+export default connect(({ home }) => ({
+    home,
+  }))(Articles);
