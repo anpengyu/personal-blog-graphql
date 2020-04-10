@@ -113,7 +113,6 @@ class TitleComponment extends React.Component {
             <>
                 {_.includes(noTitle, pathname) ? null :
                     <div className='normal'>
-                        {this.props.home.name}
                         <div className='nav'>
                             <div className='nav_row'>
                                 <div className='nav_title'>

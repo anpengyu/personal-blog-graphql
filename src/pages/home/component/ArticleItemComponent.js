@@ -58,20 +58,22 @@ export default class ArticleItemComponent extends React.Component {
             justifyContent: 'space-between',
           }}>
           <div style={{ display: 'flex' }}>
-            <div
-              style={{ display: 'flex', cursor: 'pointer' }}
-              onClick={this.clickUserName.bind(this, user.id)}>
-              <img
-              alt='個人頭像'
-                style={{
-                  height: 40,
-                  width: 40,
-                  marginTop: 5,
-                  borderRadius: 50,
-                }}
-                src={require('../../../assets/head.jpg')}
-              />
-              <div className='user_name'>{user.username}</div>
+            <div onClick={this.clickUserName.bind(this, user.id)}>
+              <Link to={`/userInfo`}>
+                <div style={{ display: 'flex', cursor: 'pointer' }}>
+                  <img
+                    alt='個人頭像'
+                    style={{
+                      height: 40,
+                      width: 40,
+                      marginTop: 5,
+                      borderRadius: 50,
+                    }}
+                    src={require('../../../assets/head.jpg')}
+                  />
+                  <div className='user_name'>{user.username}</div>
+                </div></Link>
+
             </div>
             <div className='article_bottom'>
               发布时间：{this.times(item.created_at)}
