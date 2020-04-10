@@ -18,7 +18,7 @@ function RouterConfig({ history, app }) {
         <ApolloProvider client={client}>
             <Router>
                 <TitleComponment />
-                <div style={{ backgroundColor: '#eee', width: '100%', display: 'flex', justifyContent: 'center', padding: 20 }}>
+                <div style={{ backgroundColor: '#f7f7f7', width: '100%',height:'100vh', display: 'flex', justifyContent: 'center', padding: 20 }}>
 
                     <Switch>
                         {routers.map((item, index) => {
