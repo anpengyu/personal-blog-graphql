@@ -1,6 +1,6 @@
 import React from 'react';
 import '../index.css'
-import { Input, Button, Divider, Checkbox } from 'antd';
+import { Input, Button, Divider, Checkbox, message } from 'antd';
 import { UserOutlined, PhoneOutlined } from '@ant-design/icons';
 import { LOGIN, USER_INFO } from '../graphql';
 import { withApollo } from 'react-apollo';
@@ -28,21 +28,27 @@ class LoginComponent extends React.Component {
         // })
         // this.props.history.push('/')
         // return;
-        const {username,password} = this.state;
+        const { username, password } = this.state;
         let { query } = this.props.client;
         localStorage.setItem(AUTH_TOKEN, 'login')
-        const result = await query({
-            query: LOGIN,
-            variables: {
-                username,
-                password
-            },
-        });
-        const login = result.data.login
-        if (!_.isEmpty(login)) {
-            localStorage.setItem(AUTH_TOKEN, login.token)
-            this.loadUserInfo();
+        try {
+            const result = await query({
+                query: LOGIN,
+                variables: {
+                    username,
+                    password
+                },
+            });
+            const login = result.data.login
+            if (!_.isEmpty(login)) {
+                localStorage.setItem(AUTH_TOKEN, login.token)
+                this.loadUserInfo();
+            }
+        } catch (e) {
+            message.error('网络错误')
+            console.log('eeeee', e)
         }
+
     }
 
     loadUserInfo = async () => {
@@ -58,9 +64,9 @@ class LoginComponent extends React.Component {
             let pathname = this.props.history
             // this.props.history.push(pathname);
             let lastPathname = localStorage.getItem(LAST_PATH_NAME);
-            if(!_.isEmpty(lastPathname)){
+            if (!_.isEmpty(lastPathname)) {
                 this.props.history.push(lastPathname)
-            }else{
+            } else {
                 this.props.history.push('/')
             }
             // history.go(-1);
