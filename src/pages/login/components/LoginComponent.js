@@ -20,12 +20,12 @@ class LoginComponent extends React.Component {
     }
 
     onChangeLogin = async () => {
-        // this.props.dispatch({
-        //     type:'home/loadData',
-        //     payload:{
-        //         name:'login'
-        //     }
-        // })
+        this.props.dispatch({
+            type:'home/loadData',
+            payload:{
+                name:'login'
+            }
+        })
         // this.props.history.push('/')
         // return;
         const { username, password } = this.state;
