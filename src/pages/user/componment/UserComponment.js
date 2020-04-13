@@ -10,7 +10,7 @@ class UserComponment extends React.Component {
 
     render() {
         return (
-            <div>
+            <div  className='user_root'>
                 <div className='user_top_root'>
                     <img className='user_top_avatar'
                         src={avatar} />

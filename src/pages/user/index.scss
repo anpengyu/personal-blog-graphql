@@ -40,11 +40,34 @@
             }
             .content_root{
                 @extend .bg_root;
+                width: 750px;
 
-                
+                .content_title_tv{
+                    font-size: 28px;
+                    color: black;
+                }
+                .content_info{
+                    font-size: 16px;
+                }
+
+                .content_bottom_root{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 20px;
+
+                    .content_bottom_right{
+                        width:150px;
+                        display:flex;
+                        justify-content: space-between;
+                    }
+                }
             }
             .about_auth_root{
-                @extend .bg_root
+                @extend .bg_root;
+                width:150px;
+            }
+            .right_content_root{
+                display: flex;
             }
         }
        

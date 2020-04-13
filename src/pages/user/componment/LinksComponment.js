@@ -28,7 +28,7 @@ class LinksComponment extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='links_root'>
                 <div className='bottom_root'>
                     {
                         userLinks.map((item, index) => {

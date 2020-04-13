@@ -1,4 +1,7 @@
+@import '../index.scss';
+
 .marks_root{
+    @extend .animate;
     background-color: white;
     padding:0px;
     margin: 20px;

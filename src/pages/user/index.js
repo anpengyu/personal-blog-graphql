@@ -5,6 +5,8 @@ import UserComponment from './componment/UserComponment';
 import LinksComponment from './componment/LinksComponment';
 import MarksComponment from './componment/MarksComponment';
 import CourseComponment from './componment/CourseComponment';
+import ContentComponment from './componment/ContentComponment';
+import AboutAuthComponment from './componment/AboutAuthComponment';
 
 /**
   * @author apy
@@ -19,21 +21,17 @@ export default class UserInfoPage extends React.Component {
             <div className='user_container'>
                 <div className='container'>
                     <div className='left'>
-                        <div className='user_root'>
-                            <UserComponment />
-                        </div>
-                        <div>
-                            <CourseComponment />
-                        </div>
+                        <UserComponment />
+                        <CourseComponment />
                         <MarksComponment />
-                        <div className='links_root'>
-                            <LinksComponment />
-                        </div>
+                        <LinksComponment />
                     </div>
                     <div className='right'>
                         <div className='content_root'>5</div>
-                        <div className='content_root'>6</div>
-                        <div className='about_auth_root'>7</div>
+                        <div className='right_content_root'>
+                            <ContentComponment />
+                            <AboutAuthComponment />
+                        </div>
                     </div>
                 </div>
             </div>
