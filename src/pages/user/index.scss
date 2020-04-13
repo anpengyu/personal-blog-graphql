@@ -1,9 +1,44 @@
 .user_container{
     width:100%;
     height: 100%;
+
+    .bg_root{
+        background-color: white;
+        padding: 20px;
+        margin: 20px;
+    }
     
     .container{
         display:flex;
-        width:80%;
+        width:1200px;
+
+        .left{
+            width:300px;
+
+            .books_root{
+                @extend .bg_root
+            }
+            .marks_root{
+                @extend .bg_root
+            }
+            .links_root{
+                @extend .bg_root
+            }
+        }
+
+        .right{
+            width:900px;
+
+            .new_article_root{
+                @extend .bg_root
+            }
+            .content_root{
+                @extend .bg_root
+            }
+            .about_auth_root{
+                @extend .bg_root
+            }
+        }
+       
     }
 }

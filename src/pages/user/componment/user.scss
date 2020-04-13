@@ -1,0 +1,78 @@
+.bg_root{
+    background-color: white;
+    padding: 20px;
+    margin: 20px;
+}
+
+.user_root{
+    @extend .bg_root;
+    .user_top_root{
+        display: flex;
+
+        .user_top_avatar{
+            width:60px;
+            height:60px;
+            border-radius:50%;
+        }
+        .user_top_name_root{
+            display: block;
+            padding-left: 10px;
+
+            .user_name_tv{
+                font-size: 24px;
+            }
+            .user_top_info{
+                display:flex;
+                .tv1{
+                    max-width: 100px;
+                    font-size: 12px;
+                    padding-right: 10px;
+                    word-break:keep-all;
+                    overflow:hidden;
+                    text-overflow:ellipsis;  
+                    white-space:nowrap; 
+                }
+            }
+        }
+    }
+    .signature{
+        padding-top: 20px;
+    }
+    .middle_root{
+        display:flex;
+        margin-top: 20px;
+        text-align: center;
+        justify-content: space-between;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .tv2{
+            font-size: 12px;
+        }
+        .tv3{
+            color: black;
+            font-size: 18px;
+        }
+    }
+    .bottom_root{
+        margin-top: 15px;
+        font-size: 12px;
+        .item{
+            justify-content: space-between;
+            display:flex;
+            margin-top: 5px;
+
+            .item_tv{
+                background-color: #f7f7f7;
+                cursor: pointer;
+                width: 120px;
+                font-size: 12px;
+                padding-right: 10px;
+                word-break:keep-all;
+                overflow:hidden;
+                text-overflow:ellipsis;  
+                white-space:nowrap; 
+            }
+        }
+    }
+}
