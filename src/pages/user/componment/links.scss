@@ -1,0 +1,20 @@
+.bottom_root{
+    font-size: 12px;
+    .item{
+        justify-content: space-between;
+        display:flex;
+        margin-top: 5px;
+
+        .item_tv{
+            background-color: #f7f7f7;
+            cursor: pointer;
+            width: 120px;
+            font-size: 12px;
+            padding-right: 10px;
+            word-break:keep-all;
+            overflow:hidden;
+            text-overflow:ellipsis;  
+            white-space:nowrap; 
+        }
+    }
+}

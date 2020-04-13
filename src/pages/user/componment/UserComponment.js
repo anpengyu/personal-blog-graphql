@@ -2,24 +2,6 @@ import React from 'react';
 import avatar from '../../../assets/head.jpg';
 import './user.scss'
 
-const userLinks = [
-    {
-        id: 1,
-        name: 'github连接',
-        likns: 'https://github.com/anpengyu?tab=repositories'
-    },
-    {
-        id: 2,
-        name: '个人网站',
-        likns: 'https://www.xxx.com'
-    },
-    {
-        id: 3,
-        name: '个人网站',
-        likns: 'https://github.com'
-    }
-]
-
 class UserComponment extends React.Component {
 
     clickLinks=(id)=>{
@@ -57,21 +39,6 @@ class UserComponment extends React.Component {
                         <div className='tv2'>标签</div>
                         <div className='tv3'>16</div>
                     </div>
-                </div>
-                <div className='bottom_root'>
-                    {
-                        userLinks.map((item, index) => {
-                            return <div className='item' onClick={this.clickLinks.bind(this,item.id)}>
-                                <div>{item.name}：</div>
-                                <div className='item_tv'>{item.likns}</div>
-                            </div>
-                        })
-                    }
-
-                    {/* <div className='item'>
-                        <div>个人网站：</div>
-                        <div className='item_tv'>www.xxxx.com</div>
-                    </div> */}
                 </div>
             </div>
         )

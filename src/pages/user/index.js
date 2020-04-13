@@ -2,6 +2,8 @@ import React from 'react';
 import './index.scss';
 
 import UserComponment from './componment/UserComponment';
+import LinksComponment from './componment/LinksComponment';
+import MarksComponment from './componment/MarksComponment';
 
 /**
   * @author apy
@@ -11,7 +13,7 @@ import UserComponment from './componment/UserComponment';
 export default class UserInfoPage extends React.Component {
 
 
-    render() { 
+    render() {
         return (
             <div className='user_container'>
                 <div className='container'>
@@ -20,13 +22,15 @@ export default class UserInfoPage extends React.Component {
                             <UserComponment />
                         </div>
                         <div className='books_root'>2</div>
-                        <div className='marks_root'>3</div>
-                        <div className='links_root'>4</div>
+                        <MarksComponment />
+                        <div className='links_root'>
+                            <LinksComponment />
+                        </div>
                     </div>
                     <div className='right'>
-                        <div  className='content_root'>5</div>
-                        <div  className='content_root'>6</div>
-                        <div  className='about_auth_root'>7</div>
+                        <div className='content_root'>5</div>
+                        <div className='content_root'>6</div>
+                        <div className='about_auth_root'>7</div>
                     </div>
                 </div>
             </div>

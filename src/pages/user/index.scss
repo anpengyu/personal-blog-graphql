@@ -18,11 +18,9 @@
             .books_root{
                 @extend .bg_root
             }
-            .marks_root{
-                @extend .bg_root
-            }
+          
             .links_root{
-                @extend .bg_root
+                @extend .bg_root;
             }
         }
 
