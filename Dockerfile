@@ -1,20 +1,22 @@
-FROM node:alpine
+# 依赖
+FROM node:10-alpine
+# 安装 nodejs
 
-WORKDIR /usr/src/app/
-USER root
-
-# 中国镜像源
-RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org --unsafe-perm=true --allow-root
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
 # npm install
-COPY package.json ./
-COPY yarn.lock  ./
+COPY package.json /usr/src/app/package.json
+COPY package-lock.json /usr/src/app/package-lock.json
 
-RUN yarn 
-COPY ./ ./
+RUN npm i  --production --registry=https://registry.npm.taobao.org --unsafe-perm=true --allow-root
 
-# RUN npm run test:all
+
 EXPOSE 3001
-RUN yarn run start
+ENV PATH=/usr/src/app/node_modules/.bin:$PATH
+
+# 复制项目所有代码
+COPY . /usr/src/app
 
 
+RUN npm start
