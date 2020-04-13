@@ -1,25 +1,22 @@
 stages:
-    - build
-  
-  image: docker:stable
-  
-  # services:
-      #- docker:dind
-  
-  variables:
-    CONTAINER_IMAGE: $CI_PROJECT_NAME
-    CONTAINER_BRANCH_IMAGE: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
-  
-  before_script:
-    # - echo $CONTAINER_BRANCH_IMAGE:$CI_COMMIT_SHA
-    - docker info
-    - docker version
-  
-  
-  build_release_compay:
-    stage: build
-    except:
-      - master
-    script:
-      - docker build -f ./Dockerfile  --network=host --tag graphql .
-  
+  - build
+
+image: docker:stable
+
+# services:
+    #- docker:dind
+
+variables:
+    # CONTAINER_IMAGE: $CI_PROJECT_NAME
+    # CONTAINER_BRANCH_IMAGE: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+
+before_script:
+  - docker info
+  - docker version
+
+build_release_compay:
+  stage: build
+  except:
+    - master
+  script:
+    - docker build -f ./Dockerfile  --network=host --tag graphql .
