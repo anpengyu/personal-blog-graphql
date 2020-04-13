@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
+    "animate.css": "^3.7.2",
     "antd": "^4.1.0",
     "apollo-boost": "^0.4.7",
     "apollo-link-context": "^1.0.19",

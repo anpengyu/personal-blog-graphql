@@ -1,8 +1,4 @@
-.bg_root{
-    background-color: white;
-    padding: 20px;
-    margin: 20px;
-}
+@import '../index.scss';
 
 .user_root{
     @extend .bg_root;

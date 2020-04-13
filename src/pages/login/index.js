@@ -49,7 +49,7 @@ export default class LoginPage extends React.Component {
     render() {
         const { selectTitle, mouseTitle } = this.state;
         return (
-            <div className='bg'>
+            <div className='login_root'>
                 <div className='card'>
                     <TitleComponent
                         changeTitle={this.changeTitle}

@@ -3,9 +3,17 @@
     height: 100%;
 
     .bg_root{
+        @extend .animate;
         background-color: white;
         padding: 20px;
         margin: 20px;
+    }
+
+    .animate{
+        animation-duration: 1s;
+        // animation-delay: 2s;
+        // animation-iteration-count: infinite;
+        animation-name: 'zoomIn';
     }
     
     .container{
@@ -15,7 +23,7 @@
         .left{
             width:300px;
 
-            .books_root{
+            .course_root{
                 @extend .bg_root
             }
           
@@ -31,7 +39,9 @@
                 @extend .bg_root
             }
             .content_root{
-                @extend .bg_root
+                @extend .bg_root;
+
+                
             }
             .about_auth_root{
                 @extend .bg_root

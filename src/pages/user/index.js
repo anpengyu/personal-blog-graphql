@@ -4,6 +4,7 @@ import './index.scss';
 import UserComponment from './componment/UserComponment';
 import LinksComponment from './componment/LinksComponment';
 import MarksComponment from './componment/MarksComponment';
+import CourseComponment from './componment/CourseComponment';
 
 /**
   * @author apy
@@ -21,7 +22,9 @@ export default class UserInfoPage extends React.Component {
                         <div className='user_root'>
                             <UserComponment />
                         </div>
-                        <div className='books_root'>2</div>
+                        <div>
+                            <CourseComponment />
+                        </div>
                         <MarksComponment />
                         <div className='links_root'>
                             <LinksComponment />
