@@ -9,5 +9,5 @@ export default [
     { path: '/article/:id', name: 'Article', component: ArticlePage },
     { path: '/write', name: 'WriteArticle', component: WriteArticlePage, auth: true },
     { path: "/login", name: "Login", component: Login },
-    { path: "/userInfo", name: "UserInfo", component: UserInfoPage },
+    { path: "/userInfo/:id", name: "UserInfo", component: UserInfoPage },
 ]

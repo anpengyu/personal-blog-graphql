@@ -1,7 +1,7 @@
 import React from 'react';
 import '../index.scss';
 import { Link } from "react-router-dom";
-let moment = require('moment');
+import {times} from '../../../utils/Constant';
 
 /**
  * 首页-文章列表-条目
@@ -17,11 +17,6 @@ export default class ArticleItemComponent extends React.Component {
     // history.push(`/article/${item.id}`);
   };
 
-  //发帖距现在多长时间
-  times(date) {
-    return moment(new Date(date), 'YYYY-MM-DD HH:mm:ss').fromNow();
-  }
-
   //点击发帖用户
   clickUserName = () => {
     // history.push('/userInfo');
@@ -30,6 +25,8 @@ export default class ArticleItemComponent extends React.Component {
   render() {
     const { item } = this.props;
     const { user } = item;
+    let id = user.id;
+    console.log('id',id)
     return (
       <div style={{ backgroundColor: '#fff', marginTop: 1, padding: 20 }}>
         <div>
@@ -59,7 +56,7 @@ export default class ArticleItemComponent extends React.Component {
           }}>
           <div style={{ display: 'flex' }}>
             <div onClick={this.clickUserName.bind(this, user.id)}>
-              <Link to={`/userInfo`}>
+              <Link to={`/userInfo/${id}`}>
                 <div style={{ display: 'flex', cursor: 'pointer' }}>
                   <img
                     alt='個人頭像'
@@ -76,7 +73,7 @@ export default class ArticleItemComponent extends React.Component {
 
             </div>
             <div className='article_bottom'>
-              发布时间：{this.times(item.created_at)}
+              发布时间：{times(item.created_at)}
             </div>
           </div>
           {/* <div className={styles.article_bottom}>有疑问：{item.articledislikeCount}</div> */}

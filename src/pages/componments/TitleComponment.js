@@ -55,6 +55,7 @@ class TitleComponment extends React.Component {
     componentDidMount() {
         let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
         let token = localStorage.getItem(AUTH_TOKEN);
+        console.log('...........................')
         if (userInfo && !_.isEmpty(userInfo) && !_.isEmpty(token)) {
             userInfo = JSON.parse(userInfo)
             this.setState({

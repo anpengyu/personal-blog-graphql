@@ -20,14 +20,6 @@ class LoginComponent extends React.Component {
     }
 
     onChangeLogin = async () => {
-        this.props.dispatch({
-            type:'home/loadData',
-            payload:{
-                name:'login'
-            }
-        })
-        // this.props.history.push('/')
-        // return;
         const { username, password } = this.state;
         let { query } = this.props.client;
         localStorage.setItem(AUTH_TOKEN, 'login')
@@ -42,7 +34,7 @@ class LoginComponent extends React.Component {
             const login = result.data.login
             if (!_.isEmpty(login)) {
                 localStorage.setItem(AUTH_TOKEN, login.token)
-                this.loadUserInfo();
+                this.loadUserInfo(login.id);
             }
         } catch (e) {
             message.error('网络错误')
@@ -51,25 +43,29 @@ class LoginComponent extends React.Component {
 
     }
 
-    loadUserInfo = async () => {
+    loadUserInfo = async (id) => {
         let { query } = this.props.client;
         query({
             query: USER_INFO,
             variables: {
-                id: 1
+                id
             },
         }).then(res => {
             let userInfo = res.data.user;
             !_.isEmpty(userInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(res.data.user))
             let pathname = this.props.history
-            // this.props.history.push(pathname);
             let lastPathname = localStorage.getItem(LAST_PATH_NAME);
+            this.props.dispatch({
+                type: 'home/updateState',
+                payload: {
+                    user: userInfo
+                }
+            })
             if (!_.isEmpty(lastPathname)) {
                 this.props.history.push(lastPathname)
             } else {
                 this.props.history.push('/')
             }
-            // history.go(-1);
         }).catch(err => {
             console.log('err', err)
         });

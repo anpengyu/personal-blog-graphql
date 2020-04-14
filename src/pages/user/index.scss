@@ -5,7 +5,7 @@
     .bg_root{
         @extend .animate;
         background-color: white;
-        padding: 20px;
+        padding: 30px;
         margin: 20px;
     }
 
@@ -21,7 +21,7 @@
         width:1200px;
 
         .left{
-            width:300px;
+            width:380px;
 
             .course_root{
                 @extend .bg_root
@@ -33,17 +33,18 @@
         }
 
         .right{
-            width:900px;
+            width:820px;
 
             .new_article_root{
                 @extend .bg_root
             }
             .content_root{
                 @extend .bg_root;
-                width: 750px;
+                width: 550px;
+                cursor: pointer;
 
                 .content_title_tv{
-                    font-size: 28px;
+                    font-size: 24px;
                     color: black;
                 }
                 .content_info{
@@ -64,9 +65,11 @@
             }
             .about_auth_root{
                 @extend .bg_root;
-                width:150px;
+                float:right;
+                width:270px;
             }
             .right_content_root{
+               
                 display: flex;
             }
         }
