@@ -32,7 +32,7 @@ class LinksComponment extends React.Component {
                 <div className='bottom_root'>
                     {
                         userLinks.map((item, index) => {
-                            return <div className='item' onClick={this.clickLinks.bind(this,item.id)}>
+                            return <div className='item' key={index} onClick={this.clickLinks.bind(this,item.id)}>
                                 <div>{item.name}：</div>
                                 <div className='item_tv'>{item.likns}</div>
                             </div>

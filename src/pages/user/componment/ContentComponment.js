@@ -20,14 +20,14 @@ class ContentComponment extends React.Component {
                         allArticles.map((item, index) => {
                             console.log('item', item)
                             const { user } = item;
-                            return <div className='content_root' onClick={this.clickArticleDetail.bind(this, item.id)}>
+                            return <div className='content_root' key={index} onClick={this.clickArticleDetail.bind(this, item.id)}>
                                 <div className='content_title_tv'>{item.articleTitle}</div>
                                 <div className='content_info'>文章内容提示</div>
                                 <div className='content_bottom_root'>
                                     <div> 发布时间：{times(item.created_at)}</div>
                                     <div className='content_bottom_right'>
                                         <div>{item.articlePraiseCount}点赞</div>
-                                        <div>{item.articleDislikeCount}收藏</div>
+                                        <div className='content_bottom_tv'>{item.articleDislikeCount}收藏</div>
                                         <div>{item.articlePageView}查看</div>
                                     </div>
                                 </div>

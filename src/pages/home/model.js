@@ -3,7 +3,8 @@ export default {
   namespace: 'home',
 
   state: {
-    user: {}
+    userInfo: {},
+    token:'',
   },
 
   subscriptions: {

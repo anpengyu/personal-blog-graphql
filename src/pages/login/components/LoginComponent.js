@@ -34,7 +34,9 @@ class LoginComponent extends React.Component {
             const login = result.data.login
             if (!_.isEmpty(login)) {
                 localStorage.setItem(AUTH_TOKEN, login.token)
-                this.loadUserInfo(login.id);
+                this.loadUserInfo(login);
+            }else{
+                message.error('用户不存在');
             }
         } catch (e) {
             message.error('网络错误')
@@ -43,22 +45,24 @@ class LoginComponent extends React.Component {
 
     }
 
-    loadUserInfo = async (id) => {
+    loadUserInfo = async (login) => {
         let { query } = this.props.client;
         query({
             query: USER_INFO,
             variables: {
-                id
+                id:login.id
             },
         }).then(res => {
             let userInfo = res.data.user;
             !_.isEmpty(userInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(res.data.user))
+
             let pathname = this.props.history
             let lastPathname = localStorage.getItem(LAST_PATH_NAME);
             this.props.dispatch({
                 type: 'home/updateState',
                 payload: {
-                    user: userInfo
+                    userInfo,
+                    token:login.token
                 }
             })
             if (!_.isEmpty(lastPathname)) {

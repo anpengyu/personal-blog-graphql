@@ -6,6 +6,8 @@ import { ADD_WATCH_COUNT, ADD_PRAISE_COUNT, CHANGE_USERINFO, ARTICLE_DETIAL } fr
 import { ALL_ARTICLES } from '../../home/graphql';
 import { CHANGE_USER_INFO_TYPE } from '../../../utils/Constant';
 import _ from 'lodash';
+import { message } from 'antd';
+
 
 let moment = require('moment');
 
@@ -14,6 +16,7 @@ class ContentComponent extends React.Component {
   componentDidMount() {
     const { article } = this.props;
     let { mutate } = this.props.client;
+
     //自动调用添加功能
     mutate({
       mutation: ADD_WATCH_COUNT,
@@ -37,10 +40,20 @@ class ContentComponent extends React.Component {
   };
 
   //点赞/关注/收藏
-  praiseClick = (flag) => {
+  praiseClick = (flag, userInfo) => {
     const { article } = this.props;
-    let { mutate } = this.props.client;
     const { user } = article;
+    if (!_.isEmpty(userInfo)) {
+      userInfo = JSON.parse(userInfo)
+      if (_.eq(userInfo.id, user.id)) {
+        _.eq(CHANGE_USER_INFO_TYPE.LIKES,flag) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
+        return;
+      }
+    }
+
+
+    let { mutate } = this.props.client;
+
     let data = '';
     switch (flag) {
       case CHANGE_USER_INFO_TYPE.LIKES: data = user.likes;
@@ -90,7 +103,7 @@ class ContentComponent extends React.Component {
   }
 
   render() {
-    const { article } = this.props;
+    const { article, userInfo } = this.props;
     const { user, comment } = article;
     let likes = JSON.parse(user.likes);//赞
     let collects = JSON.parse(user.collects);//收藏
@@ -128,11 +141,11 @@ class ContentComponent extends React.Component {
             <div className='article_bottom'>
               {commentCount}评论
             </div>
-            <div className='article_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES)}>
+            <div className='article_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES, userInfo)}>
               {article.articlePraiseCount}
               {_.includes(likes, article.id) ? '已赞' : '赞'}
             </div>
-            <div className='article_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS)}>
+            <div className='article_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS, userInfo)}>
               {article.articleDislikeCount}
               {_.includes(collects, article.id) ? '已收藏' : '收藏'}
             </div>

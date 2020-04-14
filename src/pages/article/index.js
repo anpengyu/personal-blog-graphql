@@ -5,17 +5,20 @@ import { Query } from "react-apollo";
 import './index.less';
 import ContentComponent from './componment/ContentComponent';
 import CommentComponent from './componment/CommentComponent';
-import MutationComponent from './componment/MutationComponent';
+import MutationComponent from './componment/MutationComponent2';
 import { Input } from "antd";
 import Base from "../Base";
+import { AUTH_TOKEN, CONSTANT_USER_INFO } from '../../utils/Constant';
 
 export default class Articles extends Base {
-    
+
     constructor(props) {
         super(props);
         this.state = {
             commentChange: '',
+            userInfo: localStorage.getItem(CONSTANT_USER_INFO)
         }
+        console.log('ddddddddddddddddddddddddddddddddddd',this.state.userInfo)
     }
     changeComment = (e) => {
         this.setState({
@@ -25,8 +28,10 @@ export default class Articles extends Base {
 
     render() {
         let id = this.props.match.params.id;
+        const { userInfo } = this.state;
+
         return (
-            <Query 
+            <Query
                 query={ARTICLE_DETIAL}
                 variables={{ id }}
             >
@@ -36,7 +41,7 @@ export default class Articles extends Base {
 
                     return (
                         <div className='normal'>
-                            <ContentComponent article={data.article} />
+                            <ContentComponent article={data.article} userInfo={userInfo} />
                             <div style={{ display: 'flex', backgroundColor: '#fff' }}>
                                 <img
                                     style={{
@@ -48,12 +53,17 @@ export default class Articles extends Base {
                                     src={require('../../assets/head.jpg')}
                                 />
                                 <Input onChange={this.changeComment}></Input>
-                                <MutationComponent content={this.state.commentChange} articleId={id} index11={"0"} replyToCommentId='0'/>
+                                <MutationComponent 
+                                content={this.state.commentChange} 
+                                articleId={id} index11={"0"}
+                                 replyToCommentId='0' 
+                                 userInfo={userInfo} 
+                                 />
                             </div>
 
                             <div className='comment'>
                                 评论区
-                         <CommentComponent article={data.article} />
+                                <CommentComponent article={data.article} userInfo={userInfo}/>
                             </div>
                         </div>
                     );

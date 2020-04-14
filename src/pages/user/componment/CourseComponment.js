@@ -29,7 +29,7 @@ class CourseComponment extends React.Component {
                 <div className='course_title_tv'>系列教程</div>
                 <div className='course_list'>
                     {courses.map((item, index) => {
-                        return <div className='course_item' onClick={this.clickCourse.bind(this,item.id)}>
+                        return <div className='course_item' key={index} onClick={this.clickCourse.bind(this,item.id)}>
                             <div className='course_item_name_tv'>{item.name}</div>
                             <div className='course_item_number_tv'>{item.number}</div>
                         </div>

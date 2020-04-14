@@ -48,7 +48,7 @@ class MarksComponment extends React.Component {
                         var g = parseInt(Math.random() * 255);
                         var b = parseInt(Math.random() * 255);
                         var size = parseInt(Math.random() * 18) + 12;
-                        return <div className='marks_item' style={{ fontSize: size, color: 'rgb(' + r + ',' + g + ',' + b + ')' }}
+                        return <div className='marks_item' key={index} style={{ fontSize: size, color: 'rgb(' + r + ',' + g + ',' + b + ')' }}
                             onClick={this.clickMarks.bind(this, item.id)}>
                             <div>{item.name}</div>
                         </div>

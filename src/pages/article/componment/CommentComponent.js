@@ -2,7 +2,8 @@ import React from 'react';
 import '../index.less';
 
 import ToCommentComponent from './ToCommentComponent';
-import MutationComponent from './MutationComponent';
+import MutationComponent from './MutationComponent1';
+import _ from 'lodash';
 let moment = require('moment');
 class ContentComponent extends React.Component {
 
@@ -17,15 +18,22 @@ class ContentComponent extends React.Component {
         // history.push('/userInfo');
     };
     render() {
-        const { article } = this.props;
-        const { comment } = article;
+        let { article, userInfo } = this.props;
+        const { comment, user } = article;
+        if (!_.isEmpty(userInfo)) {
+            userInfo = JSON.parse(userInfo)
+        }
+        
         return (
             <div className='content'>
                 {comment.map((item, index, ) => {
                     const { creator, comment } = item;
                     return (
                         <div key={index}>
-                            <div>{creator.username}</div>
+                            <div>
+                                {creator.username}
+                                {_.eq(creator.id, user.id) ? '(作者本尊)' : ''}
+                            </div>
                             <div>{this.times(item.created_at)}</div>
                             <div>内容：{item.content}</div>
 
@@ -34,13 +42,14 @@ class ContentComponent extends React.Component {
                                 index11={item.id}
                                 articleId={article.id}
                                 replyToCommentId='0'
+                                userInfo={userInfo}
                             />
 
                             <div style={{ marginTop: 20, backgroundColor: '#f6f6f6' }}>
                                 {comment.map((item1, index) => {
                                     return (
                                         <div style={{ marginLeft: 30 }} key={index}>
-                                            <ToCommentComponent comment={item1} itemId={item.id} />
+                                            <ToCommentComponent comment={item1} itemId={item.id} acticleUser={user} userInfo={userInfo}/>
                                         </div>
                                     );
                                 })}

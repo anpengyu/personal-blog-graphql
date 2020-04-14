@@ -57,9 +57,12 @@
                     margin-top: 20px;
 
                     .content_bottom_right{
-                        width:150px;
                         display:flex;
                         justify-content: space-between;
+
+                        .content_bottom_tv{
+                            padding: 0px 10px;
+                        }
                     }
                 }
             }

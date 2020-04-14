@@ -9,6 +9,7 @@ import { ADD_COMMENT, ARTICLE_DETIAL } from '../graphql';
  */
 class MutationComponent extends React.Component {
     submit = (createComment, id) => {
+        console.log('iddddddd',id)
         if (id == -1) {
             message.info('请先登录~')
             return;
@@ -20,11 +21,11 @@ class MutationComponent extends React.Component {
         let { userInfo = {} } = this.props;
         let id = -1;
         if (userInfo && !_.isEmpty(userInfo)) {
-            // console.log('======', userInfo, !_.isNaN(userInfo), !_.isNil(userInfo), !_.isNull(userInfo))
-            // userInfo = JSON.parse(userInfo)
+            console.log('======', userInfo, !_.isNaN(userInfo), !_.isNil(userInfo), !_.isNull(userInfo))
+            userInfo = JSON.parse(userInfo)
             id = userInfo.id;
         }
-        // console.log('id', id)
+        console.log('id', id)
         return (
             <Mutation
                 mutation={ADD_COMMENT}
@@ -57,7 +58,7 @@ class MutationComponent extends React.Component {
                             {error && <div>error</div>}
                             <Fragment>
                                 <div>
-                                    <Button type="submit" onClick={this.submit.bind(this, createComment, id)}>提交222</Button>
+                                    <Button type="submit" onClick={this.submit.bind(this, createComment, id)}>提交11</Button>
                                 </div>
                             </Fragment>
                         </div>

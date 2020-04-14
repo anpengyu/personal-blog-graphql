@@ -47,6 +47,7 @@ class TitleComponment extends React.Component {
                     query: LOGOUT
                 })
                 localStorage.removeItem(AUTH_TOKEN)
+                localStorage.setItem(CONSTANT_USER_INFO,'')
                 window.location.reload(false);
                 break;
         }
@@ -76,8 +77,7 @@ class TitleComponment extends React.Component {
         // history.go();
     };
 
-    loginUserTitle = () => {
-        const { userInfo } = this.state;
+    loginUserTitle = (userInfo) => {
         let menu = (
             <Menu>
                 {menuDatas.map((item, index) => {
@@ -109,7 +109,16 @@ class TitleComponment extends React.Component {
     render() {
         let pathname = this.props.history.location.pathname;
         let noTitle = ['/write', '/login']
-        const { currentTab, isLogin, userInfo } = this.state;
+        const { currentTab } = this.state;
+        let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
+      
+        let token = localStorage.getItem(AUTH_TOKEN);
+        let isLogin = false;
+        if (userInfo && !_.isEmpty(userInfo) && !_.isEmpty(token)) {
+            console.log('userInfo',userInfo,token)
+            userInfo = JSON.parse(userInfo)
+            isLogin = true;
+        }
         return (
             <>
                 {_.includes(noTitle, pathname) ? null :
@@ -157,7 +166,7 @@ class TitleComponment extends React.Component {
                                             onClick={this.clickWriteArticle}>写博客</Button>
                                     </div>
                                     {isLogin ? (
-                                        this.loginUserTitle()
+                                        this.loginUserTitle(userInfo)
                                     ) : (
                                             <Link to="/login">登录/注册</Link>
                                         )}
