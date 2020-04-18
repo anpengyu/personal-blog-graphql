@@ -51,7 +51,7 @@ class UserInfoPage extends React.Component {
         return (
             <div className='user_container'>
                 <div className='container'>
-                    <div className='left'>
+                    <div className='left' >
                         <UserComponment />
                         <CourseComponment />
                         <MarksComponment />

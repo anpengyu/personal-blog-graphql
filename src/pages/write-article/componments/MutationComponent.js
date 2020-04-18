@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import { message, Button } from 'antd';
 import _ from 'lodash';
 import { Mutation } from 'react-apollo';
-import {ADD_ARTICLE,} from '../graphql';
+import {ADD_ARTICLE} from '../graphql';
+import {ALL_ARTICLES} from '../../home/graphql'
 import { withRouter } from 'react-router';
 
 /**
@@ -29,7 +30,8 @@ class MutationComponent extends React.Component {
           100,
         ),
         articleTitle,
-      }
+      },
+      refetchQueries: [{ query: ALL_ARTICLES }]
     }).then(() => {
       this.props.history.push('/')
       // history.go()

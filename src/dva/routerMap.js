@@ -1,8 +1,8 @@
-import Articles from './pages/home'
-import ArticlePage from "./pages/article";
-import WriteArticlePage from './pages/write-article';
-import Login from './pages/login';
-import UserInfoPage from './pages/user';
+import Articles from '../pages/home'
+import ArticlePage from "../pages/article";
+import WriteArticlePage from '../pages/write-article';
+import Login from '../pages/login';
+import UserInfoPage from '../pages/user';
 
 export default [
     { path: '/', name: 'Home', component: Articles },

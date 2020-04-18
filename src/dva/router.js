@@ -1,13 +1,13 @@
 import React from 'react';
 import { ApolloProvider } from 'react-apollo'
-import { AUTH_TOKEN } from './utils/Constant';
+import { AUTH_TOKEN } from '../utils/Constant';
 import routers from './routerMap';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import NotFoundPage from './pages/error';
+import NotFoundPage from '../pages/error';
 import _ from 'lodash'
-import TitleComponment from './pages/componments/TitleComponment'
-import monent_cn from './moment-cn'
-import client from './apolloconfig';
+import TitleComponment from '../pages/componments/TitleComponment'
+import monent_cn from '../moment-cn'
+import client from '../apolloconfig';
 let moment = require('moment');
 
 function RouterConfig({ history, app }) {

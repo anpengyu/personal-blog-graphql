@@ -10,6 +10,7 @@ import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import { withApollo } from 'react-apollo';
 import { Link, withRouter } from "react-router-dom";
 import { CONSTANT_USER_INFO } from '../../../utils/Constant';
+import {ALL_ARTICLES} from '../../home/graphql'
 
 BraftEditor.use(
   CodeHighlighter({
@@ -47,6 +48,7 @@ class BraftEditorComponent extends React.Component {
         ),
         articleTitle,
       },
+      refetchQueries: [{ query: ALL_ARTICLES }]
     }).then(() => {
       message.info('文章发布成功~')
       this.props.history.push('/')
