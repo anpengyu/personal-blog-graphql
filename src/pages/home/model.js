@@ -13,6 +13,7 @@ export default {
 
   effects: {
     *loadData({ payload }, { call,select, put }) {
+      console.log('payload',payload)
       const { name } = yield select((state) => state.home);
       console.log('payload',payload.name)
       yield put({

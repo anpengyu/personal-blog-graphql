@@ -8,11 +8,12 @@ import _ from 'lodash'
 import TitleComponment from '../pages/componments/TitleComponment'
 import monent_cn from '../moment-cn'
 import client from '../apolloconfig';
+import {setClient} from '../dva/servises'
 let moment = require('moment');
 
 function RouterConfig({ history, app }) {
     moment.locale('zh-cn', monent_cn)
-
+    setClient(client)
     let token = !_.isEmpty(localStorage.getItem(AUTH_TOKEN));
     return (
         <ApolloProvider client={client}>

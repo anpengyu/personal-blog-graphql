@@ -1,16 +1,17 @@
 import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ADD_ARTICLE } from '../graphql';
-import { Input, message, Button } from 'antd';
+import { Input, message } from 'antd';
+import { connect } from 'dva';
 import BraftEditor from 'braft-editor';
 import _ from 'lodash';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import { withApollo } from 'react-apollo';
 import { Link, withRouter } from "react-router-dom";
 import { CONSTANT_USER_INFO } from '../../../utils/Constant';
-import {ALL_ARTICLES} from '../../home/graphql'
+import { ALL_ARTICLES } from '../../home/graphql'
 
 BraftEditor.use(
   CodeHighlighter({
@@ -24,22 +25,29 @@ BraftEditor.use(
  */
 class BraftEditorComponent extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      editorState: BraftEditor.createEditorState(),
+      articleTitle: '', //文章标题
+      articleContent: '', //文章内容
+    };
+  }
+
   delHtmlTag(str) {
     return str.replace(/<[^>]+>/g, ''); //正则去掉所有的html标记
   }
 
   submit = () => {
-    const { articleTitle, editorState } = this.props;
+    const { editorState, articleTitle } = this.state;
     let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO));
     if (_.isEmpty(articleTitle) || editorState.toHTML() === '<p></p>') {
       message.error('文章标题或者内容不能为空~');
       return;
     }
-    let { mutate } = this.props.client;
-    //自动调用添加功能
-    mutate({
-      mutation: ADD_ARTICLE,
-      variables: {
+    this.props.dispatch({
+      type: 'writeArticle/mutateArticle',
+      payload: {
         userId: userInfo.id,
         articleContent: editorState.toHTML(),
         articleSubTitle: this.delHtmlTag(editorState.toHTML()).substring(
@@ -48,16 +56,23 @@ class BraftEditorComponent extends React.Component {
         ),
         articleTitle,
       },
-      refetchQueries: [{ query: ALL_ARTICLES }]
-    }).then(() => {
-      message.info('文章发布成功~')
-      this.props.history.push('/')
-    
-    });
+      history:this.props.history
+    })
   }
 
+  handleChange = (editorState) => {
+    const { handleChange } = this.props;
+    handleChange(editorState)
+    this.setState({ editorState });
+  };
+
+  changeTitle = (e) => {
+    this.setState({
+      articleTitle: e.target.value,
+    });
+  };
   render() {
-    const { changeTitle, handleChange } = this.props;
+
     const extendControls = [
       {
         key: 'custom-button',
@@ -91,7 +106,7 @@ class BraftEditorComponent extends React.Component {
           <div>
             <Input
               style={{ height: 50, fontSize: 20 }}
-              onChange={changeTitle}
+              onChange={this.changeTitle}
               placeholder="文章标题"
             ></Input>
           </div>
@@ -99,7 +114,7 @@ class BraftEditorComponent extends React.Component {
             <BraftEditor
               id="editor-with-code-highlighter"
               extendControls={extendControls}
-              onChange={handleChange}
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -108,4 +123,4 @@ class BraftEditorComponent extends React.Component {
   }
 }
 
-export default withApollo(withRouter(BraftEditorComponent))
+export default withApollo(withRouter(connect()(BraftEditorComponent)))
