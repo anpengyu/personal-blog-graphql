@@ -5,12 +5,12 @@ import { Query } from "react-apollo";
 import './index.less';
 import ContentComponent from './componment/ContentComponent';
 import CommentComponent from './componment/CommentComponent';
-import MutationComponent from './componment/MutationComponent2';
-import { Input } from "antd";
+import { Input, Button, message } from "antd";
+import { connect } from 'dva'
 import Base from "../Base";
+import _ from 'lodash';
 import { AUTH_TOKEN, CONSTANT_USER_INFO } from '../../utils/Constant';
-
-export default class Articles extends Base {
+class Articles extends Base {
 
     constructor(props) {
         super(props);
@@ -18,14 +18,39 @@ export default class Articles extends Base {
             commentChange: '',
             userInfo: localStorage.getItem(CONSTANT_USER_INFO)
         }
-        console.log('ddddddddddddddddddddddddddddddddddd',this.state.userInfo)
     }
+
     changeComment = (e) => {
         this.setState({
             commentChange: e.target.value
         })
     }
+    publishComment = () => {
+        let { userInfo, commentChange } = this.state;
+        let articleId = this.props.match.params.id;
+        let id = -1;
+        if (!_.isEmpty(userInfo)) {
+            userInfo = JSON.parse(userInfo)
+            id = userInfo.id;
+        } else {
+            message.info('请先登录')
+            return;
+        }
 
+        this.props.dispatch({
+            type: 'article/mutateComment',
+            payload: {
+                userId: id,
+                content: commentChange,
+                articleId: articleId,
+                replyToCommentId: '0', //0：直接评论文章,直接评论一级评论
+                rootCommentId: '0', //0：文章下的评论
+            },
+            refetchVariables: {
+                id: articleId
+            }
+        })
+    }
     render() {
         let id = this.props.match.params.id;
         const { userInfo } = this.state;
@@ -53,17 +78,12 @@ export default class Articles extends Base {
                                     src={require('../../assets/head.jpg')}
                                 />
                                 <Input onChange={this.changeComment}></Input>
-                                <MutationComponent 
-                                content={this.state.commentChange} 
-                                articleId={id} index11={"0"}
-                                 replyToCommentId='0' 
-                                 userInfo={userInfo} 
-                                 />
+                                <Button onClick={this.publishComment}>发表评论</Button>
                             </div>
 
                             <div className='comment'>
                                 评论区
-                                <CommentComponent article={data.article} userInfo={userInfo}/>
+                                <CommentComponent article={data.article} userInfo={userInfo} />
                             </div>
                         </div>
                     );
@@ -72,3 +92,7 @@ export default class Articles extends Base {
         )
     }
 }
+
+export default connect(({ article, home }) => ({
+    article, home
+}))(Articles);

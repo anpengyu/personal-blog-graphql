@@ -1,7 +1,8 @@
 import React from 'react';
 import '../index.less';
-import MutationComponent from './MutationComponent';
 import _ from 'lodash';
+import { Button, message } from 'antd';
+import {connect} from 'dva';
 
 class ContentComponent extends React.Component {
 
@@ -9,8 +10,35 @@ class ContentComponent extends React.Component {
   clickUserName = () => {
     // history.push('/userInfo');
   };
+
+  publishComment = () => {
+    const { comment, itemId, acticleUser, userInfo } = this.props;
+    const { creator, replyTo, content, created_at } = comment;
+    let id = -1;
+    if (!_.isEmpty(userInfo)) {
+      id = userInfo.id;
+    } else {
+      message.info('请先登录')
+      return;
+    }
+
+    this.props.dispatch({
+      type: 'article/mutateComment',
+      payload: {
+        userId: id,
+        content: '22222222222222',
+        articleId: comment.articleId,
+        replyToCommentId: creator.id, //0：直接评论文章,直接评论一级评论
+        rootCommentId:itemId, //0：文章下的评论
+      },
+      refetchVariables: {
+        id: comment.articleId
+      }
+    })
+  }
+
   render() {
-    const { comment, itemId, acticleUser ,userInfo} = this.props;
+    const { comment, itemId, acticleUser, userInfo } = this.props;
     const { creator, replyTo, content, created_at } = comment;
     const { username } = replyTo;
     return (
@@ -31,16 +59,10 @@ class ContentComponent extends React.Component {
           }}
         ></div>
 
-        <MutationComponent
-          articleId={comment.articleId}
-          index11={itemId}
-          content={'22222222222222'}
-          replyToCommentId={creator.id}
-          userInfo={userInfo}
-        />
+        <Button onClick={this.publishComment}>发表评论</Button>
       </div>
     );
   }
 }
 
-export default ContentComponent;
+export default connect()(ContentComponent);

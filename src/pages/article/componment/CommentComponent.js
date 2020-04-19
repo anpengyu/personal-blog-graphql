@@ -2,8 +2,9 @@ import React from 'react';
 import '../index.less';
 
 import ToCommentComponent from './ToCommentComponent';
-import MutationComponent from './MutationComponent1';
 import _ from 'lodash';
+import { Button, message } from 'antd';
+import {connect} from 'dva'
 let moment = require('moment');
 class ContentComponent extends React.Component {
 
@@ -17,13 +18,41 @@ class ContentComponent extends React.Component {
     clickUserName = () => {
         // history.push('/userInfo');
     };
+
+    publishComment = (rootCommentId) => {
+        let { article,userInfo } = this.props;
+        let id = -1;
+        if (userInfo && !_.isEmpty(userInfo)) {
+            userInfo = JSON.parse(userInfo)
+            id = userInfo.id;
+           
+        } else {
+            message.info('请先登录')
+            return;
+        }
+
+        this.props.dispatch({
+            type: 'article/mutateComment',
+            payload: {
+                userId: id,
+                content: '111111111',
+                articleId: article.id,
+                replyToCommentId: '0', //0：直接评论文章,直接评论一级评论
+                rootCommentId:rootCommentId, //0：文章下的评论
+            },
+            refetchVariables: {
+                id: article.id
+            }
+        })
+    }
+
     render() {
         let { article, userInfo } = this.props;
         const { comment, user } = article;
         if (!_.isEmpty(userInfo)) {
             userInfo = JSON.parse(userInfo)
         }
-        
+
         return (
             <div className='content'>
                 {comment.map((item, index, ) => {
@@ -37,19 +66,13 @@ class ContentComponent extends React.Component {
                             <div>{this.times(item.created_at)}</div>
                             <div>内容：{item.content}</div>
 
-                            <MutationComponent
-                                content="111111111"
-                                index11={item.id}
-                                articleId={article.id}
-                                replyToCommentId='0'
-                                userInfo={userInfo}
-                            />
+                            <Button onClick={this.publishComment.bind(this,item.id)}>发表评论11</Button>
 
                             <div style={{ marginTop: 20, backgroundColor: '#f6f6f6' }}>
                                 {comment.map((item1, index) => {
                                     return (
                                         <div style={{ marginLeft: 30 }} key={index}>
-                                            <ToCommentComponent comment={item1} itemId={item.id} acticleUser={user} userInfo={userInfo}/>
+                                            <ToCommentComponent comment={item1} itemId={item.id} acticleUser={user} userInfo={userInfo} />
                                         </div>
                                     );
                                 })}
@@ -66,4 +89,4 @@ class ContentComponent extends React.Component {
     }
 }
 
-export default ContentComponent;
+export default connect()(ContentComponent);

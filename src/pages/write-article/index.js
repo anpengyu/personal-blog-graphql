@@ -31,7 +31,7 @@ class AddArticle extends React.Component {
         <div
           style={{ height: '100vh', marginLeft: 100 }}
           dangerouslySetInnerHTML={{
-            __html: buildPreviewHtml(!_.isEmpty(editorState) && editorState.toHTML()),
+            __html: buildPreviewHtml(!_.isEmpty(editorState)?editorState.toHTML():""),
           }}
         ></div>
       </div>
