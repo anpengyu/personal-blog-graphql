@@ -3,7 +3,7 @@ import 'braft-extensions/dist/code-highlighter.css'
 
 import React from 'react';
 import { ADD_ARTICLE } from '../graphql';
-import { Input, message } from 'antd';
+import { Input, message, Modal } from 'antd';
 import { connect } from 'dva';
 import BraftEditor from 'braft-editor';
 import _ from 'lodash';
@@ -12,6 +12,7 @@ import { withApollo } from 'react-apollo';
 import { Link, withRouter } from "react-router-dom";
 import { CONSTANT_USER_INFO } from '../../../utils/Constant';
 import { ALL_ARTICLES } from '../../home/graphql'
+import ArticleModal from './ArticleModal';
 
 BraftEditor.use(
   CodeHighlighter({
@@ -31,14 +32,32 @@ class BraftEditorComponent extends React.Component {
       editorState: BraftEditor.createEditorState(),
       articleTitle: '', //文章标题
       articleContent: '', //文章内容
+      modelVisible: false
     };
   }
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      modelVisible: false,
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      modelVisible: false,
+    });
+  };
 
   delHtmlTag(str) {
     return str.replace(/<[^>]+>/g, ''); //正则去掉所有的html标记
   }
 
-  submit = () => {
+  submit = (values) => {
+    console.log('values', values)
+    console.log('course',values.course)
+    console.log('label',values.label)
     const { editorState, articleTitle } = this.state;
     let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO));
     if (_.isEmpty(articleTitle) || editorState.toHTML() === '<p></p>') {
@@ -55,11 +74,16 @@ class BraftEditorComponent extends React.Component {
           100,
         ),
         articleTitle,
+        ...values
       },
-      history:this.props.history
+      history: this.props.history
     })
   }
-
+  showModal = () => {
+    this.setState({
+      modelVisible: true,
+    });
+  };
   handleChange = (editorState) => {
     const { handleChange } = this.props;
     handleChange(editorState)
@@ -78,19 +102,19 @@ class BraftEditorComponent extends React.Component {
         key: 'custom-button',
         type: 'button',
         text: '预览',
-        onClick: this.submit,
+        onClick: this.showModal,
       },
       {
         key: 'save-button',
         type: 'button',
         text: '保存到草稿',
-        onClick: this.submit,
+        onClick: this.showModal,
       },
       {
         key: 'submit-button',
         type: 'button',
         text: '提交',
-        onClick: this.submit,
+        onClick: this.showModal,
       },
     ];
     return (
@@ -118,6 +142,13 @@ class BraftEditorComponent extends React.Component {
             />
           </div>
         </div>
+
+        <ArticleModal
+          modelVisible={this.state.modelVisible}
+          handleOk={this.handleOk}
+          handleCancel={this.handleCancel}
+          submit={this.submit}
+        />
       </div>
     );
   }

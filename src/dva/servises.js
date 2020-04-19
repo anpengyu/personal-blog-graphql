@@ -24,7 +24,7 @@ export async function mutateRquest(api, params, mutate) {
  * @param {*添加成功后刷新} refetch 
  */
 export async function mutateRquestRefetch(api, params, refetch) {
-    console.log('client', client)
+    console.log('params....', params)
     try {
         let data = client.mutate({
             mutation: api,
