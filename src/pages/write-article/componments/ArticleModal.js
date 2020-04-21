@@ -9,6 +9,9 @@ import {
     Radio
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import _ from 'lodash'
+import { connect } from 'dva'
+
 const { Option } = Select;
 const formItemLayout = {
     labelCol: { span: 6 },
@@ -18,11 +21,16 @@ const formItemLayout = {
 let index = 0;
 export class ArticleModal extends Component {
 
-    state = {
-        items: ['jack', 'lucy'],
-        name: '',
-        original: true,//是否原创
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            items: ['jack', 'lucy'],
+            name: '',
+            original: true,//是否原创
+            classifyDetail: []
+        }
+    }
+
     onNameChange = event => {
         this.setState({
             name: event.target.value,
@@ -36,6 +44,18 @@ export class ArticleModal extends Component {
             items: [...items, name || `New item ${index++}`],
             name: '',
         });
+        let { loadClassifyForUser = [] } = this.props.classify;
+        let data = {
+            id: Number(loadClassifyForUser[loadClassifyForUser.length - 1].id) + 1,
+            name: name
+        }
+        loadClassifyForUser.push(data)
+        this.props.dispatch({
+            type: 'writeArticle/updateState',
+            payload: {
+                loadClassifyForUser: [loadClassifyForUser || `New item ${index++}`],
+            }
+        })
     };
     handleChange(value) {
         console.log(`selected ${value}`);
@@ -46,12 +66,25 @@ export class ArticleModal extends Component {
         this.setState({ original: value.target.value })
     }
 
+    onClassifyChange = (value) => {
+        console.log('value', value)
+        let { loadClassifyForUser = [] } = this.props.classify;
+        const data = _.filter(loadClassifyForUser, function (o) { return _.eq(o.name, value); });
+        console.log('data[0]', data[0])
+        console.log(JSON.parse(data[0].detail))
+        this.setState({
+            classifyDetail: _.isEmpty(data) ? [] : JSON.parse(data[0].detail)
+        })
+    }
+
     render() {
         const onFinish = values => {
             this.props.submit(values)
             console.log('Received values of form: ', values);
         };
-        const { items, name } = this.state;
+        const { items, name, classifyDetail } = this.state;
+        const { loadClassifyForUser = [] } = this.props.classify;
+        console.log('classify', loadClassifyForUser)
         return (
             <div>
                 <Modal
@@ -76,7 +109,8 @@ export class ArticleModal extends Component {
                             <Form.Item name="course" label="文章系列" valuePropName="checked" style={{ paddingTop: 20, paddingBottom: 20 }}>
                                 <Select
                                     style={{ width: 240 }}
-                                    placeholder="Android基础教程"
+                                    onChange={this.onClassifyChange}
+                                    placeholder={_.isEmpty(loadClassifyForUser) ? "Android基础教程" : loadClassifyForUser[0].name}
                                     dropdownRender={menu => (
                                         <div>
                                             {menu}
@@ -87,17 +121,24 @@ export class ArticleModal extends Component {
                                                     style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }}
                                                     onClick={this.addItem}
                                                 >
-                                                    <PlusOutlined /> 添加新的文章系列
+                                                    <PlusOutlined /> 添加新的文章合集(分类)
                                             </a>
                                             </div>
                                         </div>
                                     )}
                                 >
-                                    {items.map(item => (
-                                        <Option key={item}>{item}</Option>
+                                    {loadClassifyForUser.map(item => (
+                                        <Option key={item.name}>{item.name}</Option>
                                     ))}
                                 </Select>
                             </Form.Item>
+
+                            {
+                                _.isEmpty(classifyDetail) ? null :
+                                    classifyDetail.map((item, index) => {
+                                        return <div>{item.name}</div>
+                                    })
+                            }
 
                             <Form.Item
                                 name="label"
@@ -125,7 +166,7 @@ export class ArticleModal extends Component {
                             {
                                 this.state.original == true ? null : <Form.Item label="原创链接">
                                     <Form.Item name="originalUrl" noStyle>
-                                        <Input style={{ width: '200px' }} />
+                                        <Input style={{ width: '180px', marginRight: '10px' }} />
                                     </Form.Item>
                                     <span className="ant-form-text">尊重原创~~</span>
                                 </Form.Item>
@@ -151,4 +192,6 @@ export class ArticleModal extends Component {
     }
 }
 
-export default ArticleModal
+export default connect(({ writeArticle }) => ({
+    writeArticle,
+}))(ArticleModal);

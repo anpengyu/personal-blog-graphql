@@ -1,5 +1,15 @@
 import { gql } from "apollo-boost";
 
+export const LOAD_CLASSIFY_FOR_USER = gql`
+  query loadClassifyForUser($userId:ID!){
+    loadClassifyForUser(userId:$userId){
+      id
+      name
+      detail
+    }
+  }
+`
+
 export const ADD_ARTICLE = gql`
   mutation(
     $userId: ID!

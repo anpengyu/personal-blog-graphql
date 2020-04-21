@@ -13,7 +13,7 @@ export async function mutateRquest(api, params, mutate) {
         })
         return data;
     } catch (e) {
-        return false;
+        return null;
     }
 }
 
@@ -35,7 +35,7 @@ export async function mutateRquestRefetch(api, params, refetch) {
         })
         return true;
     } catch (e) {
-        return false;
+        return null;
     }
 }
 
@@ -57,6 +57,22 @@ export async function mutateRquestRefetchVariables(api, params, refetch, refetch
         })
         return true;
     } catch (e) {
-        return false;
+        return null;
     }
+}
+
+export async function query(api, params) {
+    try {
+        const result = await client.query({
+            query: api,
+            variables: {
+                ...params
+            },
+        });
+        console.log('result', result.data)
+        return result.data;
+    } catch (e) {
+        return null;
+    }
+
 }
