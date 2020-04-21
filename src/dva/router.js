@@ -1,6 +1,6 @@
 import React from 'react';
 import { ApolloProvider } from 'react-apollo'
-import { AUTH_TOKEN } from '../utils/Constant';
+import { AUTH_TOKEN ,CONSTANT_USER_INFO} from '../utils/Constant';
 import routers from './routerMap';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import NotFoundPage from '../pages/error';
@@ -14,7 +14,8 @@ let moment = require('moment');
 function RouterConfig({ history, app }) {
     moment.locale('zh-cn', monent_cn)
     setClient(client)
-    let token = !_.isEmpty(localStorage.getItem(AUTH_TOKEN));
+    let token = !_.isEmpty(localStorage.getItem(CONSTANT_USER_INFO));
+    console.log('token',token)
     return (
         <ApolloProvider client={client}>
             <Router>

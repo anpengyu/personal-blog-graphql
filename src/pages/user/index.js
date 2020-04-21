@@ -22,7 +22,8 @@ class UserInfoPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allArticles: []
+            allArticles: [],
+            classify:[]
         }
     }
 
@@ -39,7 +40,8 @@ class UserInfoPage extends React.Component {
             console.log('result',result.data)
             let data = result.data.user;
             this.setState({
-                allArticles: data.articles
+                allArticles: data.articles,
+                classify:data.classify
             })
         } catch (e) {
             message.error('网络错误', e)
@@ -47,13 +49,13 @@ class UserInfoPage extends React.Component {
     }
 
     render() {
-        const {allArticles} = this.state;
+        const {allArticles,classify} = this.state;
         return (
             <div className='user_container'>
                 <div className='container'>
                     <div className='left' >
                         <UserComponment />
-                        <CourseComponment />
+                        <CourseComponment classify={classify}/>
                         <MarksComponment />
                         <LinksComponment />
                     </div>

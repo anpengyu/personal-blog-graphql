@@ -2,16 +2,14 @@ import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
 
 import React from 'react';
-import { ADD_ARTICLE, LOAD_CLASSIFY_FOR_USER } from '../graphql';
 import { Input, message, Modal } from 'antd';
 import { connect } from 'dva';
 import BraftEditor from 'braft-editor';
 import _ from 'lodash';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import { withApollo } from 'react-apollo';
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { CONSTANT_USER_INFO } from '../../../utils/Constant';
-import { ALL_ARTICLES } from '../../home/graphql'
 import ArticleModal from './ArticleModal';
 
 BraftEditor.use(

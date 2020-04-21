@@ -24,10 +24,10 @@ export class ArticleModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: ['jack', 'lucy'],
             name: '',
             original: true,//是否原创
-            classifyDetail: []
+            classifyDetail: [],
+            classifyData: ''
         }
     }
 
@@ -39,18 +39,20 @@ export class ArticleModal extends Component {
 
     addItem = () => {
         console.log('addItem');
-        const { items, name } = this.state;
+        const { name } = this.state;
+        if (_.isEmpty(name)) {
+            message.info('请输入新类别进行添加~')
+            return;
+        }
         this.setState({
-            items: [...items, name || `New item ${index++}`],
             name: '',
         });
         let { loadClassifyForUser = [] } = this.props.classify;
         let data = {
-            id: Number(loadClassifyForUser[loadClassifyForUser.length - 1].id) + 1,
+            id: _.isEmpty(loadClassifyForUser) ? 0 : Number(loadClassifyForUser[loadClassifyForUser.length - 1].id) + 1,
             name: name
         }
         loadClassifyForUser.push(data)
-        console.log('loadClassifyForUse.....r',loadClassifyForUser)
         this.props.dispatch({
             type: 'writeArticle/updateState',
             payload: {
@@ -63,18 +65,15 @@ export class ArticleModal extends Component {
     }
 
     onOriginalChange = (value) => {
-        console.log('value....,,,', value.target.value)
         this.setState({ original: value.target.value })
     }
 
     onClassifyChange = (value) => {
-        console.log('value', value)
         let { loadClassifyForUser = [] } = this.props.classify;
         let data = _.filter(loadClassifyForUser, function (o) { return _.eq(o.name, value); });
-        console.log('data[0]', data[0])
-        if(data[0].detail && !_.isEmpty(data[0].detail)){
+        if (data[0].detail && !_.isEmpty(data[0].detail)) {
             data = JSON.parse(data[0].detail)
-        }else{
+        } else {
             data = []
         }
         console.log(data)
@@ -88,9 +87,9 @@ export class ArticleModal extends Component {
             this.props.submit(values)
             console.log('Received values of form: ', values);
         };
-        const { items, name, classifyDetail } = this.state;
+        const { name, classifyDetail } = this.state;
         const { loadClassifyForUser = [] } = this.props.classify;
-        console.log('classify', loadClassifyForUser)
+        console.log('classify', name)
         return (
             <div>
                 <Modal
@@ -112,7 +111,7 @@ export class ArticleModal extends Component {
                             <Form.Item label="文章标题">
                                 <span className="ant-form-text">{this.props.articleTitle}</span>
                             </Form.Item>
-                            <Form.Item name="course" label="文章系列" valuePropName="checked" style={{ paddingTop: 20, paddingBottom: 20 }}>
+                            <Form.Item name="course" label="文章系列" valuePropName="checked" style={{ paddingTop: 20 }}>
                                 <Select
                                     style={{ width: 240 }}
                                     onChange={this.onClassifyChange}
@@ -138,17 +137,24 @@ export class ArticleModal extends Component {
                                     ))}
                                 </Select>
                             </Form.Item>
-
                             {
                                 _.isEmpty(classifyDetail) ? null :
-                                    classifyDetail.map((item, index) => {
-                                        return <div key={index}>{item.name}</div>
-                                    })
+                                    <div style={{ marginLeft: '120px', width: '240px', padding: '10px', marginBottom: '10px', backgroundColor: '#f7f7f7' }}>
+                                        {
+                                            _.isEmpty(classifyDetail) ? null :
+                                                classifyDetail.map((item, index) => {
+                                                    return <div key={index} style={{ marginBottom: '10px' }}>
+                                                        {index + 1}：{item.name}
+                                                    </div>
+                                                })
+                                        }
+                                    </div>
                             }
 
                             <Form.Item
                                 name="label"
                                 label="文章标签"
+                                style={{ marginTop: 20 }}
                                 rules={[{ required: false, message: 'Please select your favourite colors!' }]}
                             >
                                 <Select mode="tags" placeholder="请选择该文章的标签~">

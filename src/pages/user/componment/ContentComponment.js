@@ -18,7 +18,6 @@ class ContentComponment extends React.Component {
                 {
                     _.isEmpty(allArticles) ? <div className='content_root'></div> :
                         allArticles.map((item, index) => {
-                            console.log('item', item)
                             const { user } = item;
                             return <div className='content_root' key={index} onClick={this.clickArticleDetail.bind(this, item.id)}>
                                 <div className='content_title_tv'>{item.articleTitle}</div>

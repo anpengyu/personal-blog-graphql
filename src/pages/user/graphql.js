@@ -19,6 +19,11 @@ export const USER_INFO = gql`
           created_at
           articleSubTitle
       }
+      classify{
+        id
+        name
+        detail
+      }
     }
   }
 `;
