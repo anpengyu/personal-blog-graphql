@@ -58,8 +58,15 @@ class BraftEditorComponent extends React.Component {
     console.log('values', values)
     console.log('course',values.course)
     console.log('label',values.label)
+
     const { editorState, articleTitle } = this.state;
+    console.log('editorState',editorState)
+    console.log('articleTitle',articleTitle)
     let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO));
+    if(_.isEmpty(userInfo)){
+        message.error('您已退出登录，请保存数据后重新登录发布')
+        return;
+    }
     if (_.isEmpty(articleTitle) || editorState.toHTML() === '<p></p>') {
       message.error('文章标题或者内容不能为空~');
       return;
@@ -144,6 +151,7 @@ class BraftEditorComponent extends React.Component {
         </div>
 
         <ArticleModal
+        articleTitle={this.state.articleTitle}
           modelVisible={this.state.modelVisible}
           handleOk={this.handleOk}
           handleCancel={this.handleCancel}

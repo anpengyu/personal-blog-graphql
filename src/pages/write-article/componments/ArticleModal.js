@@ -5,7 +5,8 @@ import {
     Select,
     Divider,
     Input,
-    Button
+    Button,
+    Radio
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 const { Option } = Select;
@@ -13,10 +14,6 @@ const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
 };
-const children = [];
-for (let i = 10; i < 36; i++) {
-    children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
 
 let index = 0;
 export class ArticleModal extends Component {
@@ -24,6 +21,7 @@ export class ArticleModal extends Component {
     state = {
         items: ['jack', 'lucy'],
         name: '',
+        original: true,//是否原创
     };
     onNameChange = event => {
         this.setState({
@@ -41,6 +39,11 @@ export class ArticleModal extends Component {
     };
     handleChange(value) {
         console.log(`selected ${value}`);
+    }
+
+    onOriginalChange = (value) => {
+        console.log('value....,,,', value.target.value)
+        this.setState({ original: value.target.value })
     }
 
     render() {
@@ -62,9 +65,13 @@ export class ArticleModal extends Component {
                             onFinish={onFinish}
                             name="validate_other"
                             {...formItemLayout}
+                            initialValues={{
+                                original: true,
+                                privacy: false
+                            }}
                         >
                             <Form.Item label="文章标题">
-                                <span className="ant-form-text">China</span>
+                                <span className="ant-form-text">{this.props.articleTitle}</span>
                             </Form.Item>
                             <Form.Item name="course" label="文章系列" valuePropName="checked" style={{ paddingTop: 20, paddingBottom: 20 }}>
                                 <Select
@@ -103,6 +110,27 @@ export class ArticleModal extends Component {
                                     <Option value="blue">Blue</Option>
                                 </Select>
                             </Form.Item>
+                            <Form.Item name="privacy" label="私密文章" style={{ paddingTop: 20, paddingBottom: 20 }}>
+                                <Radio.Group>
+                                    <Radio value={true}>是</Radio>
+                                    <Radio value={false}>否</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                            <Form.Item name="original" label="是否原创" >
+                                <Radio.Group onChange={(value) => { this.setState({ original: value.target.value }) }}>
+                                    <Radio value={true}>是</Radio>
+                                    <Radio value={false}>否</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                            {
+                                this.state.original == true ? null : <Form.Item label="原创链接">
+                                    <Form.Item name="originalUrl" noStyle>
+                                        <Input style={{ width: '200px' }} />
+                                    </Form.Item>
+                                    <span className="ant-form-text">尊重原创~~</span>
+                                </Form.Item>
+                            }
+
 
                             <Divider style={{ marginTop: '30px', marginBottom: '10px' }} />
                             <div style={{ display: 'flex', justifyContent: 'center' }}>

@@ -8,6 +8,9 @@ export const ADD_ARTICLE = gql`
     $articleContent: String!
     $course:String
     $label:[String]
+    $original:Boolean
+    $privacy:Boolean
+    $originalUrl:String
   ) {
     createArticle(
       userId: $userId
@@ -16,6 +19,9 @@ export const ADD_ARTICLE = gql`
       articleContent: $articleContent
       course:$course
       label:$label
+      original:$original
+      privacy:$privacy
+      originalUrl:$originalUrl
     ) {
       userId
       articleSubTitle
