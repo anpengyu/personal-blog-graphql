@@ -40,6 +40,12 @@ export class ArticleModal extends Component {
     addItem = () => {
         console.log('addItem');
         const { name } = this.state;
+        let { loadClassifyForUser = [] } = this.props.classify;
+        console.log('loadClassifyForUser',loadClassifyForUser,name)
+        if(!_.isEmpty(_.find(loadClassifyForUser,{name:name}))){
+            message.info('该类别已存在~')
+            return;
+        }
         if (_.isEmpty(name)) {
             message.info('请输入新类别进行添加~')
             return;
@@ -47,7 +53,7 @@ export class ArticleModal extends Component {
         this.setState({
             name: '',
         });
-        let { loadClassifyForUser = [] } = this.props.classify;
+     
         let data = {
             id: _.isEmpty(loadClassifyForUser) ? 0 : Number(loadClassifyForUser[loadClassifyForUser.length - 1].id) + 1,
             name: name
