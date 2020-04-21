@@ -3,11 +3,10 @@ import { ALL_ARTICLES } from '../home/graphql'
 import { mutateRquestRefetch, query } from '../../dva/servises'
 
 export async function loadClassifyForUser(params){
-  const d = await query(LOAD_CLASSIFY_FOR_USER,params);
-  console.log('........',d)
-  return d
+  return await query(LOAD_CLASSIFY_FOR_USER,params);
 }
 
 export function mutateArticle(params) {
-  return mutateRquestRefetch(ADD_ARTICLE, params, ALL_ARTICLES);
+  console.log('params',params)
+  return mutateRquestRefetch(ADD_ARTICLE, params, [{query:ALL_ARTICLES},{query:LOAD_CLASSIFY_FOR_USER,variables: {userId:params.userId }}]);
 }

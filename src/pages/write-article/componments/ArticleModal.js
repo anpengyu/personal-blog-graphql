@@ -50,6 +50,7 @@ export class ArticleModal extends Component {
             name: name
         }
         loadClassifyForUser.push(data)
+        console.log('loadClassifyForUse.....r',loadClassifyForUser)
         this.props.dispatch({
             type: 'writeArticle/updateState',
             payload: {
@@ -69,11 +70,16 @@ export class ArticleModal extends Component {
     onClassifyChange = (value) => {
         console.log('value', value)
         let { loadClassifyForUser = [] } = this.props.classify;
-        const data = _.filter(loadClassifyForUser, function (o) { return _.eq(o.name, value); });
+        let data = _.filter(loadClassifyForUser, function (o) { return _.eq(o.name, value); });
         console.log('data[0]', data[0])
-        console.log(JSON.parse(data[0].detail))
+        if(data[0].detail && !_.isEmpty(data[0].detail)){
+            data = JSON.parse(data[0].detail)
+        }else{
+            data = []
+        }
+        console.log(data)
         this.setState({
-            classifyDetail: _.isEmpty(data) ? [] : JSON.parse(data[0].detail)
+            classifyDetail: data
         })
     }
 
@@ -136,7 +142,7 @@ export class ArticleModal extends Component {
                             {
                                 _.isEmpty(classifyDetail) ? null :
                                     classifyDetail.map((item, index) => {
-                                        return <div>{item.name}</div>
+                                        return <div key={index}>{item.name}</div>
                                     })
                             }
 

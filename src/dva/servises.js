@@ -26,12 +26,12 @@ export async function mutateRquest(api, params, mutate) {
 export async function mutateRquestRefetch(api, params, refetch) {
     console.log('params....', params)
     try {
-        let data = client.mutate({
+        await client.mutate({
             mutation: api,
             variables: {
                 ...params
             },
-            refetchQueries: [{ query: refetch }]
+            refetchQueries: refetch
         })
         return true;
     } catch (e) {
