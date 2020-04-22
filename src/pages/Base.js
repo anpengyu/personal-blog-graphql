@@ -2,7 +2,7 @@ import React from 'react';
 import { LAST_PATH_NAME } from '../utils/Constant'
 import _ from 'lodash';
 
-export default class Base extends React.Component {
+export default class BasePage extends React.Component {
 
     constructor(props) {
         super(props);

@@ -2,7 +2,7 @@ import React from 'react';
 import '../index.scss';
 import _ from 'lodash';
 import { Button, message } from 'antd';
-import {connect} from 'dva';
+import { connect } from 'dva';
 
 class ContentComponent extends React.Component {
 
@@ -29,7 +29,7 @@ class ContentComponent extends React.Component {
         content: '22222222222222',
         articleId: comment.articleId,
         replyToCommentId: creator.id, //0：直接评论文章,直接评论一级评论
-        rootCommentId:itemId, //0：文章下的评论
+        rootCommentId: itemId, //0：文章下的评论
       },
       refetchVariables: {
         id: comment.articleId

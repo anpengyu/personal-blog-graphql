@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import { message } from 'antd';
+
 let moment = require('moment');
 
 export const CHANGE_USER_INFO_TYPE = {
@@ -31,10 +34,28 @@ export function randomId() {
     return arr[rand1] + arr[rand2] + arr[rand3] + arr[rand4] + arr[rand5] + arr[rand6]
 }
 
+export function loadUserId() {
+   return loadCurrentUserId(true)
+}
+
+export function loadCurrentUserId(showMessage) {
+    let userInfo = localStorage.getItem(CONSTANT_USER_INFO)
+    if (!_.isEmpty(userInfo)) {
+        userInfo = JSON.parse(userInfo)
+        console.log('userInfo......................................', userInfo)
+        return userInfo.id;
+    } else {
+        if (showMessage) {
+            message.info('请先登录')
+        }
+        return;
+    }
+}
+
 export default {
     times,
     randomId,
     CHANGE_USER_INFO_TYPE,
     AUTH_TOKEN,
-    
+
 }

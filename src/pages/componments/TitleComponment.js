@@ -56,7 +56,6 @@ class TitleComponment extends React.Component {
     componentDidMount() {
         let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
         let token = localStorage.getItem(AUTH_TOKEN);
-        console.log('...........................')
         if (userInfo && !_.isEmpty(userInfo) && !_.isEmpty(token)) {
             userInfo = JSON.parse(userInfo)
             this.setState({
@@ -111,11 +110,11 @@ class TitleComponment extends React.Component {
         let noTitle = ['/write', '/login']
         const { currentTab } = this.state;
         let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
-      
+
         let token = localStorage.getItem(AUTH_TOKEN);
         let isLogin = false;
         if (userInfo && !_.isEmpty(userInfo) && !_.isEmpty(token)) {
-            console.log('userInfo',userInfo,token)
+            console.log('.',userInfo)
             userInfo = JSON.parse(userInfo)
             isLogin = true;
         }

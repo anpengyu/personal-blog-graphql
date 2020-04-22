@@ -70,12 +70,12 @@ class BraftEditorComponent extends React.Component {
             message.error('文章标题或者内容不能为空~');
             return;
         }
-        content = _.replace(content,'<h1>',`<h1 id=${randomId()}>`)
-        content = _.replace(content,'<h2>',`<h2 id=${randomId()}>`)
-        content = _.replace(content,'<h3>',`<h3 id=${randomId()}>`)
-        content = _.replace(content,'<h4>',`<h4 id=${randomId()}>`)
-        content = _.replace(content,'<h5>',`<h5 id=${randomId()}>`)
-        content = _.replace(content,'<h6>',`<h6 id=${randomId()}>`)
+        content = content.indexOf('<h1>')!=-1? _.replace(content,'<h1>',`<h1 id=blog_an${randomId()}>`):content
+        content = content.indexOf('<h2>')!=-1? _.replace(content,'<h2>',`<h2 id=blog_an${randomId()}>`):content
+        content = content.indexOf('<h3>')!=-1? _.replace(content,'<h3>',`<h3 id=blog_an${randomId()}>`):content
+        content = content.indexOf('<h4>')!=-1? _.replace(content,'<h4>',`<h4 id=blog_an${randomId()}>`):content
+        content = content.indexOf('<h5>')!=-1? _.replace(content,'<h5>',`<h5 id=blog_an${randomId()}>`):content
+        content = content.indexOf('<h6>')!=-1? _.replace(content,'<h6>',`<h6 id=blog_an${randomId()}>`):content
         this.props.dispatch({
             type: 'writeArticle/mutateArticle',
             payload: {

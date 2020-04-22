@@ -19,6 +19,10 @@ export const USER_INFO = gql`
       id
       username
       headImg
+      likes
+      comments
+      historys
+      attention
     }
   }
 `;

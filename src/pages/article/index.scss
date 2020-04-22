@@ -1,4 +1,6 @@
 .article_normal {
+  display:flex;
+  justify-content: space-between;
 
   .article_left_root{
     
@@ -49,9 +51,10 @@
   
 
 .content {
-  // padding: 20px;
+  display:flex;
 }
 .comment {
+  width: 1000px;
   background-color: white;
   margin-top: 20px;
   padding: 20px;

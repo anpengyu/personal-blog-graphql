@@ -1,12 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
-import { CHANGE_USER_INFO_TYPE } from '../../../utils/Constant';
+import { CHANGE_USER_INFO_TYPE, loadUserId, CONSTANT_USER_INFO } from '../../../utils/Constant';
 import { times } from '../../../utils/Constant'
 import { message } from 'antd';
 import { ADD_PRAISE_COUNT, CHANGE_USERINFO, ARTICLE_DETIAL } from '../graphql';
 import { ALL_ARTICLES } from '../../home/graphql';
 import { withApollo } from 'react-apollo';
 import '../index.scss'
+import { USER_INFO } from '../../login/graphql';
 
 class UserComponent extends React.Component {
 
@@ -24,6 +25,10 @@ class UserComponent extends React.Component {
                 _.eq(CHANGE_USER_INFO_TYPE.LIKES, flag) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
                 return;
             }
+        }
+        let userId = loadUserId();
+        if (_.isEmpty(userId)) {
+            return;
         }
         let { mutate } = this.props.client;
         let data = '';
@@ -54,34 +59,50 @@ class UserComponent extends React.Component {
             }],
         })
 
-        this.changeUserInfo(1, article.id, flag);
+
+        this.changeUserInfo(userId, article.id, flag);
     }
 
-    changeUserInfo = (userId, id, flag) => {
-        let { mutate } = this.props.client;
-        mutate({
+    changeUserInfo = async (userId, id, flag) => {
+        let { mutate, query } = this.props.client;
+        let mutateUserInfo = await mutate({
             mutation: CHANGE_USERINFO,
             variables: {
                 userId: userId,
                 id: id,
                 type: flag
             },
-            update: (proxy, mutationResult) => {
-                // console.log('proxy', proxy)
-                // console.log('mutationResult', mutationResult)
-            }
+            refetchQueries: [{
+                query: USER_INFO,
+                variables: {
+                    id: userId
+                },
+                update() {
+                    console.log('...llllll')
+                }
+            }],
         })
+        let queryUserInfo = await query({
+            query: USER_INFO,
+            variables: {
+                id: userId
+            },
+        })
+        !_.isEmpty(queryUserInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(queryUserInfo.data.user))
+        console.log('queryUserInfo', queryUserInfo)
     }
 
     render() {
         const { article, userInfo, anchors, classify } = this.props;
         const { user, comment } = article;
         let likes = JSON.parse(user.likes);//赞
+        console.log('likes.....', likes)
         let collects = JSON.parse(user.collects);//收藏
         let commentCount = 0;//评论条数
         comment.map((item, index) => {
             commentCount += item.comment.length + 1
         })
+        loadUserId()
         return (
             <div className='article_left_root'>
                 <div className='article_user_root'>
@@ -125,7 +146,7 @@ class UserComponent extends React.Component {
                         <div>
                             {classify.name}
                             {JSON.parse(classify.detail).map((item, index) => {
-                                return <div>
+                                return <div key={index}>
                                     <a href='#4p1l8'>{item.name}</a>
                                 </div>
                             })}
