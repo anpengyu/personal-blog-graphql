@@ -9,13 +9,15 @@ import _ from 'lodash';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import { withApollo } from 'react-apollo';
 import { withRouter } from "react-router-dom";
-import { CONSTANT_USER_INFO } from '../../../utils/Constant';
+import { CONSTANT_USER_INFO ,randomId} from '../../../utils/Constant';
 import ArticleModal from './ArticleModal';
+import HeaderId from 'braft-extensions/dist/header-id'
 
 BraftEditor.use(
     CodeHighlighter({
         includeEditors: ['editor-with-code-highlighter'],
     }),
+    // HeaderId({})
 );
 
 /**
@@ -58,23 +60,28 @@ class BraftEditorComponent extends React.Component {
         console.log('label', values.label)
 
         const { editorState, articleTitle } = this.state;
-        console.log('editorState', editorState)
-        console.log('articleTitle', articleTitle)
         let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO));
         if (_.isEmpty(userInfo)) {
             message.error('您已退出登录，请保存数据后重新登录发布')
             return;
         }
-        if (_.isEmpty(articleTitle) || editorState.toHTML() === '<p></p>') {
+        let content = editorState.toHTML()
+        if (_.isEmpty(articleTitle) || content === '<p></p>') {
             message.error('文章标题或者内容不能为空~');
             return;
         }
+        content = _.replace(content,'<h1>',`<h1 id=${randomId()}>`)
+        content = _.replace(content,'<h2>',`<h2 id=${randomId()}>`)
+        content = _.replace(content,'<h3>',`<h3 id=${randomId()}>`)
+        content = _.replace(content,'<h4>',`<h4 id=${randomId()}>`)
+        content = _.replace(content,'<h5>',`<h5 id=${randomId()}>`)
+        content = _.replace(content,'<h6>',`<h6 id=${randomId()}>`)
         this.props.dispatch({
             type: 'writeArticle/mutateArticle',
             payload: {
                 userId: userInfo.id,
-                articleContent: editorState.toHTML(),
-                articleSubTitle: this.delHtmlTag(editorState.toHTML()).substring(
+                articleContent: content,
+                articleSubTitle: this.delHtmlTag(content).substring(
                     0,
                     100,
                 ),

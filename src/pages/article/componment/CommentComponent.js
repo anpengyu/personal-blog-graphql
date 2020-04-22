@@ -1,12 +1,23 @@
 import React from 'react';
-import '../index.less';
+import '../index.scss';
 
 import ToCommentComponent from './ToCommentComponent';
 import _ from 'lodash';
-import { Button, message } from 'antd';
+import { Button, message,BackTop } from 'antd';
 import {connect} from 'dva'
 let moment = require('moment');
-class ContentComponent extends React.Component {
+
+const style = {
+    height: 40,
+    width: 90,
+    lineHeight: '40px',
+    borderRadius: 4,
+    backgroundColor: '#1088e9',
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 14,
+  };
+class CommentComponent extends React.Component {
 
     //发帖距现在多长时间
     times(date) {
@@ -84,9 +95,12 @@ class ContentComponent extends React.Component {
                     );
                 },
                 )}
+                 <BackTop>
+                        <div style={style}>回到顶部</div>
+                    </BackTop>
             </div>
         );
     }
 }
 
-export default connect()(ContentComponent);
+export default connect()(CommentComponent);

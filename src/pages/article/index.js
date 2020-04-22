@@ -2,14 +2,25 @@ import React from "react";
 import { ARTICLE_DETIAL } from './graphql';
 import Loading from "../Loading";
 import { Query } from "react-apollo";
-import './index.less';
+import './index.scss';
 import ContentComponent from './componment/ContentComponent';
 import CommentComponent from './componment/CommentComponent';
-import { Input, Button, message } from "antd";
+import { Input, Button, message, BackTop } from "antd";
 import { connect } from 'dva'
 import Base from "../Base";
 import _ from 'lodash';
 import { AUTH_TOKEN, CONSTANT_USER_INFO } from '../../utils/Constant';
+
+const style = {
+    height: 40,
+    width: 90,
+    lineHeight: '40px',
+    borderRadius: 4,
+    backgroundColor: '#1088e9',
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 14,
+};
 class Articles extends Base {
 
     constructor(props) {
@@ -65,26 +76,29 @@ class Articles extends Base {
                     if (error) return <Loading />;
 
                     return (
-                        <div className='normal'>
-                            <ContentComponent article={data.article} userInfo={userInfo} />
-                            <div style={{ display: 'flex', backgroundColor: '#fff' }}>
-                                <img
-                                    style={{
-                                        height: 40,
-                                        width: 40,
-                                        marginTop: 5,
-                                        borderRadius: 50,
-                                    }}
-                                    src={require('../../assets/head.jpg')}
-                                />
-                                <Input onChange={this.changeComment}></Input>
-                                <Button onClick={this.publishComment}>发表评论</Button>
-                            </div>
+                        <div className='article_normal'>
+                            <ContentComponent article={data.article} userInfo={userInfo} classify={data.article.classify} />
 
                             <div className='comment'>
-                                评论区
+                                <p id='comment' className='comment_anchor'>评论区</p>
+                                <div style={{ display: 'flex', backgroundColor: '#fff',marginTop:'20px' }}>
+                                    <img
+                                        style={{
+                                            height: 40,
+                                            width: 40,
+                                            marginTop: 5,
+                                            borderRadius: 50,
+                                        }}
+                                        src={require('../../assets/head.jpg')}
+                                    />
+                                    <Input onChange={this.changeComment}></Input>
+                                    <Button onClick={this.publishComment}>发表评论</Button>
+                                </div>
+
                                 <CommentComponent article={data.article} userInfo={userInfo} />
                             </div>
+
+
                         </div>
                     );
                 }}

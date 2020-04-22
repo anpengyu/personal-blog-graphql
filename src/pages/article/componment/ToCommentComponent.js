@@ -1,5 +1,5 @@
 import React from 'react';
-import '../index.less';
+import '../index.scss';
 import _ from 'lodash';
 import { Button, message } from 'antd';
 import {connect} from 'dva';

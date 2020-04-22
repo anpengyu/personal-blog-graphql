@@ -58,6 +58,11 @@ export const ARTICLE_DETIAL = gql`
           }
         }
       }
+      classify{
+          id
+          name
+          detail
+        }
     }
   }
 `;
