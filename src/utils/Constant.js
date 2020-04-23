@@ -35,7 +35,16 @@ export function randomId() {
 }
 
 export function loadUserId() {
-   return loadCurrentUserId(true)
+    return loadCurrentUserId(true)
+}
+
+export function loadUserInfo() {
+    let userInfo = localStorage.getItem(CONSTANT_USER_INFO)
+    if (!_.isEmpty(userInfo)) {
+        userInfo = JSON.parse(userInfo)
+        console.log('userInfo,,,,,,,,,,', userInfo)
+        return userInfo;
+    }
 }
 
 export function loadCurrentUserId(showMessage) {
@@ -55,6 +64,7 @@ export function loadCurrentUserId(showMessage) {
 export default {
     times,
     randomId,
+    loadUserInfo,
     CHANGE_USER_INFO_TYPE,
     AUTH_TOKEN,
 

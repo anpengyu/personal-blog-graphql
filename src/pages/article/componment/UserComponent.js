@@ -1,10 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
-import { CHANGE_USER_INFO_TYPE, loadUserId, CONSTANT_USER_INFO } from '../../../utils/Constant';
+import { CHANGE_USER_INFO_TYPE, loadUserId, CONSTANT_USER_INFO, loadUserInfo } from '../../../utils/Constant';
 import { times } from '../../../utils/Constant'
 import { message } from 'antd';
 import { ADD_PRAISE_COUNT, CHANGE_USERINFO, ARTICLE_DETIAL } from '../graphql';
 import { ALL_ARTICLES } from '../../home/graphql';
+import { Link, withRouter } from "react-router-dom";
 import { withApollo } from 'react-apollo';
 import '../index.scss'
 import { USER_INFO } from '../../login/graphql';
@@ -19,19 +20,20 @@ class UserComponent extends React.Component {
     praiseClick = (flag, userInfo) => {
         const { article } = this.props;
         const { user } = article;
-        if (!_.isEmpty(userInfo)) {
-            userInfo = JSON.parse(userInfo)
-            if (_.eq(userInfo.id, user.id)) {
-                _.eq(CHANGE_USER_INFO_TYPE.LIKES, flag) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
-                return;
-            }
-        }
         let userId = loadUserId();
         if (_.isEmpty(userId)) {
             return;
         }
+        if (!_.isEmpty(userId)) {
+            // userInfo = JSON.parse(userInfo)
+            if (_.eq(userId, user.id)) {
+                _.eq(CHANGE_USER_INFO_TYPE.LIKES, flag) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
+                return;
+            }
+        }
+
         let { mutate } = this.props.client;
-        let data = '';
+        let data = [];
         switch (flag) {
             case CHANGE_USER_INFO_TYPE.LIKES: data = user.likes;
                 break;
@@ -39,9 +41,15 @@ class UserComponent extends React.Component {
                 break;
         }
         let type = 1;
-        if (_.includes(JSON.parse(data), article.id)) {
-            type = 2;
+        if(_.isEmpty(data)){
+            data = []
+        }else{
+            if (_.includes(JSON.parse(data), article.id)) {
+                type = 2;
+            }
         }
+       
+       
         mutate({
             mutation: ADD_PRAISE_COUNT,
             variables: {
@@ -72,16 +80,17 @@ class UserComponent extends React.Component {
                 id: id,
                 type: flag
             },
-            refetchQueries: [{
-                query: USER_INFO,
-                variables: {
-                    id: userId
-                },
-                update() {
-                    console.log('...llllll')
-                }
-            }],
+            // refetchQueries: [{
+            //     query: USER_INFO,
+            //     variables: {
+            //         id: userId
+            //     },
+            //     update() {
+            //         console.log('...llllll')
+            //     }
+            // }],
         })
+        console.log('mutateUserInfo',mutateUserInfo)
         let queryUserInfo = await query({
             query: USER_INFO,
             variables: {
@@ -95,27 +104,27 @@ class UserComponent extends React.Component {
     render() {
         const { article, userInfo, anchors, classify } = this.props;
         const { user, comment } = article;
-        let likes = JSON.parse(user.likes);//赞
-        console.log('likes.....', likes)
+
         let collects = JSON.parse(user.collects);//收藏
         let commentCount = 0;//评论条数
         comment.map((item, index) => {
             commentCount += item.comment.length + 1
         })
-        loadUserId()
+        let currentUserInfo = loadUserInfo();
         return (
             <div className='article_left_root'>
                 <div className='article_user_root'>
                     <div style={{ height: '50px', lineHeight: '50px', justifyContent: 'space-between', }}>
-                        <div
+                        <Link to={`/userInfo/${user.id}`}><div
                             style={{ display: 'flex', cursor: 'pointer' }}
                             onClick={this.clickUserName.bind(this, user.id)}>
+
                             <img
                                 style={{ height: 40, width: 40, marginTop: 5, borderRadius: 50, }}
                                 src={require('../../../assets/head.jpg')}
                             />
                             <div className='article_user_name'>{user.username}</div>
-                        </div>
+                        </div></Link>
                     </div>
                     <div className='article_user_date'>
                         发布时间：{times(article.created_at)}
@@ -130,7 +139,7 @@ class UserComponent extends React.Component {
                             </div>
                             <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES, userInfo)}>
                                 {article.articlePraiseCount}
-                                {_.includes(likes, article.id) ? '已赞' : '赞'}
+                                {currentUserInfo&&_.includes(currentUserInfo.likes, article.id) ? '已赞' : '赞'}
                             </div>
                             <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS, userInfo)}>
                                 {article.articleDislikeCount}
@@ -144,12 +153,18 @@ class UserComponent extends React.Component {
                 {
                     _.isEmpty(classify) ? null : <div className='article_classify_root'>
                         <div>
-                            {classify.name}
-                            {JSON.parse(classify.detail).map((item, index) => {
-                                return <div key={index}>
-                                    <a href='#4p1l8'>{item.name}</a>
-                                </div>
-                            })}
+                            <div style={{ paddingLeft: '-10px', fontSize: '14px' }}>{classify.name}</div>
+                            <div style={{ marginTop: '20px' }}>
+                                {JSON.parse(classify.detail).map((item, index) => {
+                                    return <div key={index} style={{ padding: '10px', fontSize: '18px', cursor: 'pointer' }} onClick={() => {
+                                        this.props.history.push(`./${item.id}`)
+                                        window.location.reload(false);
+                                    }}>
+                                        {console.log('1111', article.id, item.id)}
+                                        <div style={{ color: article.id == item.id ? '#5CACEE' : '#000' }}>{item.name}</div>
+                                    </div>
+                                })}
+                            </div>
                         </div>
                     </div>
                 }
@@ -161,4 +176,4 @@ class UserComponent extends React.Component {
     }
 }
 
-export default withApollo(UserComponent);
+export default withApollo(withRouter(UserComponent));

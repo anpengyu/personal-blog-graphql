@@ -14,7 +14,7 @@ export const buildPreviewHtml = (articleContent) => {
                 }
                 .container{
                   box-sizing: border-box;
-                  width: 730px;
+                  width: 1000px;
                   max-width: 100%;
               
                   margin: 0 auto;

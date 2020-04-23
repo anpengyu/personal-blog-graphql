@@ -47,7 +47,21 @@ class ContentComponent extends React.Component {
       var id = _dc.getAttribute("id");
       if (!_.isEmpty(id) && !_.eq(id, 'root') && !_.eq(id, 'comment') && _.startsWith(id, 'blog_an')) {
         anchors.push({ id, name: _dc.innerHTML });
+        let style = _dc.getAttribute('style');
+        if(_.isEmpty(style)){
+          style = 'padding-top:50px';
+        }else{
+          style += ' padding-top:50px'
+        }
+      
+        _dc.setAttribute('style',style)
       }
+
+      // var div = _dc.getRootNode("h2");
+      // console.log('divdivdiv',div)
+      //修改标签的style值有两种方式
+      // div.setAttribute("style", "padding-top: 90px;");//一次添加多个
+
     }
 
     this.setState({
