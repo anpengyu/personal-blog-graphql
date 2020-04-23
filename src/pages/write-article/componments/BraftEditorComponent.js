@@ -11,7 +11,7 @@ import _ from 'lodash';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import { withApollo } from 'react-apollo';
 import { withRouter } from "react-router-dom";
-import { randomId, loadUserInfo} from '../../../utils/Constant';
+import { randomId, loadUserInfo } from '../../../utils/Constant';
 import ArticleModal from './ArticleModal';
 
 BraftEditor.use(
@@ -19,7 +19,9 @@ BraftEditor.use(
         includeEditors: ['editor-with-code-highlighter'],
     }),
 );
-
+String.prototype.replaceAll = function (s1, s2) {
+    return this.replace(new RegExp(s1, "gm"), s2);
+}
 /**
  * 文章编辑器
  * @date 2020-03-31
@@ -55,10 +57,6 @@ class BraftEditorComponent extends React.Component {
     }
 
     submit = (values) => {
-        console.log('values', values)
-        console.log('course', values.course)
-        console.log('label', values.label)
-
         const { editorState, articleTitle } = this.state;
         let userInfo = loadUserInfo()
         if (_.isEmpty(userInfo)) {
@@ -70,12 +68,12 @@ class BraftEditorComponent extends React.Component {
             message.error('文章标题或者内容不能为空~');
             return;
         }
-        content = content.indexOf('<h1>')!=-1? _.replace(content,'<h1>',`<h1 id=blog_an${randomId()}>`):content
-        content = content.indexOf('<h2>')!=-1? _.replace(content,'<h2>',`<h2 id=blog_an${randomId()}>`):content
-        content = content.indexOf('<h3>')!=-1? _.replace(content,'<h3>',`<h3 id=blog_an${randomId()}>`):content
-        content = content.indexOf('<h4>')!=-1? _.replace(content,'<h4>',`<h4 id=blog_an${randomId()}>`):content
-        content = content.indexOf('<h5>')!=-1? _.replace(content,'<h5>',`<h5 id=blog_an${randomId()}>`):content
-        content = content.indexOf('<h6>')!=-1? _.replace(content,'<h6>',`<h6 id=blog_an${randomId()}>`):content
+        content = content.indexOf('<h1>') != -1 ? content.replaceAll('<h1>', `<h1 id=blog_an${randomId()}>`) : content
+        content = content.indexOf('<h2>') != -1 ? content.replaceAll('<h2>', `<h2 id=blog_an${randomId()}>`) : content
+        content = content.indexOf('<h3>') != -1 ? content.replaceAll('<h3>', `<h3 id=blog_an${randomId()}>`) : content
+        content = content.indexOf('<h4>') != -1 ? content.replaceAll('<h4>', `<h4 id=blog_an${randomId()}>`) : content
+        content = content.indexOf('<h5>') != -1 ? content.replaceAll('<h5>', `<h5 id=blog_an${randomId()}>`) : content
+        content = content.indexOf('<h6>') != -1 ? content.replaceAll('<h6>', `<h6 id=blog_an${randomId()}>`) : content
         this.props.dispatch({
             type: 'writeArticle/mutateArticle',
             payload: {
