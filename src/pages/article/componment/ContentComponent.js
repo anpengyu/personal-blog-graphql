@@ -7,6 +7,7 @@ import { CHANGE_USER_INFO_TYPE, loadCurrentUserId } from '../../../utils/Constan
 import _ from 'lodash';
 import { connect } from 'dva'
 import { message, } from 'antd';
+import CommentComponent from './CommentComponent'
 
 const style = {
   height: 40,
@@ -41,7 +42,7 @@ class ContentComponent extends React.Component {
 
     let anchors = [];
     var _docc = window.document.all;
-    // 遍历每一个对象
+    // 锚点
     for (var i = 0; i < _docc.length; i++) {
       var _dc = _docc[i];
       var id = _dc.getAttribute("id");
@@ -53,15 +54,8 @@ class ContentComponent extends React.Component {
         }else{
           style += ' padding-top:50px'
         }
-      
         _dc.setAttribute('style',style)
       }
-
-      // var div = _dc.getRootNode("h2");
-      // console.log('divdivdiv',div)
-      //修改标签的style值有两种方式
-      // div.setAttribute("style", "padding-top: 90px;");//一次添加多个
-
     }
 
     this.setState({
@@ -93,6 +87,7 @@ class ContentComponent extends React.Component {
     const { anchors } = this.state;
     return (
       <div className='content'>
+        <div>
         <div style={{ backgroundColor: '#fff', padding: '20px', width: '1000px' }}>
           <div>
             <div className='article_detail_title'>{article.articleTitle}</div>
@@ -103,6 +98,10 @@ class ContentComponent extends React.Component {
             }}
           ></div>
         </div>
+            {/* 评论 */}
+            <CommentComponent article={article} />
+        </div>
+        
 
         {/* 锚点 */}
         {_.isEmpty(anchors) ? null : <div className='anchors'>

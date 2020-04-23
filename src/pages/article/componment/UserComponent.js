@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { CHANGE_USER_INFO_TYPE, loadUserId, CONSTANT_USER_INFO, loadUserInfo } from '../../../utils/Constant';
+import { CHANGE_USER_INFO_TYPE, loadUserId, CONSTANT_USER_INFO, loadUserInfo, clickTime } from '../../../utils/Constant';
 import { times } from '../../../utils/Constant'
 import { message } from 'antd';
 import { ADD_PRAISE_COUNT, CHANGE_USERINFO, ARTICLE_DETIAL } from '../graphql';
@@ -17,7 +17,10 @@ class UserComponent extends React.Component {
     }
 
     //点赞/关注/收藏
-    praiseClick = (flag) => {
+    praiseClick = (flag, isLikesOrCollect) => {
+        if (clickTime()) {
+            return;
+        }
         const { article } = this.props;
         const { user } = article;
         let userId = loadUserId();
@@ -42,7 +45,7 @@ class UserComponent extends React.Component {
         if (_.isEmpty(data)) {
             data = []
         } else {
-            if (_.includes(JSON.parse(data), article.id)) {
+            if (isLikesOrCollect) {
                 type = 2;
             }
         }
@@ -71,44 +74,41 @@ class UserComponent extends React.Component {
 
     changeUserInfo = async (userId, id, flag) => {
         let { mutate, query } = this.props.client;
-        let mutateUserInfo = await mutate({
+        let mutateUserInfoResult = await mutate({
             mutation: CHANGE_USERINFO,
             variables: {
                 userId: userId,
                 id: id,
                 type: flag
-            },
-            // refetchQueries: [{
-            //     query: USER_INFO,
-            //     variables: {
-            //         id: userId
-            //     },
-            //     update() {
-            //         console.log('...llllll')
-            //     }
-            // }],
+            }
         })
-        console.log('mutateUserInfo', mutateUserInfo)
-        // let queryUserInfo = await query({
-        //     query: USER_INFO,
-        //     variables: {
-        //         id: userId
-        //     },
-        // })
-        // !_.isEmpty(queryUserInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(queryUserInfo.data.user))
-        // console.log('queryUserInfo', queryUserInfo)
+        //获取最新点赞列表
+        let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO))
+        userInfo.likes = mutateUserInfoResult.data.changeUserInfo.likes;
+        localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(userInfo))
+        //获取最新收藏列表
+        userInfo.collects = mutateUserInfoResult.data.changeUserInfo.collects;
+        localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(userInfo))
     }
 
     render() {
         const { article, classify } = this.props;
         const { user, comment } = article;
 
-        let collects = JSON.parse(user.collects);//收藏
         let commentCount = 0;//评论条数
         comment.map((item, index) => {
             commentCount += item.comment.length + 1
         })
         let currentUserInfo = loadUserInfo();
+        let isLikes = false;//是否点赞
+        let isCollect = false;//是否收藏
+        if (!_.isEmpty(currentUserInfo)) {
+            isLikes = _.includes(currentUserInfo.likes, article.id);
+        }
+        if (!_.isEmpty(currentUserInfo)) {
+            isCollect = _.includes(currentUserInfo.collects, article.id);
+        }
+
         return (
             <div className='article_left_root'>
                 <div className='article_user_root'>
@@ -135,13 +135,13 @@ class UserComponent extends React.Component {
                             <div className='article_user_bottom'>
                                 <a href={'#comment'}> {commentCount}评论</a>
                             </div>
-                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES)}>
+                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES, isLikes)}>
                                 {article.articlePraiseCount}
-                                {currentUserInfo && _.includes(currentUserInfo.likes, article.id) ? '已赞' : '赞'}
+                                {isLikes ? '已赞' : '赞'}
                             </div>
-                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS)}>
+                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS, isCollect)}>
                                 {article.articleDislikeCount}
-                                {_.includes(collects, article.id) ? '已收藏' : '收藏'}
+                                {isCollect ? '已收藏' : '收藏'}
                             </div>
                         </div>
                     </div>
@@ -158,7 +158,6 @@ class UserComponent extends React.Component {
                                         this.props.history.push(`./${item.id}`)
                                         window.location.reload(false);
                                     }}>
-                                        {console.log('1111', article.id, item.id)}
                                         <div style={{ color: article.id == item.id ? '#5CACEE' : '#000' }}>{item.name}</div>
                                     </div>
                                 })}

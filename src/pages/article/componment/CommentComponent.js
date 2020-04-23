@@ -39,7 +39,6 @@ class CommentComponent extends React.Component {
     publishComment = (rootCommentId) => {
         let userId = loadUserId();
         let { article } = this.props;
-        let id = -1;
         if (_.isEmpty(userId)) {
             return;
         }
@@ -47,7 +46,7 @@ class CommentComponent extends React.Component {
         this.props.dispatch({
             type: 'article/mutateComment',
             payload: {
-                userId: id,
+                userId: userId,
                 content: '111111111',
                 articleId: article.id,
                 replyToCommentId: '0', //0：直接评论文章,直接评论一级评论
@@ -64,10 +63,8 @@ class CommentComponent extends React.Component {
         })
     }
     publishComment11 = (articleId) => {
-        let { commentChange } = this.state;
-        let id = -1;
         let userId = loadUserId();
-        
+        let { commentChange } = this.state;
         if (_.isEmpty(userId)) {
             return;
         }
@@ -75,7 +72,7 @@ class CommentComponent extends React.Component {
         this.props.dispatch({
             type: 'article/mutateComment',
             payload: {
-                userId: id,
+                userId: userId,
                 content: commentChange,
                 articleId: articleId,
                 replyToCommentId: '0', //0：直接评论文章,直接评论一级评论

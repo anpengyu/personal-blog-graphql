@@ -118,7 +118,8 @@ mutation addPraiseCount($articleId:ID!,$flag:Int!,$type:Int!){
 export const CHANGE_USERINFO = gql`
 mutation changeUserInfo($userId:ID!,$id:ID!,$type:Int!){
   changeUserInfo(userId:$userId,id:$id,type:$type){
-    id
+    likes
+    collects
   }
 }
 `

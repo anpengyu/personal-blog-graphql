@@ -8,7 +8,7 @@ import CourseComponment from './componment/CourseComponment';
 import ContentComponment from './componment/ContentComponment';
 import AboutAuthComponment from './componment/AboutAuthComponment';
 import { message } from 'antd';
-import { USER_INFO } from './graphql';
+import { USER_DETAIL_INFO } from './graphql';
 import { withApollo } from 'react-apollo';
 import { withRouter } from "react-router-dom";
 import { connect } from 'dva';
@@ -32,7 +32,7 @@ class UserInfoPage extends React.Component {
         let { query } = this.props.client;
         try {
             const result = await query({
-                query: USER_INFO,
+                query: USER_DETAIL_INFO,
                 variables: {
                     id
                 },

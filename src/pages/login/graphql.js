@@ -20,6 +20,7 @@ export const USER_INFO = gql`
       username
       headImg
       likes
+      collects
       comments
       historys
       attention

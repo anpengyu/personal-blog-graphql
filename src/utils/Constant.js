@@ -45,13 +45,14 @@ export function loadUserInfo() {
 }
 
 export function loadUserId() {
-    return loadCurrentUserId(true)
+    return loadCurrentUserId(true);
 }
 
 export function loadCurrentUserId(showMessage) {
     let userInfo = localStorage.getItem(CONSTANT_USER_INFO)
-    let token = localStorage.getItem(AUTH_TOKEN);
+    let token = localStorage.getItem(AUTH_TOKEN);   
     if (!_.isEmpty(userInfo) && !_.eq('undefined', userInfo) && !_.isEmpty(token)) {
+        console.log('.........',JSON.parse(userInfo).id)
         return JSON.parse(userInfo).id;
     } else {
         if (showMessage) {
@@ -61,10 +62,32 @@ export function loadCurrentUserId(showMessage) {
     }
 }
 
+var date1 = new Date();
+var date2 = new Date();
+var data3 = new Date();
+var count = 1;
+export function clickTime() {
+    date1 = date2;
+    date2 = new Date();
+    if (count == 1) {
+        count++;
+    } else {
+        data3 = (date2.getTime() - date1.getTime()) / 1000;
+    }
+    if (data3 < 2) {
+        message.info('请不要频繁操作')
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 export default {
     times,
     randomId,
     loadUserInfo,
+    clickTime,
     CHANGE_USER_INFO_TYPE,
     AUTH_TOKEN,
 

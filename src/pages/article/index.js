@@ -19,17 +19,13 @@ class Articles extends BasePage {
                 {({ loading, error, data }) => {
                     if (loading) return <Loading />;
                     if (error) return <Loading />;
-                    console.log('data...',data)
+                    console.log('data...', data)
                     return (
                         <div className='article_normal'>
                             {/* 用户模块 */}
                             <UserComponent article={data.article} classify={data.article.classify} />
-                            <div>
-                                {/* 正文 */}
-                                <ContentComponent article={data.article} classify={data.article.classify} />
-                                {/* 评论 */}
-                                <CommentComponent article={data.article} />
-                            </div>
+                            {/* 正文 */}
+                            <ContentComponent article={data.article} classify={data.article.classify} />
                         </div>
                     );
                 }}
