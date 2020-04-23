@@ -53,15 +53,13 @@ class LoginComponent extends React.Component {
                 id:login.id
             },
         }).then(res => {
-            let userInfo = res.data.user;
-            !_.isEmpty(userInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(res.data.user))
-            console.log('login',localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(res.data.user)))
-            let pathname = this.props.history
+            let currentUserInfo = res.data.user;
+            !_.isEmpty(currentUserInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(res.data.user))
             let lastPathname = localStorage.getItem(LAST_PATH_NAME);
             this.props.dispatch({
                 type: 'home/updateState',
                 payload: {
-                    userInfo,
+                    currentUserInfo,
                     token:login.token
                 }
             })

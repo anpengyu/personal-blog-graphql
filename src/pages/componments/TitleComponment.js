@@ -3,7 +3,7 @@ import './index.scss';
 import { Input, Button, Menu, Dropdown } from 'antd';
 import _ from 'lodash';
 import { Link, withRouter } from "react-router-dom";
-import { AUTH_TOKEN, CONSTANT_USER_INFO } from '../../utils/Constant';
+import { AUTH_TOKEN, CONSTANT_USER_INFO, loadUserInfo } from '../../utils/Constant';
 import { LOGOUT } from './graphql';
 import { withApollo } from 'react-apollo';
 import { connect } from 'dva';
@@ -54,10 +54,9 @@ class TitleComponment extends React.Component {
     };
 
     componentDidMount() {
-        let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
+        let userInfo = loadUserInfo();
         let token = localStorage.getItem(AUTH_TOKEN);
         if (userInfo && !_.isEmpty(userInfo) && !_.isEmpty(token)) {
-            userInfo = JSON.parse(userInfo)
             this.setState({
                 isLogin: true,
                 userInfo,
@@ -109,13 +108,10 @@ class TitleComponment extends React.Component {
         let pathname = this.props.history.location.pathname;
         let noTitle = ['/write', '/login']
         const { currentTab } = this.state;
-        let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
 
-        let token = localStorage.getItem(AUTH_TOKEN);
+        let userInfo = loadUserInfo();
         let isLogin = false;
-        if (userInfo && !_.isEmpty(userInfo) && !_.isEmpty(token)) {
-            console.log('.',userInfo)
-            userInfo = JSON.parse(userInfo)
+        if (!_.isEmpty(userInfo)) {
             isLogin = true;
         }
         return (

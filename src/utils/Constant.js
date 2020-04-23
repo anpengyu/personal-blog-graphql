@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { message } from 'antd';
+import { eq } from 'semver';
 
 let moment = require('moment');
 
@@ -34,30 +35,29 @@ export function randomId() {
     return arr[rand1] + arr[rand2] + arr[rand3] + arr[rand4] + arr[rand5] + arr[rand6]
 }
 
+export function loadUserInfo() {
+    let userInfo = localStorage.getItem(CONSTANT_USER_INFO)
+    let token = localStorage.getItem(AUTH_TOKEN);
+    if (!_.isEmpty(userInfo) && !_.eq('undefined', userInfo) && !_.isEmpty(token)) {
+        return JSON.parse(userInfo);
+    }
+    return null;
+}
+
 export function loadUserId() {
     return loadCurrentUserId(true)
 }
 
-export function loadUserInfo() {
-    let userInfo = localStorage.getItem(CONSTANT_USER_INFO)
-    if (!_.isEmpty(userInfo)) {
-        userInfo = JSON.parse(userInfo)
-        console.log('userInfo,,,,,,,,,,', userInfo)
-        return userInfo;
-    }
-}
-
 export function loadCurrentUserId(showMessage) {
     let userInfo = localStorage.getItem(CONSTANT_USER_INFO)
-    if (!_.isEmpty(userInfo)) {
-        userInfo = JSON.parse(userInfo)
-        console.log('userInfo......................................', userInfo)
-        return userInfo.id;
+    let token = localStorage.getItem(AUTH_TOKEN);
+    if (!_.isEmpty(userInfo) && !_.eq('undefined', userInfo) && !_.isEmpty(token)) {
+        return JSON.parse(userInfo).id;
     } else {
         if (showMessage) {
             message.info('请先登录')
         }
-        return;
+        return null;
     }
 }
 

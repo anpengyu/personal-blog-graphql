@@ -1,23 +1,23 @@
+"use strict";
+
 import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
 
 import React from 'react';
-import { Input, message, Modal } from 'antd';
+import { Input, message } from 'antd';
 import { connect } from 'dva';
 import BraftEditor from 'braft-editor';
 import _ from 'lodash';
 import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import { withApollo } from 'react-apollo';
 import { withRouter } from "react-router-dom";
-import { CONSTANT_USER_INFO ,randomId} from '../../../utils/Constant';
+import { randomId, loadUserInfo} from '../../../utils/Constant';
 import ArticleModal from './ArticleModal';
-import HeaderId from 'braft-extensions/dist/header-id'
 
 BraftEditor.use(
     CodeHighlighter({
         includeEditors: ['editor-with-code-highlighter'],
     }),
-    // HeaderId({})
 );
 
 /**
@@ -60,7 +60,7 @@ class BraftEditorComponent extends React.Component {
         console.log('label', values.label)
 
         const { editorState, articleTitle } = this.state;
-        let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO));
+        let userInfo = loadUserInfo()
         if (_.isEmpty(userInfo)) {
             message.error('您已退出登录，请保存数据后重新登录发布')
             return;
@@ -92,12 +92,12 @@ class BraftEditorComponent extends React.Component {
         })
     }
     showModal = async () => {
-        let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO));
+        let userInfo = loadUserInfo()
         if (_.isEmpty(userInfo)) {
             message.error('您已退出登录，请保存数据后重新登录发布')
             return;
         }
-        let { query } = this.props.client;
+
         this.props.dispatch({
             type: 'writeArticle/loadClassifyForUser',
             payload: {

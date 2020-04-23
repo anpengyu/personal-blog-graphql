@@ -28,7 +28,7 @@ class ContentComponent extends React.Component {
   }
 
   componentDidMount() {
-    let { article, userInfo } = this.props;
+    let { article } = this.props;
     let { mutate } = this.props.client;
 
     //阅读数+1

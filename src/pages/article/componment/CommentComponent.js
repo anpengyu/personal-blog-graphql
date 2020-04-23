@@ -3,8 +3,9 @@ import '../index.scss';
 
 import ToCommentComponent from './ToCommentComponent';
 import _ from 'lodash';
-import { Button, message, BackTop ,Input} from 'antd';
+import { Button, message, BackTop, Input } from 'antd';
 import { connect } from 'dva'
+import { loadUserInfo, loadUserId } from '../../../utils/Constant';
 let moment = require('moment');
 
 const style = {
@@ -36,14 +37,10 @@ class CommentComponent extends React.Component {
     };
 
     publishComment = (rootCommentId) => {
-        let { article, userInfo } = this.props;
+        let userId = loadUserId();
+        let { article } = this.props;
         let id = -1;
-        if (userInfo && !_.isEmpty(userInfo)) {
-            userInfo = JSON.parse(userInfo)
-            id = userInfo.id;
-
-        } else {
-            message.info('请先登录')
+        if (_.isEmpty(userId)) {
             return;
         }
 
@@ -66,14 +63,12 @@ class CommentComponent extends React.Component {
             commentChange: e.target.value
         })
     }
-    publishComment11 = (articleId, userInfo) => {
+    publishComment11 = (articleId) => {
         let { commentChange } = this.state;
         let id = -1;
-        if (!_.isEmpty(userInfo)) {
-            // userInfo = JSON.parse(userInfo)
-            id = userInfo.id;
-        } else {
-            message.info('请先登录')
+        let userId = loadUserId();
+        
+        if (_.isEmpty(userId)) {
             return;
         }
 
@@ -92,11 +87,8 @@ class CommentComponent extends React.Component {
         })
     }
     render() {
-        let { article, userInfo } = this.props;
+        let { article } = this.props;
         const { comment, user } = article;
-        if (!_.isEmpty(userInfo)) {
-            userInfo = JSON.parse(userInfo)
-        }
 
         return (
             <div className='comment'>
@@ -112,35 +104,35 @@ class CommentComponent extends React.Component {
                         src={require('../../../assets/head.jpg')}
                     />
                     <Input onChange={this.changeComment}></Input>
-                    <Button onClick={this.publishComment11.bind(this, article.id, userInfo)}>发表评论</Button>
+                    <Button onClick={this.publishComment11.bind(this, article.id)}>发表评论</Button>
                 </div>
 
                 {comment.map((item, index, ) => {
                     const { creator, comment } = item;
                     return <div key={index}>
-                            <div>
-                                {creator.username}
-                                {_.eq(creator.id, user.id) ? '(作者本尊)' : ''}
-                            </div>
-                            <div>{this.times(item.created_at)}</div>
-                            <div>内容：{item.content}</div>
-
-                            <Button onClick={this.publishComment.bind(this, item.id)}>发表评论11</Button>
-
-                            <div style={{ marginTop: 20, backgroundColor: '#f6f6f6' }}>
-                                {comment.map((item1, index) => {
-                                    return (
-                                        <div style={{ marginLeft: 30 }} key={index}>
-                                            <ToCommentComponent comment={item1} itemId={item.id} acticleUser={user} userInfo={userInfo} />
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                            <div
-                                style={{ width: '100%', height: 2, backgroundColor: '#000' }}
-                            ></div>
+                        <div>
+                            {creator.username}
+                            {_.eq(creator.id, user.id) ? '(作者本尊)' : ''}
                         </div>
-                    
+                        <div>{this.times(item.created_at)}</div>
+                        <div>内容：{item.content}</div>
+
+                        <Button onClick={this.publishComment.bind(this, item.id)}>发表评论11</Button>
+
+                        <div style={{ marginTop: 20, backgroundColor: '#f6f6f6' }}>
+                            {comment.map((item1, index) => {
+                                return (
+                                    <div style={{ marginLeft: 30 }} key={index}>
+                                        <ToCommentComponent comment={item1} itemId={item.id} acticleUser={user} />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div
+                            style={{ width: '100%', height: 2, backgroundColor: '#000' }}
+                        ></div>
+                    </div>
+
                 },
                 )}
                 <BackTop>

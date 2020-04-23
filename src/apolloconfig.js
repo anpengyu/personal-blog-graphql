@@ -33,7 +33,7 @@ const errorLink = onError(
     },
 );
 const httpLink = createHttpLink({
-    uri: 'http://127.0.0.1:7002/graphql'
+    uri: 'http://127.0.0.1:7001/graphql'
 })
 const link = ApolloLink.from([errorLink, authLink, httpLink]);
 const client = new ApolloClient({

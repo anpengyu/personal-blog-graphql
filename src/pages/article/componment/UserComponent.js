@@ -17,19 +17,17 @@ class UserComponent extends React.Component {
     }
 
     //点赞/关注/收藏
-    praiseClick = (flag, userInfo) => {
+    praiseClick = (flag) => {
         const { article } = this.props;
         const { user } = article;
         let userId = loadUserId();
         if (_.isEmpty(userId)) {
             return;
         }
-        if (!_.isEmpty(userId)) {
-            // userInfo = JSON.parse(userInfo)
-            if (_.eq(userId, user.id)) {
-                _.eq(CHANGE_USER_INFO_TYPE.LIKES, flag) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
-                return;
-            }
+
+        if (_.eq(userId, user.id)) {
+            _.eq(CHANGE_USER_INFO_TYPE.LIKES, flag) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
+            return;
         }
 
         let { mutate } = this.props.client;
@@ -41,15 +39,15 @@ class UserComponent extends React.Component {
                 break;
         }
         let type = 1;
-        if(_.isEmpty(data)){
+        if (_.isEmpty(data)) {
             data = []
-        }else{
+        } else {
             if (_.includes(JSON.parse(data), article.id)) {
                 type = 2;
             }
         }
-       
-       
+
+
         mutate({
             mutation: ADD_PRAISE_COUNT,
             variables: {
@@ -90,19 +88,19 @@ class UserComponent extends React.Component {
             //     }
             // }],
         })
-        console.log('mutateUserInfo',mutateUserInfo)
-        let queryUserInfo = await query({
-            query: USER_INFO,
-            variables: {
-                id: userId
-            },
-        })
-        !_.isEmpty(queryUserInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(queryUserInfo.data.user))
-        console.log('queryUserInfo', queryUserInfo)
+        console.log('mutateUserInfo', mutateUserInfo)
+        // let queryUserInfo = await query({
+        //     query: USER_INFO,
+        //     variables: {
+        //         id: userId
+        //     },
+        // })
+        // !_.isEmpty(queryUserInfo) && localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(queryUserInfo.data.user))
+        // console.log('queryUserInfo', queryUserInfo)
     }
 
     render() {
-        const { article, userInfo, anchors, classify } = this.props;
+        const { article, classify } = this.props;
         const { user, comment } = article;
 
         let collects = JSON.parse(user.collects);//收藏
@@ -137,11 +135,11 @@ class UserComponent extends React.Component {
                             <div className='article_user_bottom'>
                                 <a href={'#comment'}> {commentCount}评论</a>
                             </div>
-                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES, userInfo)}>
+                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES)}>
                                 {article.articlePraiseCount}
-                                {currentUserInfo&&_.includes(currentUserInfo.likes, article.id) ? '已赞' : '赞'}
+                                {currentUserInfo && _.includes(currentUserInfo.likes, article.id) ? '已赞' : '赞'}
                             </div>
-                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS, userInfo)}>
+                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS)}>
                                 {article.articleDislikeCount}
                                 {_.includes(collects, article.id) ? '已收藏' : '收藏'}
                             </div>
