@@ -3,7 +3,7 @@ import './index.scss';
 import { Input, Button, Menu, Dropdown } from 'antd';
 import _ from 'lodash';
 import { Link, withRouter } from "react-router-dom";
-import { AUTH_TOKEN, CONSTANT_USER_INFO, loadUserInfo } from '../../utils/Constant';
+import { AUTH_TOKEN, CONSTANT_USER_INFO, loadUserInfo, loadUserId } from '../../utils/Constant';
 import { LOGOUT } from './graphql';
 import { withApollo } from 'react-apollo';
 import { connect } from 'dva';
@@ -36,7 +36,8 @@ class TitleComponment extends React.Component {
     clickLogout = (key) => {
         switch (key) {
             case MenuKeys.USER_INFO:
-                this.props.history.push('/userInfo');
+                let userId = loadUserId();
+                this.props.history.push(`/userInfo/${userId}`);
                 break;
             case MenuKeys.SETTING:
                 break;

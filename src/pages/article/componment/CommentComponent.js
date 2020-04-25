@@ -62,7 +62,9 @@ class CommentComponent extends React.Component {
             commentChange: e.target.value
         })
     }
-    publishComment11 = (articleId) => {
+
+    // 一级评论——直接评论文章
+    publishCommentToArticle = (articleId) => {
         let userId = loadUserId();
         let { commentChange } = this.state;
         if (_.isEmpty(userId)) {
@@ -89,7 +91,6 @@ class CommentComponent extends React.Component {
 
         return (
             <div className='comment'>
-                <p id='comment' className='comment_anchor'>评论区</p>
                 <div style={{ display: 'flex', backgroundColor: '#fff', marginTop: '20px' }}>
                     <img
                         style={{
@@ -100,10 +101,11 @@ class CommentComponent extends React.Component {
                         }}
                         src={require('../../../assets/head.jpg')}
                     />
-                    <Input onChange={this.changeComment}></Input>
-                    <Button onClick={this.publishComment11.bind(this, article.id)}>发表评论</Button>
+                    <Input style={{marginLeft:'20px'}} onChange={this.changeComment}></Input>
                 </div>
+                <Button style={{float:'right',marginTop:'10px'}} onClick={this.publishCommentToArticle.bind(this, article.id)}>发表评论</Button>
 
+                <p id='comment' className='comment_anchor'>评论区</p>
                 {comment.map((item, index, ) => {
                     const { creator, comment } = item;
                     return <div key={index}>
