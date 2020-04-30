@@ -14,7 +14,7 @@ class ContentComponent extends React.Component {
 
   publishComment = () => {
     const { comment, itemId, acticleUser } = this.props;
-    const { creator, replyTo, content, created_at } = comment;
+    const { creator, replyTo, content, createDate } = comment;
     let userId = loadUserId();
     if (_.isEmpty(userId)) {
       return;
@@ -37,7 +37,7 @@ class ContentComponent extends React.Component {
 
   render() {
     const { comment, itemId, acticleUser } = this.props;
-    const { creator, replyTo, content, created_at } = comment;
+    const { creator, replyTo, content, createDate } = comment;
     const { username } = replyTo;
     return (
       <div>

@@ -23,10 +23,10 @@ class ContentComponment extends React.Component {
                                 <div className='content_title_tv'>{item.articleTitle}</div>
                                 <div className='content_info'>文章内容提示</div>
                                 <div className='content_bottom_root'>
-                                    <div> 发布时间：{times(item.created_at)}</div>
+                                    <div> 发布时间：{item.createDate}</div>
                                     <div className='content_bottom_right'>
                                         <div>{item.articlePraiseCount}点赞</div>
-                                        <div className='content_bottom_tv'>{item.articleDislikeCount}收藏</div>
+                                        <div className='content_bottom_tv'>{item.articleDisLikeCount}收藏</div>
                                         <div>{item.articlePageView}查看</div>
                                     </div>
                                 </div>

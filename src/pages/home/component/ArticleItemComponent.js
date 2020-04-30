@@ -73,7 +73,7 @@ export default class ArticleItemComponent extends React.Component {
 
             </div>
             <div className='article_bottom'>
-              发布时间：{times(item.created_at)}
+              发布时间：{item.createDate}
             </div>
           </div>
           {/* <div className={styles.article_bottom}>有疑问：{item.articledislikeCount}</div> */}

@@ -10,9 +10,9 @@ export const ALL_ARTICLES = gql`
       articleSubTitle
       articlePageView
       articlePraiseCount
-      articleDislikeCount
+      articleDisLikeCount
       articleCommentCount
-      created_at
+      createDate
       user {
         id
         username

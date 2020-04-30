@@ -10,9 +10,9 @@ export const ARTICLE_DETIAL = gql`
       articleContent
       articlePageView
       articlePraiseCount
-      articleDislikeCount
+      articleDisLikeCount
       articleCommentCount
-      created_at
+      createDate
       user {
         id
         username
@@ -27,7 +27,7 @@ export const ARTICLE_DETIAL = gql`
         articleId
         id
         content
-        created_at
+        createDate
         liks
         rootCommentId
         creator {
@@ -40,7 +40,7 @@ export const ARTICLE_DETIAL = gql`
           articleId
           id
           content
-          created_at
+          createDate
           rootCommentId
           replyToCommentId
           liks

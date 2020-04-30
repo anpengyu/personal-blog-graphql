@@ -28,11 +28,11 @@ export const USER_DETAIL_INFO = gql`
           articleTitle
           articleContent
           articlePraiseCount
-          articleDislikeCount
+          articleDisLikeCount
           articlePageView
           articleCommentCount
           updated_at
-          created_at
+          createDate
           articleSubTitle
       }
       classify{

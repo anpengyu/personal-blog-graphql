@@ -113,7 +113,7 @@ class CommentComponent extends React.Component {
                             {creator.username}
                             {_.eq(creator.id, user.id) ? '(作者本尊)' : ''}
                         </div>
-                        <div>{this.times(item.created_at)}</div>
+                        <div>{item.createDate}</div>
                         <div>内容：{item.content}</div>
 
                         <Button onClick={this.publishComment.bind(this, item.id)}>发表评论11</Button>

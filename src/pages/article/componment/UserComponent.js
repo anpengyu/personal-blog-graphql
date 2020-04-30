@@ -125,7 +125,7 @@ class UserComponent extends React.Component {
                         </div></Link>
                     </div>
                     <div className='article_user_date'>
-                        发布时间：{times(article.created_at)}
+                        发布时间：{article.createDate}
                     </div>
                     <div >
                         <div style={{ display: 'flex', marginRight: 10 }}>
@@ -140,7 +140,7 @@ class UserComponent extends React.Component {
                                 {isLikes ? '已赞' : '赞'}
                             </div>
                             <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS, isCollect)}>
-                                {article.articleDislikeCount}
+                                {article.articleDisLikeCount}
                                 {isCollect ? '已收藏' : '收藏'}
                             </div>
                         </div>
