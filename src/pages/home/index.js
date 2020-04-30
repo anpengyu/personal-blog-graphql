@@ -23,7 +23,9 @@ class Articles extends Base {
         return (
             <Fragment>
                 <div style={{ display: 'inline-block', width: '70%' }}>
-                    <Query query={ALL_ARTICLES}>
+                    <Query query={ALL_ARTICLES}
+                        variables={{pageNum:1,pageSize:5}}
+                    >
                         {({ loading, data, error, refetch }) => {
                             if (error) return <Loading isCenter={true} />;
                             if (loading) return <Loading isCenter={true} />;
