@@ -1,8 +1,8 @@
 import React from 'react';
 import '../index.scss';
 import { Link } from "react-router-dom";
-import {times} from '../../../utils/Constant';
-
+import { times } from '../../../utils/Constant';
+import '../index.scss';
 /**
  * 首页-文章列表-条目
  *
@@ -12,54 +12,27 @@ import {times} from '../../../utils/Constant';
  */
 export default class ArticleItemComponent extends React.Component {
 
-  onClickTitle = () => {
-    // const { item } = this.props;
-    // history.push(`/article/${item.id}`);
-  };
-
-  //点击发帖用户
-  clickUserName = () => {
-    // history.push('/userInfo');
-  };
-
   render() {
     const { item } = this.props;
     const { user } = item;
     let id = user.id;
-    console.log('id',id)
     return (
-      <div style={{ backgroundColor: '#fff', marginTop: 1, padding: 20 }}>
-        <div>
-          {/* <div className={styles.article_title} onClick={this.onClickTitle}>
-            {item.articleTitle}
-          </div> */}
+      <div className='article_item_root'>
+        <div className='article_item_title'>
           <Link to={`/article/${item.id}`}>{item.articleTitle}</Link>
         </div>
-        <div
-          style={{
-            maxLines: 2,
-            color: '#999',
-            textOverflow: 'ellipsis',
-            paddingTop: 10,
-            paddingBottom: 10,
-          }}
-        >
+        <div className='article_title_subtitle'>
           {item.articleSubTitle}
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            height: '50px',
-            lineHeight: '50px',
-            justifyContent: 'space-between',
-          }}>
+        <div className='article_item_bottom'>
+
           <div style={{ display: 'flex' }}>
-            <div onClick={this.clickUserName.bind(this, user.id)}>
+            <div>
               <Link to={`/userInfo/${id}`}>
-                <div style={{ display: 'flex', cursor: 'pointer' }}>
+                <div className='img_title'>
                   <img
-                    alt='個人頭像'
+                    alt='个人头像'
                     style={{
                       height: 40,
                       width: 40,
@@ -76,8 +49,8 @@ export default class ArticleItemComponent extends React.Component {
               发布时间：{item.createDate}
             </div>
           </div>
-          {/* <div className={styles.article_bottom}>有疑问：{item.articledislikeCount}</div> */}
-          <div style={{ display: 'flex', marginRight: 10 }}>
+
+          <div className='bottom_item'>
             <div className='article_bottom'>
               访问：{item.articlePageView}
             </div>

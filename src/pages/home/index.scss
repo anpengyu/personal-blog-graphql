@@ -14,13 +14,57 @@
 .user_name {
   cursor: pointer;
   color: '#ff0000';
+  font-size: 16px;
   margin-left: 10px;
 }
 
 .article_bottom {
-  // margin-left: 10px;
+  margin-left: 20px;
 }
 
 .title {
   background: rgb(121, 242, 157);
+}
+
+.article_item_root{
+  background:#fff;
+  padding: 20px;
+  margin-top: 2px;
+
+  //文章标题
+  .article_item_title{
+    font-size: 26px;
+  }
+
+  .article_title_subtitle{
+    max-lines: 2;
+    color: #999;
+    text-overflow: ellipsis;
+    padding: 20px 0;
+  }
+
+  .article_item_bottom{
+    display: flex;
+    height: 50px;
+    line-height: 50px;
+    justify-content: space-between;
+
+    .img_title{
+      display:flex;
+      cursor: pointer;
+
+      .img{
+        height: 40;
+        width: 40;
+        margin-top: 5;
+        border-radius: 50;
+      }
+    }
+
+    .bottom_item{
+      display: flex;
+       margin-right:10px;
+    }
+  }
+
 }

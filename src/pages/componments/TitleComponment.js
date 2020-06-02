@@ -125,8 +125,8 @@ class TitleComponment extends React.Component {
                                     <img
                                         onClick={this.clickToHome}
                                         style={{
-                                            height: 50,
-                                            width: 50,
+                                            height: 80,
+                                            width: 80,
                                             marginRight: 30,
                                             cursor: 'pointer',
                                         }}

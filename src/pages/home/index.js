@@ -6,7 +6,8 @@ import ArticleItemComponent from './component/ArticleItemComponent';
 import Base from '../Base'
 import { connect } from 'dva';
 import { BackTop } from 'antd';
-const style = {
+
+const BackTopStyle = {
     height: 40,
     width: 90,
     lineHeight: '40px',
@@ -16,20 +17,19 @@ const style = {
     textAlign: 'center',
     fontSize: 14,
 };
+
 class Articles extends Base {
 
     render() {
 
         return (
             <Fragment>
-                <div style={{ display: 'inline-block', width: '70%' }}>
+                <div style={{ width: '40%' }}>
                     <Query query={ALL_ARTICLES}
-                        variables={{pageNum:0,pageSize:20}}
-                    >
+                        variables={{ pageNum: 0, pageSize: 20 }}>
                         {({ loading, data, error, refetch }) => {
                             if (error) return <Loading isCenter={true} />;
                             if (loading) return <Loading isCenter={true} />;
-
                             // refetch();
                             return (
                                 <Fragment>
@@ -37,7 +37,6 @@ class Articles extends Base {
                                         return (
                                             <div key={index} style={{}}>
                                                 <ArticleItemComponent item={item} />
-                                                {/* <div>{item.articleTitle}</div> */}
                                             </div>
                                         );
                                     })}
@@ -45,8 +44,9 @@ class Articles extends Base {
                             );
                         }}
                     </Query>
+
                     <BackTop>
-                        <div style={style}>回到顶部</div>
+                        <div style={BackTopStyle}>回到顶部</div>
                     </BackTop>
                 </div>
             </Fragment>

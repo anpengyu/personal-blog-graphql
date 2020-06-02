@@ -155,8 +155,10 @@ class UserComponent extends React.Component {
                             <div style={{ marginTop: '20px' }}>
                                 {JSON.parse(classify.detail).map((item, index) => {
                                     return <div key={index} style={{ padding: '10px', fontSize: '18px', cursor: 'pointer' }} onClick={() => {
-                                        this.props.history.push(`./${item.id}`)
-                                        window.location.reload(false);
+                                        if(item.id!=article.id){
+                                            this.props.history.push(`./${item.id}`)
+                                            window.location.reload(false);
+                                        }
                                     }}>
                                         <div style={{ color: article.id == item.id ? '#5CACEE' : '#000' }}>{item.name}</div>
                                     </div>

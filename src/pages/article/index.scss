@@ -29,7 +29,7 @@
   .comment_anchor{
     display: block;
     position: relative;
-    top: -20px;
+    top: -40px;
     padding-top: 10px;
   }
   
@@ -53,11 +53,15 @@
 .content {
   display:flex;
 }
+
+//评论区
 .comment {
   width: 1000px;
   background-color: white;
   margin-top: 20px;
   padding: 20px;
+
+
 }
 .article_user_name {
   cursor: pointer;

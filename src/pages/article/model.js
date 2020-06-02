@@ -16,9 +16,10 @@ export default {
 
   effects: {
     //发表评论
-    *mutateComment({ payload, refetchVariables }, { call, select, put }) {
+    *mutateComment({ payload, refetchVariables,callback}, { call, select, put }) {
       console.log('refetchVariables',refetchVariables)
       let data = mutateComment(payload,refetchVariables)
+      callback();
       // if (data) {
       //   message.info('评论发布成功~')
       // }
