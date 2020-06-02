@@ -9,7 +9,7 @@ export async function loadClassifyForUser(params) {
 export function mutateArticle(params) {
   return mutateRquestRefetch(ADD_ARTICLE, params,
     [
-      { query: ALL_ARTICLES },
+      { query: ALL_ARTICLES,variables:{pageNum:1,pageSize:20} },
       {
         query: LOAD_CLASSIFY_FOR_USER,
         variables: { userId: params.userId }
