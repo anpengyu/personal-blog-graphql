@@ -13,12 +13,20 @@ import { withApollo } from 'react-apollo';
 import { withRouter } from "react-router-dom";
 import { randomId, loadUserInfo } from '../../../utils/Constant';
 import ArticleModal from './ArticleModal';
+import HeaderId from 'braft-extensions/dist/header-id'
 
 BraftEditor.use(
     CodeHighlighter({
-        includeEditors: ['editor-with-code-highlighter'],
+        includeEditors: ['editor-id-1'],
     }),
 );
+
+const options = {
+    includeEditors: ['editor-id-1'], // 指定该模块对哪些BraftEditor生效，不传此属性则对所有BraftEditor有效
+}
+
+BraftEditor.use(HeaderId(options))
+
 String.prototype.replaceAll = function (s1, s2) {
     return this.replace(new RegExp(s1, "gm"), s2);
 }
@@ -68,12 +76,14 @@ class BraftEditorComponent extends React.Component {
             message.error('文章标题或者内容不能为空~');
             return;
         }
-        content = content.indexOf('<h1>') != -1 ? content.replaceAll('<h1>', `<h1 id=blog_an${randomId()}>`) : content
-        content = content.indexOf('<h2>') != -1 ? content.replaceAll('<h2>', `<h2 id=blog_an${randomId()}>`) : content
-        content = content.indexOf('<h3>') != -1 ? content.replaceAll('<h3>', `<h3 id=blog_an${randomId()}>`) : content
-        content = content.indexOf('<h4>') != -1 ? content.replaceAll('<h4>', `<h4 id=blog_an${randomId()}>`) : content
-        content = content.indexOf('<h5>') != -1 ? content.replaceAll('<h5>', `<h5 id=blog_an${randomId()}>`) : content
-        content = content.indexOf('<h6>') != -1 ? content.replaceAll('<h6>', `<h6 id=blog_an${randomId()}>`) : content
+        _.filter(content, function (item) { return item == '<h1>' })
+
+        // content = content.indexOf('<h1>') != -1 ? content.replaceAll('<h1>', `<h1 id=blog_an${randomId()}>`) : content
+        // content = content.indexOf('<h2>') != -1 ? content.replaceAll('<h2>', `<h2 id=blog_an${randomId()}>`) : content
+        // content = content.indexOf('<h3>') != -1 ? content.replaceAll('<h3>', `<h3 id=blog_an${randomId()}>`) : content
+        // content = content.indexOf('<h4>') != -1 ? content.replaceAll('<h4>', `<h4 id=blog_an${randomId()}>`) : content
+        // content = content.indexOf('<h5>') != -1 ? content.replaceAll('<h5>', `<h5 id=blog_an${randomId()}>`) : content
+        // content = content.indexOf('<h6>') != -1 ? content.replaceAll('<h6>', `<h6 id=blog_an${randomId()}>`) : content
         this.props.dispatch({
             type: 'writeArticle/mutateArticle',
             payload: {
@@ -89,6 +99,7 @@ class BraftEditorComponent extends React.Component {
             history: this.props.history
         })
     }
+
     showModal = async () => {
         let userInfo = loadUserInfo()
         if (_.isEmpty(userInfo)) {
@@ -159,7 +170,7 @@ class BraftEditorComponent extends React.Component {
                     </div>
                     <div className="editor-wrapper">
                         <BraftEditor
-                            id="editor-with-code-highlighter"
+                            id="editor-id-1"
                             extendControls={extendControls}
                             onChange={this.handleChange}
                         />

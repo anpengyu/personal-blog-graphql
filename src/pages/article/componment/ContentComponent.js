@@ -46,7 +46,7 @@ class ContentComponent extends React.Component {
     for (var i = 0; i < _docc.length; i++) {
       var _dc = _docc[i];
       var id = _dc.getAttribute("id");
-      if (!_.isEmpty(id) && !_.eq(id, 'root') && !_.eq(id, 'comment') && _.startsWith(id, 'blog_an')) {
+      if (!_.isEmpty(id) && !_.eq(id, 'root') && !_.eq(id, 'comment')) {// && _.startsWith(id, 'blog_an')
         anchors.push({ id, name: _dc.innerHTML });
         let style = _dc.getAttribute('style');
         if(_.isEmpty(style)){
