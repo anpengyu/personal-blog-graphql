@@ -5,6 +5,7 @@ import { Button, message } from 'antd';
 import { connect } from 'dva';
 import { loadUserId } from '../../../utils/Constant';
 
+import { Link, withRouter } from "react-router-dom";
 class ContentComponent extends React.Component {
 
   //点击发帖用户
@@ -41,23 +42,36 @@ class ContentComponent extends React.Component {
     const { username } = replyTo;
     return (
       <div>
-        <div>
-          {creator.username}
-          {_.eq(acticleUser.id, creator.id) ? '(作者本尊)' : ''}
-          {replyTo.id == -1 ? ':' : '回复: ' + username} {_.eq(acticleUser.id, replyTo.id) ? '(作者本尊)' : ''}
+        <div style={{ paddingTop: '10px', display: 'flex' }}>
+
+          <Link to={`/userInfo/${acticleUser.id}`}>
+            <div style={{ display: 'flex', cursor: 'pointer' }}>
+              {creator.username}
+              {_.eq(acticleUser.id, creator.id) ? '(作者本尊)' : ''}
+            </div>
+          </Link>
+
+
+          <div style={{ display: 'flex' }}>
+            <div>{replyTo.id == -1 ? ':' : '回复: '}</div>
+            <Link to={`/userInfo/${acticleUser.id}`}>
+              <div style={{ display: 'flex', cursor: 'pointer' }}>
+                {username}{_.eq(acticleUser.id, replyTo.id) ? '(作者本尊)' : ''}
+              </div>
+            </Link>
+
+          </div>
         </div>
         <div>内容：{content}</div>
+        <Button onClick={this.publishComment}>发表评论</Button>
         <div
           style={{
             width: '100%',
             height: 1,
             backgroundColor: '#eee',
-            marginTop: 20,
-            marginBottom: 20,
-          }}
-        ></div>
-
-        <Button onClick={this.publishComment}>发表评论</Button>
+            marginTop: 10,
+            marginBottom: 10,
+          }}></div>
       </div>
     );
   }
