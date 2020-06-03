@@ -97,6 +97,7 @@ class ContentComponent extends React.Component {
     const { comment, itemId, acticleUser } = this.props;
     const { creator, replyTo, content, createDate } = comment;
     const { username } = replyTo;
+    console.log('..........comment',comment)
     return (
       <div>
         <div style={{ paddingTop: '10px', display: 'flex' }}>
@@ -123,7 +124,9 @@ class ContentComponent extends React.Component {
 
         <BottomComponment
           type='ToCommentComponent'
-          item={this.props.item}
+          item={comment}
+          commentId={comment.id}
+          article={this.props.article}
           secondaryCommentVisible={this.state.secondaryCommentVisible}
           publishButton={this.publishButton.bind(this)} />
 

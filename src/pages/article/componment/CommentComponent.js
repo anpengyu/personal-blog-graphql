@@ -121,6 +121,8 @@ class CommentComponent extends React.Component {
                         <BottomComponment
                             item={item}
                             comment={comment}
+                            article={article}
+                            commentId={item.id}
                             unfold={this.state.unfold}
                             unfoldFun={this.unfoldFun.bind(this)}
                             secondaryCommentVisible={secondaryCommentVisible}
@@ -136,7 +138,7 @@ class CommentComponent extends React.Component {
                                 {comment.map((item1, index) => {
                                     return (
                                         <div style={{ marginLeft: 30 }} key={index}>
-                                            <ToCommentComponent item={item} comment={item1} itemId={item.id} acticleUser={user} />
+                                            <ToCommentComponent article={article} item={item} comment={item1} itemId={item.id} acticleUser={user} />
                                         </div>
                                     );
                                 })}

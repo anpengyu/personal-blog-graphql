@@ -2,6 +2,9 @@ import React, { FC, useState } from 'react';
 import styles from '../../index.scss';
 import moment from 'moment';
 import _ from 'lodash';
+import { withApollo } from 'react-apollo';
+import { COMMENT_LIKE, ARTICLE_DETIAL } from '../../graphql';
+import { loadUserId } from '../../../../utils/Constant';
 
 // const BottomComponment: FC = (props) => {
 class BottomComponment extends React.Component {
@@ -25,13 +28,33 @@ class BottomComponment extends React.Component {
         this.props.unfoldFun(unfold)
     }
 
+    likeComment = async () => {
+        let userId = loadUserId()
+        let { commentId, unfold } = this.props;
+        console.log('commentId',commentId)
+        try {
+            let data = await this.props.client.mutate({
+                mutation: COMMENT_LIKE,
+                variables: {
+                    type: '1',
+                    userId: userId,
+                    commentId: commentId
+                },
+                refetchQueries: [{ query: ARTICLE_DETIAL, variables: { id: this.props.article.id } }]
+            })
+
+        } catch (e) {
+
+        }
+    }
+
     render() {
         const { item, comment, unfold } = this.props;
         let itemId = item.id;
         return (
             <div style={{ display: 'flex', height: '30px', lineHeight: '30px' }}>
                 <div style={{ display: 'flex', cursor: 'pointer' }}>
-                    <div style={{ height: 20, width: 20 }}>
+                    <div style={{ height: 20, width: 20 }} onClick={this.likeComment.bind(this)}>
                         {
                             _.eq(this.props.type, 'ToCommentComponent') ? <img
                                 src={require('../../../../assets/second_like.png')} /> : <img
@@ -62,4 +85,4 @@ class BottomComponment extends React.Component {
 
 }
 
-export default BottomComponment
+export default withApollo(BottomComponment);

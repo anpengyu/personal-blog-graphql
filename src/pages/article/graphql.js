@@ -123,3 +123,14 @@ mutation changeUserInfo($userId:ID!,$id:ID!,$type:Int!){
   }
 }
 `
+
+/**
+ * 评论点赞、取消点赞
+ */
+export const COMMENT_LIKE = gql`
+mutation likeComment($type:String!,$userId:ID!,$commentId:String!){
+  likeComment(type:$type,userId:$userId,commentId:$commentId){
+   id
+  }
+}
+`
