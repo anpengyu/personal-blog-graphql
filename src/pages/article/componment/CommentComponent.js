@@ -19,8 +19,14 @@ class CommentComponent extends React.Component {
         super(props);
         this.state = {
             secondaryComment: '',
-            secondaryCommentVisible: []
+            secondaryCommentVisible: [],
+            unfold: []//收起评论
         }
+    }
+
+    unfoldFun = (unfold) => {
+        console.log('.........', unfold)
+        this.setState({ unfold })
     }
 
 
@@ -101,7 +107,7 @@ class CommentComponent extends React.Component {
 
         return (
             <div className='comment'>
-                <CommentRootTitleComponment article={article}/>
+                <CommentRootTitleComponment article={article} />
 
                 {comment.map((item, index, ) => {
                     const { creator, comment } = item;
@@ -112,20 +118,31 @@ class CommentComponent extends React.Component {
                         {/* 评论内容 */}
                         <div className='comment_content'>{this.delHtmlTag(item.content)}</div>
                         {/* 一级评论底部  点赞，评论按钮*/}
-                        <BottomComponment item={item} secondaryCommentVisible={secondaryCommentVisible} publishButton={this.publishButton.bind(this)} />
+                        <BottomComponment
+                            item={item}
+                            comment={comment}
+                            unfold={this.state.unfold}
+                            unfoldFun={this.unfoldFun.bind(this)}
+                            secondaryCommentVisible={secondaryCommentVisible}
+                            publishButton={this.publishButton.bind(this)} />
                         {/* 一级评论 输入框，发布按钮*/}
-                        <ReplyComponment secondaryCommentVisible={secondaryCommentVisible} changeSecondaryComment={this.changeSecondaryComment.bind(this)} item={item} publishComment={this.publishComment.bind(this)} />
+                        <ReplyComponment secondaryCommentVisible={secondaryCommentVisible}
+                            changeSecondaryComment={this.changeSecondaryComment.bind(this)} item={item}
+                            publishComment={this.publishComment.bind(this)} />
 
                         {/* 二级评论 */}
-                        <div style={{ marginTop: 20, backgroundColor: '#f6f6f6' }}>
-                            {comment.map((item1, index) => {
-                                return (
-                                    <div style={{ marginLeft: 30 }} key={index}>
-                                        <ToCommentComponent comment={item1} itemId={item.id} acticleUser={user} />
-                                    </div>
-                                );
-                            })}
-                        </div>
+                        {
+                            _.indexOf(this.state.unfold, item.id) == -1 ? <div style={{ marginTop: 20, backgroundColor: '#f6f6f6' }}>
+                                {comment.map((item1, index) => {
+                                    return (
+                                        <div style={{ marginLeft: 30 }} key={index}>
+                                            <ToCommentComponent item={item} comment={item1} itemId={item.id} acticleUser={user} />
+                                        </div>
+                                    );
+                                })}
+                            </div> : null
+                        }
+
                         <div style={{ width: '100%', height: '1px', backgroundColor: 'rgb(247, 247, 247)', marginBottom: '20px' }}></div>
                     </div>
                 })

@@ -28,7 +28,7 @@ export const ARTICLE_DETIAL = gql`
         id
         content
         createDate
-        liks
+        likes
         rootCommentId
         creator {
           id
@@ -43,7 +43,7 @@ export const ARTICLE_DETIAL = gql`
           createDate
           rootCommentId
           replyToCommentId
-          liks
+          likes
           creator {
             id
             username
