@@ -52,7 +52,6 @@ class UserComponent extends React.Component {
             }
         }
 
-
         mutate({
             mutation: ADD_PRAISE_COUNT,
             variables: {
@@ -101,10 +100,10 @@ class UserComponent extends React.Component {
         const { article, classify } = this.props;
         const { user, comment } = article;
 
-        let commentCount = 0;//评论条数
-        comment.map((item, index) => {
-            commentCount += item.comment.length + 1
-        })
+        // let commentCount = 0;//评论条数
+        // comment.map((item, index) => {
+        //     commentCount += item.comment.length + 1
+        // })
         let currentUserInfo = loadUserInfo();
         let isLikes = false;//是否点赞
         let isCollect = false;//是否收藏
@@ -118,15 +117,15 @@ class UserComponent extends React.Component {
         return (
             <div className='article_left_root'>
                 <div className='article_user_root'>
-                    <TitleComponment user={user}/>
-                    
+                    <TitleComponment user={user} />
+
                     <div className='article_user_date'>
                         发布时间：{article.createDate}
                     </div>
 
                     <BottomComponment
                         article={article}
-                        commentCount={commentCount}
+                        // commentCount={commentCount}
                         praiseClick={this.praiseClick.bind(this)}
                         isCollect={isCollect}
                         isLikes={isLikes}

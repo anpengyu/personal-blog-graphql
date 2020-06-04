@@ -18,8 +18,6 @@ const ReplyComponment: FC = (props) => {
             return str.replace(/<[^>]+>/g, ''); //正则去掉所有的html标记
         }
     }
-
-    console.log('secondaryCommentVisible',secondaryCommentVisible,itemId)
     return (
         <div >
             {

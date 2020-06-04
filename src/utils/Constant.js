@@ -10,7 +10,7 @@ export const CHANGE_USER_INFO_TYPE = {
     HISTORY: 3,//浏览记录
     ATTENTION: 4,//关注的作者
     COMMENT: 5,//发布的评论
-    ARTICLE: 6//发布的文章
+    ARTICLE: 6,//发布的文章
 }
 
 export const AUTH_TOKEN = 'auth-token'
@@ -51,9 +51,9 @@ export function loadUserId() {
 
 export function loadCurrentUserId(showMessage) {
     let userInfo = localStorage.getItem(CONSTANT_USER_INFO)
-    let token = localStorage.getItem(AUTH_TOKEN);   
+    let token = localStorage.getItem(AUTH_TOKEN);
     if (!_.isEmpty(userInfo) && !_.eq('undefined', userInfo) && !_.isEmpty(token)) {
-        console.log('.........',JSON.parse(userInfo).id)
+        console.log('.........', JSON.parse(userInfo).id)
         return JSON.parse(userInfo).id;
     } else {
         if (showMessage) {

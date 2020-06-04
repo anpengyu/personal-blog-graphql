@@ -100,25 +100,33 @@ class SecondLevelComment extends React.Component {
     const { secondaryCommentVisible, secondaryComment } = this.state;
     return (
       <div>
-        <div style={{ paddingTop: '10px', display: 'flex' }}>
-
-          <Link to={`/userInfo/${acticleUser.id}`}>
-            <div style={{ display: 'flex', cursor: 'pointer' }}>
-              {creator.username}
-              {_.eq(acticleUser.id, creator.id) ? '(作者本尊)' : ''}
-            </div>
-          </Link>
-
+        <div style={{ display: 'flex', paddingTop: '10px', paddingRight: '10px', justifyContent: 'space-between' }}>
 
           <div style={{ display: 'flex' }}>
-            <div>{replyTo.id == -1 ? ':' : '回复: '}</div>
-            <Link to={`/userInfo/${acticleUser.id}`}>
+            <Link to={`/userInfo/${creator.id}`}>
               <div style={{ display: 'flex', cursor: 'pointer' }}>
-                {username}{_.eq(acticleUser.id, replyTo.id) ? '(作者本尊)' : ''}
+                <img style={{ height: 25, width: 25, borderRadius: 50, }}
+                  src={require('../../../../assets/head.jpg')} />
+                <div style={{marginLeft:'10px'}}>{creator.username}</div>
+                {_.eq(acticleUser.id, creator.id) ? '(作者本尊)' : ''}
               </div>
             </Link>
 
+            <div style={{ display: 'flex' }}>
+              <div style={{marginLeft:'10px'}}>{replyTo.id == -1 ? '' : '回复'}</div>
+              <Link to={`/userInfo/${creator.id}`}>
+                <div style={{ display: 'flex', cursor: 'pointer',marginLeft:'10px' }}>
+
+                   {username}{_.eq(acticleUser.id, replyTo.id) ? '(作者本尊)' : ''} 
+                </div>
+              </Link>
+            </div>
           </div>
+
+          <div>
+            {createDate}
+          </div>
+
         </div>
         <div style={{ marginTop: '10px', marginBottom: '10px' }}>{content}</div>
 

@@ -8,7 +8,7 @@ const TitleComponment: FC = (props) => {
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between', lineHeight: '40px', height: '40px' }}>
 
-            <Link to={`/userInfo/${props.user.id}`}>
+            <Link to={`/userInfo/${props.creator.id}`}>
                 <div style={{ display: 'flex', cursor: 'pointer' }}>
                     <img style={{ height: 35, width: 35, borderRadius: 50, }}
                         src={require('../../../../assets/head.jpg')} />
