@@ -28,7 +28,9 @@ const BottomComponment: FC = (props) => {
                     <div> <img style={{ height: 15, width: 15 }} src={require('../../../../assets/praise_default.png')} /></div>}
                 <div style={{ marginLeft: 5 }}> {article.articlePraiseCount}</div>
             </div>
-            <div className='article_user_bottom' onClick={praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS, isCollect)}>
+            {/* 收藏 */}
+            <div className='article_user_bottom' 
+            onClick={praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS, isCollect)}>
                 {isCollect ?
                     <div><img style={{ height: 15, width: 15 }} src={require('../../../../assets/collect.png')} /></div> :
                     <div> <img style={{ height: 15, width: 15 }} src={require('../../../../assets/collect_default.png')} /></div>}

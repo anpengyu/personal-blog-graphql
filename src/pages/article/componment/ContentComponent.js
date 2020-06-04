@@ -49,12 +49,12 @@ class ContentComponent extends React.Component {
       if (!_.isEmpty(id) && !_.eq(id, 'root') && !_.eq(id, 'comment')) {// && _.startsWith(id, 'blog_an')
         anchors.push({ id, name: _dc.innerHTML });
         let style = _dc.getAttribute('style');
-        if(_.isEmpty(style)){
+        if (_.isEmpty(style)) {
           style = 'padding-top:50px';
-        }else{
+        } else {
           style += ' padding-top:50px'
         }
-        _dc.setAttribute('style',style)
+        _dc.setAttribute('style', style)
       }
     }
 
@@ -88,20 +88,20 @@ class ContentComponent extends React.Component {
     return (
       <div className='content'>
         <div>
-        <div style={{ backgroundColor: '#fff', padding: '20px', width: '600px' }}>
-          <div>
-            <div className='article_detail_title'>{article.articleTitle}</div>
+          {/* 正文 */}
+          <div style={{ backgroundColor: '#fff', padding: '20px', width: '600px' }}>
+            <div>
+              <div className='article_detail_title'>{article.articleTitle}</div>
+            </div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: buildPreviewHtml(article.articleContent),
+              }}
+            ></div>
           </div>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: buildPreviewHtml(article.articleContent),
-            }}
-          ></div>
+          {/* 评论 */}
+          <CommentComponent article={article} />
         </div>
-            {/* 评论 */}
-            <CommentComponent article={article} />
-        </div>
-        
 
         {/* 锚点 */}
         {_.isEmpty(anchors) ? null : <div className='anchors'>

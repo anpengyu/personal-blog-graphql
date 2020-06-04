@@ -19,7 +19,7 @@ class Articles extends BasePage {
                 {({ loading, error, data }) => {
                     if (loading) return <Loading />;
                     if (error) return <Loading />;
-                    console.log('data...', data)
+
                     return (
                         <div className='article_normal'>
                             {/* 用户模块 */}

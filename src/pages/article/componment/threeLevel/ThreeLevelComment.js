@@ -1,15 +1,16 @@
 import React from 'react';
-import '../index.scss';
+import '../../index.scss';
 import _ from 'lodash';
 import { Button, message } from 'antd';
 import { connect } from 'dva';
-import { loadUserId } from '../../../utils/Constant';
-import BottomComponment from './commentComponment/BottomComponment';
-import ReplyComponment from './commentComponment/ReplyComponment';
+import { loadUserId } from '../../../../utils/Constant';
+import ThreeLevelBottomComponment from './ThreeLevelBottomComponment';
+import ReplyComponment from '../PublishComponment';
 import { withApollo } from 'react-apollo';
 import { Link, withRouter } from "react-router-dom";
-import { ADD_COMMENT, ARTICLE_DETIAL } from '../graphql';
-class ContentComponent extends React.Component {
+import { ADD_COMMENT, ARTICLE_DETIAL } from '../../graphql';
+
+class SecondLevelComment extends React.Component {
 
   constructor(props) {
     super(props);
@@ -58,7 +59,6 @@ class ContentComponent extends React.Component {
     }
   }
 
-  //二级评论按钮状态
   publishButton = (id) => {
     let { secondaryCommentVisible } = this.state;
     let indexOf = _.indexOf(secondaryCommentVisible, id)
@@ -97,7 +97,7 @@ class ContentComponent extends React.Component {
     const { comment, itemId, acticleUser } = this.props;
     const { creator, replyTo, content, createDate } = comment;
     const { username } = replyTo;
-    console.log('..........comment',comment)
+    const { secondaryCommentVisible, secondaryComment } = this.state;
     return (
       <div>
         <div style={{ paddingTop: '10px', display: 'flex' }}>
@@ -120,19 +120,20 @@ class ContentComponent extends React.Component {
 
           </div>
         </div>
-        <div style={{marginTop:'10px',marginBottom:'10px'}}>{content}</div>
+        <div style={{ marginTop: '10px', marginBottom: '10px' }}>{content}</div>
 
-        <BottomComponment
+        <ThreeLevelBottomComponment
           type='ToCommentComponent'
           item={comment}
           commentId={comment.id}
           article={this.props.article}
-          secondaryCommentVisible={this.state.secondaryCommentVisible}
+          secondaryCommentVisible={secondaryCommentVisible}
           publishButton={this.publishButton.bind(this)} />
 
-        {/* 一级评论 输入框，发布按钮*/}
-        <ReplyComponment secondaryCommentVisible={this.state.secondaryCommentVisible}
-          changeSecondaryComment={this.changeSecondaryComment.bind(this)} item={this.props.item}
+        <ReplyComponment
+          secondaryCommentVisible={secondaryCommentVisible}
+          secondaryComment={secondaryComment}
+          changeSecondaryComment={this.changeSecondaryComment.bind(this)} itemId={comment.id}
           publishComment={this.publishComment.bind(this)} />
         <div
           style={{
@@ -147,4 +148,4 @@ class ContentComponent extends React.Component {
   }
 }
 
-export default withApollo(connect()(ContentComponent));
+export default withApollo(connect()(SecondLevelComment));

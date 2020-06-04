@@ -1,16 +1,16 @@
 import React from 'react';
 import '../index.scss';
 
-import ToCommentComponent from './ToCommentComponent';
+import ThreeLevelComment from './threeLevel/ThreeLevelComment';
 import _ from 'lodash';
 import { Button, message, BackTop, Input } from 'antd';
 import { connect } from 'dva'
 import { loadUserInfo, loadUserId } from '../../../utils/Constant';
 import BraftEditor from 'braft-editor';
-import TitleComponment from './commentComponment/TitleComponment';
-import BottomComponment from './commentComponment/BottomComponment';
-import ReplyComponment from './commentComponment/ReplyComponment';
-import CommentRootTitleComponment from './commentComponment/CommentRootTitleComponment';
+import SecondLevelTitleComponment from './secondLevel/SecondLevelTitleComponment';
+import ReplyComponment from './PublishComponment';
+import FirstLevelComment from './firstLevel/FirstLevelComment';
+import SecondLevelBottomComponment from './secondLevel/SecondLevelBottomComponment';
 
 let moment = require('moment');
 
@@ -103,22 +103,22 @@ class CommentComponent extends React.Component {
     render() {
         let { article } = this.props;
         const { comment, user } = article;
-        const { secondaryCommentVisible ,secondaryComment} = this.state;
+        const { secondaryCommentVisible, secondaryComment } = this.state;
 
         return (
             <div className='comment'>
-                <CommentRootTitleComponment article={article} />
+                <FirstLevelComment article={article} />
 
                 {comment.map((item, index, ) => {
                     const { creator, comment } = item;
                     return <div key={index}>
 
-                        {/* 一级评论头部  姓名、头像、时间 */}
-                        <TitleComponment creator={creator} item={item} user={user} />
-                        {/* 评论内容 */}
+                        {/* 二级评论头部  姓名、头像、时间 */}
+                        <SecondLevelTitleComponment creator={creator} item={item} user={user} />
+                        {/* 二级评论评论内容 */}
                         <div className='comment_content'>{this.delHtmlTag(item.content)}</div>
-                        {/* 一级评论底部  点赞，评论按钮*/}
-                        <BottomComponment
+                        {/* 二级评论底部  点赞，评论按钮*/}
+                        <SecondLevelBottomComponment
                             item={item}
                             comment={comment}
                             article={article}
@@ -128,19 +128,20 @@ class CommentComponent extends React.Component {
                             secondaryCommentVisible={secondaryCommentVisible}
                             publishButton={this.publishButton.bind(this)} />
                         {/*二级评论 输入框，发布按钮*/}
-                        <ReplyComponment 
-                        secondaryComment={secondaryComment}
-                        secondaryCommentVisible={secondaryCommentVisible}
-                            changeSecondaryComment={this.changeSecondaryComment.bind(this)} item={item}
+                        <ReplyComponment
+                            secondaryComment={secondaryComment}
+                            secondaryCommentVisible={secondaryCommentVisible}
+                            changeSecondaryComment={this.changeSecondaryComment.bind(this)}
+                            itemId={item.id}
                             publishComment={this.publishComment.bind(this)} />
 
-                        {/* 二级评论 */}
+                        {/* 三级评论 */}
                         {
                             _.indexOf(this.state.unfold, item.id) == -1 ? <div style={{ marginTop: 20, backgroundColor: '#f6f6f6' }}>
                                 {comment.map((item1, index) => {
                                     return (
                                         <div style={{ marginLeft: 30 }} key={index}>
-                                            <ToCommentComponent article={article} item={item} comment={item1} itemId={item.id} acticleUser={user} />
+                                            <ThreeLevelComment article={article} item={item} comment={item1} itemId={item.id} acticleUser={user} />
                                         </div>
                                     );
                                 })}
