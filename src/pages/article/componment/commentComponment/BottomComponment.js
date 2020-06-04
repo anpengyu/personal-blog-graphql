@@ -66,7 +66,7 @@ class BottomComponment extends React.Component {
                 </div>
 
                 <div style={{ display: 'flex', marginLeft: '20px', cursor: 'pointer' }} onClick={this.props.publishButton.bind(this, itemId)}>
-                    <div style={{ height: 20, width: 20 }}><img src={require('../../../../assets/reply.png')} /></div>
+                    <div style={{ height: 20, width: 20 }}><img src={require('../../../../assets/reply_default.png')} /></div>
                     <div style={{ marginLeft: '5px' }}>{_.indexOf(this.props.secondaryCommentVisible, itemId) != -1 ? '取消回复' : '回复'}</div>
                 </div>
 

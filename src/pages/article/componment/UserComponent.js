@@ -9,6 +9,8 @@ import { Link, withRouter } from "react-router-dom";
 import { withApollo } from 'react-apollo';
 import '../index.scss'
 import { USER_INFO } from '../../login/graphql';
+import BottomComponment from './userComponment/BottomComponent';
+import TitleComponment from './userComponment/TitleComponent';
 
 class UserComponent extends React.Component {
 
@@ -30,7 +32,7 @@ class UserComponent extends React.Component {
 
         if (_.eq(userId, user.id)) {
             _.eq(CHANGE_USER_INFO_TYPE.LIKES, flag) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
-            return;
+            // return;
         }
 
         let { mutate } = this.props.client;
@@ -64,7 +66,11 @@ class UserComponent extends React.Component {
                     id: article.id
                 }
             }, {
-                query: ALL_ARTICLES
+                query: ALL_ARTICLES,
+                variables: {
+                    pageNum: 0,
+                    pageSize: 20
+                }
             }],
         })
 
@@ -112,39 +118,23 @@ class UserComponent extends React.Component {
         return (
             <div className='article_left_root'>
                 <div className='article_user_root'>
-                    <div style={{ height: '50px', lineHeight: '50px', justifyContent: 'space-between', }}>
-                        <Link to={`/userInfo/${user.id}`}><div
-                            style={{ display: 'flex', cursor: 'pointer' }}
-                            onClick={this.clickUserName.bind(this, user.id)}>
-
-                            <img
-                                style={{ height: 40, width: 40, marginTop: 5, borderRadius: 50, }}
-                                src={require('../../../assets/head.jpg')}
-                            />
-                            <div className='article_user_name'>{user.username}</div>
-                        </div></Link>
-                    </div>
+                    <TitleComponment user={user}/>
+                    
                     <div className='article_user_date'>
                         发布时间：{article.createDate}
                     </div>
-                    <div >
-                        <div style={{ display: 'flex', marginRight: 10 }}>
-                            <div className='article_user_bottom'>
-                                {article.articlePageView}阅读数
-                        </div>
-                            <div className='article_user_bottom'>
-                                <a href={'#comment'}> {commentCount}评论</a>
-                            </div>
-                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES, isLikes)}>
-                                {article.articlePraiseCount}
-                                {isLikes ? '已赞' : '赞'}
-                            </div>
-                            <div className='article_user_bottom' onClick={this.praiseClick.bind(this, CHANGE_USER_INFO_TYPE.COLLECTS, isCollect)}>
-                                {article.articleDisLikeCount}
-                                {isCollect ? '已收藏' : '收藏'}
-                            </div>
-                        </div>
-                    </div>
+
+                    <BottomComponment
+                        article={article}
+                        commentCount={commentCount}
+                        praiseClick={this.praiseClick.bind(this)}
+                        isCollect={isCollect}
+                        isLikes={isLikes}
+                    />
+                    {/* <div style={{ display: 'flex', marginRight: 10, marginTop: '10px' }}>
+
+                    </div> */}
+
 
 
                 </div>
@@ -155,7 +145,7 @@ class UserComponent extends React.Component {
                             <div style={{ marginTop: '20px' }}>
                                 {JSON.parse(classify.detail).map((item, index) => {
                                     return <div key={index} style={{ padding: '10px', fontSize: '18px', cursor: 'pointer' }} onClick={() => {
-                                        if(item.id!=article.id){
+                                        if (item.id != article.id) {
                                             this.props.history.push(`./${item.id}`)
                                             window.location.reload(false);
                                         }

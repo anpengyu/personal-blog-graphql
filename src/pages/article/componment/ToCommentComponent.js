@@ -120,7 +120,7 @@ class ContentComponent extends React.Component {
 
           </div>
         </div>
-        <div>内容：{content}</div>
+        <div style={{marginTop:'10px',marginBottom:'10px'}}>{content}</div>
 
         <BottomComponment
           type='ToCommentComponent'

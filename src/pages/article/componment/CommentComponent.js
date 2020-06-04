@@ -103,7 +103,7 @@ class CommentComponent extends React.Component {
     render() {
         let { article } = this.props;
         const { comment, user } = article;
-        const { secondaryCommentVisible } = this.state;
+        const { secondaryCommentVisible ,secondaryComment} = this.state;
 
         return (
             <div className='comment'>
@@ -127,8 +127,10 @@ class CommentComponent extends React.Component {
                             unfoldFun={this.unfoldFun.bind(this)}
                             secondaryCommentVisible={secondaryCommentVisible}
                             publishButton={this.publishButton.bind(this)} />
-                        {/* 一级评论 输入框，发布按钮*/}
-                        <ReplyComponment secondaryCommentVisible={secondaryCommentVisible}
+                        {/*二级评论 输入框，发布按钮*/}
+                        <ReplyComponment 
+                        secondaryComment={secondaryComment}
+                        secondaryCommentVisible={secondaryCommentVisible}
                             changeSecondaryComment={this.changeSecondaryComment.bind(this)} item={item}
                             publishComment={this.publishComment.bind(this)} />
 

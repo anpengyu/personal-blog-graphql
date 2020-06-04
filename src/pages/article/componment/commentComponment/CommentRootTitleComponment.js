@@ -93,15 +93,17 @@ const TitleComponment: FC = (props) => {
                     contentStyle={{ height: 110, boxShadow: 'inset 1px 1px 3px rgba(0,0,0,.1)' }}
                     onChange={changeComment} />
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+        {!_.isEmpty(delHtmlTag(editorState.toHTML()))? <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div />
                 <div style={{
                     cursor: 'pointer', borderRadius: '50px',
                     backgroundColor: '#ec7259', color: '#fff',
-                    fontSize: '14px', padding: '4px 12px'
-                }}
+                    fontSize: '14px', padding: '4px 12px'}}
                     onClick={publishCommentToArticle.bind(this, props.article.id)}>发表评论</div>
-            </div>
+            </div>:null}
+
+           
 
             <div style={{ display: 'flex' }}>
                 <div style={{ backgroundColor: '#ec7259', width: '5px', height: '30px' }}></div>
