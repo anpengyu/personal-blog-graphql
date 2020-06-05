@@ -18,66 +18,83 @@
     }
 
     
-    .container{
-        display:flex;
-        width:1200px;
+    // .container{
+    //     display:flex;
+    //     width:1200px;
 
-        .left{
-            width:380px;
+    //     .left{
+    //         width:380px;
 
-            .course_root{
-                @extend .bg_root
-            }
+    //         .course_root{
+    //             @extend .bg_root
+    //         }
           
-            .links_root{
-                @extend .bg_root;
-            }
-        }
+    //         .links_root{
+    //             @extend .bg_root;
+    //         }
+    //     }
 
-        .right{
-            width:820px;
+    //     .right{
+    //         width:820px;
 
-            .new_article_root{
-                @extend .bg_root
-            }
-            .content_root{
-                @extend .bg_root;
-                width: 550px;
-                cursor: pointer;
+    //         .new_article_root{
+    //             @extend .bg_root
+    //         }
+    //         .content_root{
+    //             @extend .bg_root;
+    //             padding:120px;
+    //             width: 550px;
+    //             cursor: pointer;
 
-                .content_title_tv{
-                    font-size: 24px;
-                    color: black;
-                }
-                .content_info{
-                    font-size: 16px;
-                }
-
-                .content_bottom_root{
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 20px;
-
-                    .content_bottom_right{
-                        display:flex;
-                        justify-content: space-between;
-
-                        .content_bottom_tv{
-                            padding: 0px 10px;
-                        }
-                    }
-                }
-            }
-            .about_auth_root{
-                @extend .bg_root;
-                float:right;
-                width:270px;
-            }
-            .right_content_root{
+                
+    //         .about_auth_root{
+    //             @extend .bg_root;
+    //             float:right;
+    //             width:270px;
+    //         }
+    //         .right_content_root{
                
-                display: flex;
-            }
-        }
+    //             display: flex;
+    //         }
+    //     }
        
+    // }
+// }
+
+.content_title_tv{
+    font-size: 24px;
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.content_info{
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.content_bottom_root{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    .content_bottom_right{
+        display:flex;
+        justify-content: space-between;
+
+        .content_bottom_tv{
+            padding: 0px 10px;
+            display: flex;
+        }
     }
 }
+}
+
+.line{
+    height:1px;
+    width:100%;
+    background-color:rgb(247, 247, 247);
+    margin-top:20px;
+    margin-bottom:20px;
+}
+

@@ -23,6 +23,7 @@ export const USER_DETAIL_INFO = gql`
       id
       username
       headImg
+      collects
       articles{
           id
           articleTitle
@@ -34,6 +35,12 @@ export const USER_DETAIL_INFO = gql`
           updated_at
           createDate
           articleSubTitle
+          user{
+            id
+            username
+            headImg
+            sex
+          }
       }
       classify{
         id

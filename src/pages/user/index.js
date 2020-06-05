@@ -7,11 +7,12 @@ import MarksComponment from './componment/MarksComponment';
 import CourseComponment from './componment/CourseComponment';
 import ContentComponment from './componment/ContentComponment';
 import AboutAuthComponment from './componment/AboutAuthComponment';
-import { message } from 'antd';
+import { message, Tabs } from 'antd';
 import { USER_DETAIL_INFO } from './graphql';
 import { withApollo } from 'react-apollo';
 import { withRouter } from "react-router-dom";
 import { connect } from 'dva';
+const { TabPane } = Tabs;
 /**
   * @author apy
   * @date 2020-04-10
@@ -23,8 +24,12 @@ class UserInfoPage extends React.Component {
         super(props);
         this.state = {
             allArticles: [],
-            classify:[]
+            classify: []
         }
+    }
+
+    callback = (key) => {
+        console.log(key);
     }
 
     async componentDidMount() {
@@ -37,11 +42,11 @@ class UserInfoPage extends React.Component {
                     id
                 },
             });
-            console.log('result',result.data)
+            console.log('result', result.data)
             let data = result.data.user;
             this.setState({
                 allArticles: data.articles,
-                classify:data.classify
+                classify: data.classify
             })
         } catch (e) {
             message.error('网络错误', e)
@@ -49,24 +54,54 @@ class UserInfoPage extends React.Component {
     }
 
     render() {
-        const {allArticles,classify} = this.state;
+        const { allArticles, classify } = this.state;
         return (
             <div className='user_container'>
-                <div className='container'>
-                    <div className='left' >
-                        <UserComponment />
-                        <CourseComponment classify={classify}/>
+                <UserComponment />
+                <div style={{ display: 'flex', width: '100%' }}>
+                    <div style={{ width: '600px', backgroundColor: '#fff', padding: '20px', marginLeft: '20px' }}>
+                        <Tabs defaultActiveKey="1" onChange={this.callback}>
+                            <TabPane tab="文章" key="1">
+                                    <ContentComponment allArticles={allArticles} />
+                            </TabPane>
+                            <TabPane tab="关注" key="2">
+                                Content of Tab Pane 2
+                            </TabPane>
+                            <TabPane tab="收藏" key="3">
+                                Content of Tab Pane 3
+                            </TabPane>
+                            <TabPane tab="浏览记录" key="4">
+                                Content of Tab Pane 3
+                            </TabPane>
+                            <TabPane tab="提问" key="5">
+                                Content of Tab Pane 3
+                            </TabPane>
+                            <TabPane tab="评论" key="6">
+                                Content of Tab Pane 3
+                            </TabPane>
+                            <TabPane tab="点赞的文章" key="7">
+                                Content of Tab Pane 3
+                            </TabPane>
+                        </Tabs>
+                    </div>
+                    <div style={{ backgroundColor: '#fff', padding: '30px', marginLeft: '10px', marginRight: '20px', width: '300px' }}>
+                        <CourseComponment classify={classify} />
                         <MarksComponment />
                         <LinksComponment />
                     </div>
+                </div>
+                {/* <div className='container'>
+
+                    <div className='left' >
+
+                    </div>
                     <div className='right'>
-                        <div className='new_article_root'>5</div>
                         <div className='right_content_root'>
-                            <ContentComponment allArticles={allArticles}/>
+                            <ContentComponment allArticles={allArticles} />
                             <AboutAuthComponment />
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }
