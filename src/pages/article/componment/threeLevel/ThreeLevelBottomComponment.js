@@ -6,13 +6,7 @@ import { withApollo } from 'react-apollo';
 import { COMMENT_LIKE, ARTICLE_DETIAL } from '../../graphql';
 import { loadUserId } from '../../../../utils/Constant';
 
-// const BottomComponment: FC = (props) => {
 class BottomComponment extends React.Component {
-
-
-    // const comment = props.comment;
-    // const itemId = props.item.id;
-    // const [unfold, setUnfold] = useState([])//添加新类型
 
     unfoldComent = () => {
         let { item, unfold } = this.props;
@@ -40,7 +34,7 @@ class BottomComponment extends React.Component {
                     userId: userId,
                     commentId: commentId
                 },
-                refetchQueries: [{ query: ARTICLE_DETIAL, variables: { id: this.props.article.id } }]
+                refetchQueries: [{ query: ARTICLE_DETIAL, variables: { id: this.props.articleId } }]
             })
 
         } catch (e) {
@@ -50,12 +44,15 @@ class BottomComponment extends React.Component {
 
     render() {
         const { item, comment, unfold } = this.props;
+        let userLikes = JSON.parse(item.userLikes)
+        let userId = loadUserId()
         let itemId = item.id;
         return (
             <div style={{ display: 'flex', height: '30px', lineHeight: '30px' }}>
                 <div style={{ display: 'flex', cursor: 'pointer' }}>
                     <div style={{ height: 20, width: 20 }} onClick={this.likeComment.bind(this)}>
-                        <img src={require('../../../../assets/like.png')} />
+                        {_.indexOf(userLikes, userId) == -1 ? <img src={require('../../../../assets/like_default.png')} /> :
+                            <img src={require('../../../../assets/second_like.png')} />}
                     </div>
                     <div style={{ marginLeft: '5px' }}>{item.likes}</div>
                 </div>

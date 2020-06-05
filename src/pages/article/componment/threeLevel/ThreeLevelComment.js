@@ -20,11 +20,6 @@ class SecondLevelComment extends React.Component {
     }
   }
 
-  //点击发帖用户
-  clickUserName = () => {
-    // history.push('/userInfo');
-  };
-
   publishComment = async () => {
     const { comment, itemId, acticleUser } = this.props;
     const { secondaryComment } = this.state;
@@ -131,10 +126,9 @@ class SecondLevelComment extends React.Component {
         <div style={{ marginTop: '10px', marginBottom: '10px' }}>{content}</div>
 
         <ThreeLevelBottomComponment
-          type='ToCommentComponent'
           item={comment}
           commentId={comment.id}
-          article={this.props.article}
+          articleId={this.props.article.id}
           secondaryCommentVisible={secondaryCommentVisible}
           publishButton={this.publishButton.bind(this)} />
 
