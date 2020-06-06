@@ -4,13 +4,14 @@ import './user.scss'
 
 class UserComponment extends React.Component {
 
-    clickLinks=(id)=>{
-        console.log('id',id)
+    clickLinks = (id) => {
+        console.log('id', id)
     }
 
     render() {
+        const { articlesLength,classifyLength } = this.props;
         return (
-            <div  className='user_root'>
+            <div className='user_root'>
                 <div className='user_top_root'>
                     <img className='user_top_avatar'
                         src={avatar} />
@@ -29,11 +30,11 @@ class UserComponment extends React.Component {
                 <div className='middle_root'>
                     <div>
                         <div className='tv2'>文章</div>
-                        <div className='tv3'>21</div>
+                        <div className='tv3'>{articlesLength}</div>
                     </div>
                     <div>
                         <div className='tv2'>分类</div>
-                        <div className='tv3'>7</div>
+                        <div className='tv3'>{classifyLength}</div>
                     </div>
                     <div>
                         <div className='tv2'>标签</div>

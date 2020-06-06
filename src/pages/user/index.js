@@ -41,6 +41,12 @@ class UserInfoPage extends React.Component {
                 variables: {
                     id
                 },
+                onError: (error) => {
+                    console.log('onError', error)
+                },
+                oneeeeee: () => {
+                    console.log('eeeeeeee')
+                }
             });
             console.log('result', result.data)
             let data = result.data.user;
@@ -49,6 +55,7 @@ class UserInfoPage extends React.Component {
                 classify: data.classify
             })
         } catch (e) {
+            console.log('....................', e.networkError.statusCode,e.networkError)
             message.error('网络错误', e)
         }
     }
@@ -57,12 +64,12 @@ class UserInfoPage extends React.Component {
         const { allArticles, classify } = this.state;
         return (
             <div className='user_container'>
-                <UserComponment />
+                <UserComponment articlesLength={allArticles.length} classifyLength={classify.length} />
                 <div style={{ display: 'flex', width: '100%' }}>
                     <div style={{ width: '600px', backgroundColor: '#fff', padding: '20px', marginLeft: '20px' }}>
                         <Tabs defaultActiveKey="1" onChange={this.callback}>
                             <TabPane tab="文章" key="1">
-                                    <ContentComponment allArticles={allArticles} />
+                                <ContentComponment allArticles={allArticles} />
                             </TabPane>
                             <TabPane tab="关注" key="2">
                                 Content of Tab Pane 2

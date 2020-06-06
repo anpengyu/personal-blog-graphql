@@ -16,11 +16,12 @@ class LoginComponent extends React.Component {
         this.state = {
             username: '',
             password: '',
+            rememberMe: false,
         }
     }
 
     onChangeLogin = async () => {
-        const { username, password } = this.state;
+        const { username, password,rememberMe } = this.state;
         let { query } = this.props.client;
         localStorage.setItem(AUTH_TOKEN, 'login')
         try {
@@ -28,14 +29,15 @@ class LoginComponent extends React.Component {
                 query: LOGIN,
                 variables: {
                     username,
-                    password
+                    password,
+                    rememberMe
                 },
             });
             const login = result.data.login
             if (!_.isEmpty(login)) {
                 localStorage.setItem(AUTH_TOKEN, login.token)
                 this.loadUserInfo(login);
-            }else{
+            } else {
                 message.error('用户不存在');
             }
         } catch (e) {
@@ -50,7 +52,7 @@ class LoginComponent extends React.Component {
         query({
             query: USER_INFO,
             variables: {
-                id:login.id
+                id: login.id
             },
         }).then(res => {
             let currentUserInfo = res.data.user;
@@ -60,7 +62,7 @@ class LoginComponent extends React.Component {
                 type: 'home/updateState',
                 payload: {
                     currentUserInfo,
-                    token:login.token
+                    token: login.token
                 }
             })
             if (!_.isEmpty(lastPathname)) {
@@ -86,6 +88,13 @@ class LoginComponent extends React.Component {
         })
     }
 
+    rememberMe = (e) => {
+        console.log('e', e.target.checked)
+        this.setState({
+            rememberMe: e.target.checked
+        })
+    }
+
     render() {
         return (
             <div>
@@ -95,7 +104,7 @@ class LoginComponent extends React.Component {
                 </div>
                 <Button onClick={this.onChangeLogin} type="primary" shape="round" className='btn'>登录</Button>
                 <div style={{ justifyContent: 'space-between', marginTop: 10 }}>
-                    <div style={{ display: 'inline-block', float: "left" }}><Checkbox>7天内自动登录</Checkbox></div>
+                    <div style={{ display: 'inline-block', float: "left" }} onChange={this.rememberMe}><Checkbox>7天内自动登录</Checkbox></div>
                     <div style={{ display: 'inline-block', float: "right" }}>找回密码</div>
                 </div>
                 <div style={{ marginTop: 50 }}>

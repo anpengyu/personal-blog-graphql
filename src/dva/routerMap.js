@@ -7,7 +7,7 @@ import UserInfoPage from '../pages/user';
 export default [
     { path: '/', name: 'Home', component: Articles },
     { path: '/article/:id', name: 'Article', component: ArticlePage },
-    { path: '/write', name: 'WriteArticle', component: WriteArticlePage, auth: true },
+    { path: '/write', name: 'WriteArticle', component: WriteArticlePage, auth: false },
     { path: "/login", name: "Login", component: Login },
     { path: "/userInfo/:id", name: "UserInfo", component: UserInfoPage },
 ]

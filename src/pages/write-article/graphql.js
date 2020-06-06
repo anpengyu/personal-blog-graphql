@@ -11,7 +11,7 @@ export const LOAD_CLASSIFY_FOR_USER = gql`
 `
 
 export const ADD_ARTICLE = gql`
-  mutation(
+  mutation createArticle(
     $userId: ID!
     $articleTitle: String!
     $articleSubTitle: String!

@@ -14,6 +14,8 @@ import { withRouter } from "react-router-dom";
 import { randomId, loadUserInfo } from '../../../utils/Constant';
 import ArticleModal from './ArticleModal';
 import HeaderId from 'braft-extensions/dist/header-id'
+import { ADD_ARTICLE, LOAD_CLASSIFY_FOR_USER } from '../graphql';
+import { ALL_ARTICLES } from '../../home/graphql';
 
 BraftEditor.use(
     CodeHighlighter({
@@ -64,53 +66,62 @@ class BraftEditorComponent extends React.Component {
         return str.replace(/<[^>]+>/g, ''); //正则去掉所有的html标记
     }
 
-    submit = (values) => {
+    submit = async (values) => {
         const { editorState, articleTitle } = this.state;
         let userInfo = loadUserInfo()
         if (_.isEmpty(userInfo)) {
-            message.error('您已退出登录，请保存数据后重新登录发布')
-            return;
+            message.error('您已退出登录，请保存数据后重新登录发布~')
+            // return;
         }
         let content = editorState.toHTML()
         if (_.isEmpty(articleTitle) || content === '<p></p>') {
             message.error('文章标题或者内容不能为空~');
             return;
         }
-        _.filter(content, function (item) { return item == '<h1>' })
-
-        // content = content.indexOf('<h1>') != -1 ? content.replaceAll('<h1>', `<h1 id=blog_an${randomId()}>`) : content
-        // content = content.indexOf('<h2>') != -1 ? content.replaceAll('<h2>', `<h2 id=blog_an${randomId()}>`) : content
-        // content = content.indexOf('<h3>') != -1 ? content.replaceAll('<h3>', `<h3 id=blog_an${randomId()}>`) : content
-        // content = content.indexOf('<h4>') != -1 ? content.replaceAll('<h4>', `<h4 id=blog_an${randomId()}>`) : content
-        // content = content.indexOf('<h5>') != -1 ? content.replaceAll('<h5>', `<h5 id=blog_an${randomId()}>`) : content
-        // content = content.indexOf('<h6>') != -1 ? content.replaceAll('<h6>', `<h6 id=blog_an${randomId()}>`) : content
-        this.props.dispatch({
-            type: 'writeArticle/mutateArticle',
-            payload: {
-                userId: userInfo.id,
-                articleContent: content,
-                articleSubTitle: this.delHtmlTag(content).substring(
-                    0,
-                    100,
-                ),
-                articleTitle,
-                ...values
-            },
-            history: this.props.history
-        })
+        // this.props.dispatch({
+        //     type: 'writeArticle/mutateArticle',
+        //     payload: {
+        //         userId: 1,//userInfo.id,
+        //         articleContent: content,
+        //         articleSubTitle: this.delHtmlTag(content).substring(
+        //             0,
+        //             100,
+        //         ),
+        //         articleTitle,
+        //         ...values
+        //     },
+        //     history: this.props.history
+        // })
+        try {
+            let data = await this.props.client.mutate({
+                mutation: ADD_ARTICLE,
+                variables: {
+                    userId: 1,//userInfo.id,
+                    articleContent: content,
+                    articleSubTitle: this.delHtmlTag(content).substring(0,100),
+                    articleTitle,
+                    ...values
+                },
+                refetchQueries: [
+                    { query: ALL_ARTICLES, variables: { pageNum: 0, pageSize: 20 } }
+                ]
+            })
+        } catch (e) {
+            console.log('createArticle error', e)
+        }
     }
 
     showModal = async () => {
         let userInfo = loadUserInfo()
         if (_.isEmpty(userInfo)) {
             message.error('您已退出登录，请保存数据后重新登录发布')
-            return;
+            // return;
         }
 
         this.props.dispatch({
             type: 'writeArticle/loadClassifyForUser',
             payload: {
-                userId: userInfo.id
+                userId: 1//userInfo.id
             },
         })
         this.setState({

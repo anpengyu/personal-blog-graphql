@@ -5,8 +5,8 @@ import { gql } from "apollo-boost";
  * 登录
  */
 export const LOGIN = gql`
-query login($username:String!,$password:String!){
-  login(username:$username,password:$password){
+query login($username:String!,$password:String!,$rememberMe:Boolean){
+  login(username:$username,password:$password,rememberMe:$rememberMe){
     token
     id
   }

@@ -13,5 +13,6 @@ export function mutateArticle(params) {
       {
         query: LOAD_CLASSIFY_FOR_USER,
         variables: { userId: params.userId }
-      }]);
+      }
+    ]);
 }
