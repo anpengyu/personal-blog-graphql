@@ -49,7 +49,8 @@ class TitleComponment extends React.Component {
                 })
                 localStorage.removeItem(AUTH_TOKEN)
                 localStorage.setItem(CONSTANT_USER_INFO,'')
-                window.location.reload(false);
+                // window.location.reload(false);
+                this.props.history.push(`/login`);
                 break;
         }
     };

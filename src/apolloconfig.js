@@ -22,7 +22,6 @@ const authLink = setContext((_, { headers }) => {
 
 // 请求拦截器
 const request = async (operation: Operation) => {
-    console.log('request', operation)
     // 可以设置token
     operation.setContext({
         headers: {}
@@ -32,7 +31,6 @@ const request = async (operation: Operation) => {
 
 
 const requestLink = new ApolloLink((operation: Operation, forward: NextLink) => {
-    console.log('operation', operation)
     return new Observable(observer => {
         let handle: any;
         Promise.resolve(operation)
@@ -48,7 +46,6 @@ const requestLink = new ApolloLink((operation: Operation, forward: NextLink) => 
 
         return () => {
             if (handle) {
-                console.log('handle', handle)
                 handle.unsubscribe()
             }
         }
@@ -69,7 +66,7 @@ const errorLink = onError(
             );
         }
         if (networkError) {
-            console.log(`[Network error]: ${networkError}`);
+            console.log(`[Network error]: ${networkError.response}`);
             switch (networkError.statusCode) {
                 case 401:
                     message.error('请先登录');
@@ -77,12 +74,16 @@ const errorLink = onError(
                 case 402:
                     message.error('网络错误')
                     break;
+                default:
+                    message.error('服务器出问题了,正在努力修复~~~');
+                    break;
             }
         }
     },
 );
 const httpLink = createHttpLink({
-    uri: 'http://127.0.0.1:7001/graphql',
+    uri: 'http://localhost:7001/graphql',
+    // credentials: 'include'
     credentials: 'same-origin'
 })
 const link = ApolloLink.from([requestLink, errorLink, httpLink]);
