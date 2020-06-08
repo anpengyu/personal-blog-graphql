@@ -8,7 +8,7 @@ import { AUTH_TOKEN } from './utils/Constant';
 import Loading from './pages/Loading/index'
 import React from 'react'
 import { message } from 'antd';
-
+let msg = message;
 const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem(AUTH_TOKEN)
     return {
@@ -59,25 +59,28 @@ const errorLink = onError(
     ({ graphQLErrors, networkError, response, operation, forward }) => {
         if (graphQLErrors) {
             graphQLErrors.map(({ message, locations, path }) =>
-                console.log(
-                    `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
-                        locations,
-                    )}, Path: ${path}`,
-                ),
+
+                window.location.href = '/error'
+
+                // console.log(
+                //     `[GraphQL error]: Message: ${message}`,
+                // ),
             );
         }
-        if (networkError) {
-            let result = networkError.result;
-            let msg = networkError.result.message.message;
+        else if (networkError) {
+            console.log('networkError', networkError)
+            let msg = '';
             switch (networkError.statusCode) {
                 case 400://参数错误
+                    msg = networkError.result.message.message;
                     message.error(msg && msg);
                     break;
                 case 401://未登录
-                    message.error(result.msg);
+                    msg = networkError.result.msg;
+                    message.error(msg);
                     break;
                 case 402:
-                    window.location.href = '/Loading'
+                    window.location.href = '/error'
                     break;
                 default:
                     // window.location.href = '/Loading'

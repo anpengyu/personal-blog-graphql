@@ -9,6 +9,10 @@ query login($username:String!,$password:String!,$rememberMe:Boolean){
   login(username:$username,password:$password,rememberMe:$rememberMe){
     token
     id
+    response{
+      code
+      message
+    }
   }
 }
 `
@@ -24,6 +28,23 @@ export const USER_INFO = gql`
       comments
       historys
       attention
+      response{
+        code
+        message
+    }
+    }
+  }
+`;
+
+//注册
+export const REGISTER = gql`
+  mutation register($username:String!,$password:String!,$repassword:String!,$phone:String!){
+    register(username:$username,password:$password,repassword:$repassword,phone:$phone){
+      id
+      response{
+        code
+        message
+      }
     }
   }
 `;

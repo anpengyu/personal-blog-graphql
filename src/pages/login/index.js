@@ -5,11 +5,11 @@ import { UserOutlined, PhoneOutlined } from '@ant-design/icons';
 import RegisterComponent from './components/RegisterComponent';
 import LoginComponent from './components/LoginComponent';
 import TitleComponent from './components/TitleComponent';
-
-let enumTitle = {
-    LoginSelect: 0,
-    RegisterSelect: 1
-}
+import { connect } from 'dva';
+// let enumTitle = {
+//     LoginSelect: 0,
+//     RegisterSelect: 1
+// }
 let enumMouseTitle = {
     NULL: -1,
     LoginOver: 2,
@@ -18,18 +18,18 @@ let enumMouseTitle = {
     RegisterOut: 5,
 }
 
-export default class LoginPage extends React.Component {
+class LoginPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            selectTitle: enumTitle.LoginSelect,
+            // selectTitle: enumTitle.LoginSelect,
             mouseTitle: -1,
         }
     }
 
     onMouseOver = (mouseTitle) => {
-        const { selectTitle } = this.state;
+        const { selectTitle, enumTitle } = this.props.login;
         if ((selectTitle == enumTitle.LoginSelect && mouseTitle == enumMouseTitle.LoginOver)
             || (selectTitle == enumTitle.RegisterSelect && mouseTitle == enumMouseTitle.RegisterOver)) {
             return;
@@ -41,13 +41,22 @@ export default class LoginPage extends React.Component {
 
     changeTitle = (selectTitle) => {
         this.setState({
-            selectTitle,
+            // selectTitle,
             mouseTitle: enumMouseTitle.NULL
+        })
+        console.log('selectTitle',selectTitle)
+        this.props.dispatch({
+            type: 'login/updateState',
+            payload: {
+                selectTitle
+            }
         })
     }
 
     render() {
-        const { selectTitle, mouseTitle } = this.state;
+        const { mouseTitle } = this.state;
+        const { selectTitle, enumTitle } = this.props.login;
+        console.log('selectTitle',selectTitle)
         return (
             <div className='login_root'>
                 <div className='card'>
@@ -68,3 +77,6 @@ export default class LoginPage extends React.Component {
         );
     }
 }
+export default connect(({ login }) => ({
+    login,
+}))(LoginPage);

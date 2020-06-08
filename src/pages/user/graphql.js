@@ -47,6 +47,10 @@ export const USER_DETAIL_INFO = gql`
         name
         detail
       }
+      response{
+        code
+        message
+      }
     }
   }
 `;

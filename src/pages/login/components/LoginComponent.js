@@ -21,7 +21,7 @@ class LoginComponent extends React.Component {
     }
 
     onChangeLogin = async () => {
-        const { username, password,rememberMe } = this.state;
+        const { username, password, rememberMe } = this.state;
         let { query } = this.props.client;
         localStorage.setItem(AUTH_TOKEN, 'login')
         try {
@@ -36,10 +36,12 @@ class LoginComponent extends React.Component {
             const login = result.data.login
             if (!_.isEmpty(login)) {
                 localStorage.setItem(AUTH_TOKEN, login.token)
+                if(login.response){
+                    message.error(login.response.message);
+                    return;
+                }
                 this.loadUserInfo(login);
-            } else {
-                message.error('用户不存在');
-            }
+            } 
         } catch (e) {
         }
 
@@ -68,7 +70,7 @@ class LoginComponent extends React.Component {
             } else {
                 this.props.history.push('/')
             }
-            window.location.reload(false);
+            // window.location.reload(false);
         }).catch(err => {
             console.log('err', err)
         });
@@ -93,12 +95,20 @@ class LoginComponent extends React.Component {
         })
     }
 
+    componentDidMount(){
+        console.log('.....')
+        this.setState({
+            username:this.props.login.username,
+            password:this.props.login.password
+        })
+    }
+
     render() {
         return (
             <div>
                 <div className='input_root'>
-                    <Input onChange={this.onChangeUserName} className='login_input' color='#000' size="large" placeholder="用户名" prefix={<UserOutlined />} />
-                    <Input.Password onChange={this.onChangePsw} className='login_input' size="large" placeholder="密码" prefix={<UserOutlined />} />
+                    <Input value={this.state.username} onChange={this.onChangeUserName} className='login_input' color='#000' size="large" placeholder="用户名" prefix={<UserOutlined />} />
+                    <Input.Password value={this.state.password} onChange={this.onChangePsw} className='login_input' size="large" placeholder="密码" prefix={<UserOutlined />} />
                 </div>
                 <Button onClick={this.onChangeLogin} type="primary" shape="round" className='btn'>登录</Button>
                 <div style={{ justifyContent: 'space-between', marginTop: 10 }}>
@@ -114,6 +124,6 @@ class LoginComponent extends React.Component {
     }
 }
 
-export default withApollo(withRouter(connect(({ home }) => ({
-    home,
+export default withApollo(withRouter(connect(({ home,login }) => ({
+    home,login
 }))(LoginComponent)));

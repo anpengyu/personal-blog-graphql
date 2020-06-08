@@ -41,12 +41,6 @@ class UserInfoPage extends React.Component {
                 variables: {
                     id
                 },
-                onError: (error) => {
-                    console.log('onError', error)
-                },
-                oneeeeee: () => {
-                    console.log('eeeeeeee')
-                }
             });
             console.log('result', result.data)
             let data = result.data.user;
