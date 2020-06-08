@@ -16,12 +16,12 @@ function RouterConfig({ history, app }) {
     moment.locale('zh-cn', monent_cn)
     setClient(client)
     let userInfo = localStorage.getItem(CONSTANT_USER_INFO);
-    let isLogin = !_.isEmpty(userInfo) && !_.eq(userInfo,'undefined');
+    let isLogin = !_.isEmpty(userInfo) && !_.eq(userInfo, 'undefined');
     return (
         <ApolloProvider client={client}>
             <Router>
                 <TitleComponment />
-                <div style={{ backgroundColor: '#f7f7f7', width: '100%', display: 'flex', justifyContent: 'center', padding: 20 }}>
+                <div style={{ backgroundColor: '#f7f7f7', width: '100%', height: '90vh', display: 'flex', justifyContent: 'center', padding: 20 }}>
 
                     <Switch>
                         {routers.map((item, index) => {

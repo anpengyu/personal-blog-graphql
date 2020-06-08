@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { Result, Button } from 'antd';
+import { Result, Button, message } from 'antd';
 import { withRouter } from 'react-router';
 
+
 class ErrorPage extends Component {
+    constructor(props){
+        super(props);
+        message.error('网络错误')
+    }
     render() {
         return (
             <div>

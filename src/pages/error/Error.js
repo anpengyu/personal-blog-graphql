@@ -6,7 +6,7 @@ function callback(key) {
   console.log(key);
 }
 
-const Demo = () => (
+const ErrorPage = () => (
   <Tabs defaultActiveKey="1" onChange={callback}>
     <TabPane tab="Tab 1" key="1">
       Content of Tab Pane 1
@@ -20,4 +20,4 @@ const Demo = () => (
   </Tabs>
 );
 
-ReactDOM.render(<Demo />, mountNode);
+ReactDOM.render(<ErrorPage />, mountNode);

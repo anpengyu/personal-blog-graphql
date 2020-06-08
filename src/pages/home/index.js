@@ -27,7 +27,7 @@ class Articles extends Base {
                 <div style={{ width: '40%' }}>
                     <Query
                         query={ALL_ARTICLES}
-                        variables={{ pageNum: 0, pageSize: 20 }}>
+                        variables={{ pageNum: 0, pageSize: 20,audit:1 }}>
                         {({ loading, data, error, refetch }) => {
                             console.log('error.......', error && error.networkError.statusCode)
                             if (error) return <Loading isCenter={true} />;

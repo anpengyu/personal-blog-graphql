@@ -53,9 +53,15 @@ const requestLink = new ApolloLink((operation: Operation, forward: NextLink) => 
     })
 })
 
+
+
 const errorLink = onError(
     ({ graphQLErrors, networkError, response, operation, forward }) => {
-
+        console.log('graphQLErrors', graphQLErrors)
+        console.log('networkError', networkError)
+        console.log('operation', operation)
+        console.log('forward', forward)
+        console.log('response', response)
         if (graphQLErrors) {
             graphQLErrors.map(({ message, locations, path }) =>
                 console.log(
@@ -66,25 +72,26 @@ const errorLink = onError(
             );
         }
         if (networkError) {
-            console.log(`[Network error]: ${networkError.response}`);
+            console.log(`[Network error]: ${networkError.result.msg}`);
+            let result = networkError.result;
             switch (networkError.statusCode) {
                 case 401:
-                    message.error('请先登录');
+                    message.error(result.msg);
                     break;
                 case 402:
-                    message.error('网络错误')
+                    window.location.href = '/Loading'
                     break;
                 default:
-                    message.error('服务器出问题了,正在努力修复~~~');
+                    window.location.href = '/Loading'
                     break;
             }
         }
     },
 );
 const httpLink = createHttpLink({
-    uri: 'http://localhost:7001/graphql',
+    uri: '/graphql',
     // credentials: 'include'
-    credentials: 'same-origin'
+    // credentials: 'same-origin'
 })
 const link = ApolloLink.from([requestLink, errorLink, httpLink]);
 const client = new ApolloClient({

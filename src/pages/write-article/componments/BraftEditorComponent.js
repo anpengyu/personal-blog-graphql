@@ -106,6 +106,8 @@ class BraftEditorComponent extends React.Component {
                     { query: ALL_ARTICLES, variables: { pageNum: 0, pageSize: 20 } }
                 ]
             })
+            message.info('您的文章已提交审核')
+            this.props.history.push('/')
         } catch (e) {
             console.log('createArticle error', e)
         }
