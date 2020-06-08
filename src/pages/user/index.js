@@ -55,8 +55,6 @@ class UserInfoPage extends React.Component {
                 classify: data.classify
             })
         } catch (e) {
-            console.log('....................', e.networkError.statusCode,e.networkError)
-            message.error('网络错误', e)
         }
     }
 

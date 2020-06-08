@@ -41,8 +41,6 @@ class LoginComponent extends React.Component {
                 message.error('用户不存在');
             }
         } catch (e) {
-            message.error('网络错误')
-            console.log('eeeee', e)
         }
 
     }

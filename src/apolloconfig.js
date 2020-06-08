@@ -57,11 +57,6 @@ const requestLink = new ApolloLink((operation: Operation, forward: NextLink) => 
 
 const errorLink = onError(
     ({ graphQLErrors, networkError, response, operation, forward }) => {
-        console.log('graphQLErrors', graphQLErrors)
-        console.log('networkError', networkError)
-        console.log('operation', operation)
-        console.log('forward', forward)
-        console.log('response', response)
         if (graphQLErrors) {
             graphQLErrors.map(({ message, locations, path }) =>
                 console.log(
@@ -72,17 +67,20 @@ const errorLink = onError(
             );
         }
         if (networkError) {
-            console.log(`[Network error]: ${networkError.result.msg}`);
             let result = networkError.result;
+            let msg = networkError.result.message.message;
             switch (networkError.statusCode) {
-                case 401:
+                case 400://参数错误
+                    message.error(msg && msg);
+                    break;
+                case 401://未登录
                     message.error(result.msg);
                     break;
                 case 402:
                     window.location.href = '/Loading'
                     break;
                 default:
-                    window.location.href = '/Loading'
+                    // window.location.href = '/Loading'
                     break;
             }
         }
