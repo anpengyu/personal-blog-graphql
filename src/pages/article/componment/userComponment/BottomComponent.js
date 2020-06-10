@@ -6,7 +6,7 @@ import { CHANGE_USER_INFO_TYPE } from '../../../../utils/Constant';
 import { Link, withRouter } from "react-router-dom";
 const BottomComponment: FC = (props) => {
 
-    const { article, commentCount, praiseClick, isCollect, isLikes } = props;
+    const { article, commentCount, praiseClick, isCollect=false, isLikes } = props;
 
     return (
         <div style={{ display: 'flex', marginRight: 10, height: '30px', lineHeight: '30px' }}>
@@ -24,8 +24,8 @@ const BottomComponment: FC = (props) => {
                     </div>
                 </a>
             </div>
-            {/* 点赞 */}
-            <div className='article_user_bottom' onClick={praiseClick.bind(this, CHANGE_USER_INFO_TYPE.LIKES, isLikes)}>
+            {/* 点赞 LIKES*/}
+            <div className='article_user_bottom' onClick={praiseClick.bind(this, CHANGE_USER_INFO_TYPE.ARTICLE_LIKE, isLikes)}>
                 {isLikes ?
                     <div><img style={{ height: 15, width: 15 }} src={require('../../../../assets/praise.png')} /></div> :
                     <div> <img style={{ height: 15, width: 15 }} src={require('../../../../assets/praise_default.png')} /></div>}
@@ -37,7 +37,7 @@ const BottomComponment: FC = (props) => {
                 {isCollect ?
                     <div><img style={{ height: 15, width: 15 }} src={require('../../../../assets/collect.png')} /></div> :
                     <div> <img style={{ height: 15, width: 15 }} src={require('../../../../assets/collect_default.png')} /></div>}
-                <div style={{ marginLeft: '5px' }}> {article.articleDisLikeCount}</div>
+                <div style={{ marginLeft: '5px' }}> {article.articleCollectCount}</div>
             </div>
         </div>
     )

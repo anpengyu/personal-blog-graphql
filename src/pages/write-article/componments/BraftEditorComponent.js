@@ -71,7 +71,7 @@ class BraftEditorComponent extends React.Component {
         let userInfo = loadUserInfo()
         if (_.isEmpty(userInfo)) {
             message.error('您已退出登录，请保存数据后重新登录发布~')
-            // return;
+            return;
         }
         let content = editorState.toHTML()
         if (_.isEmpty(articleTitle) || content === '<p></p>') {
@@ -96,7 +96,7 @@ class BraftEditorComponent extends React.Component {
             let data = await this.props.client.mutate({
                 mutation: ADD_ARTICLE,
                 variables: {
-                    userId: 1,//userInfo.id,
+                    userId: userInfo.id,//userInfo.id,
                     articleContent: content,
                     articleSubTitle: this.delHtmlTag(content).substring(0,100),
                     articleTitle,
@@ -117,13 +117,13 @@ class BraftEditorComponent extends React.Component {
         let userInfo = loadUserInfo()
         if (_.isEmpty(userInfo)) {
             message.error('您已退出登录，请保存数据后重新登录发布')
-            // return;
+            return;
         }
 
         this.props.dispatch({
             type: 'writeArticle/loadClassifyForUser',
             payload: {
-                userId: 1//userInfo.id
+                userId: userInfo.id//userInfo.id
             },
         })
         this.setState({

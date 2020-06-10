@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { CHANGE_USER_INFO_TYPE, loadUserId, CONSTANT_USER_INFO, loadUserInfo, clickTime } from '../../../utils/Constant';
 import { times } from '../../../utils/Constant'
 import { message } from 'antd';
-import { ADD_PRAISE_COUNT, CHANGE_USERINFO, ARTICLE_DETIAL } from '../graphql';
+import { ADD_PRAISE_COUNT, CHANGE_USERINFO, ARTICLE_DETIAL, CREATE_ACTION } from '../graphql';
 import { ALL_ARTICLES } from '../../home/graphql';
 import { Link, withRouter } from "react-router-dom";
 import { withApollo } from 'react-apollo';
@@ -19,62 +19,82 @@ class UserComponent extends React.Component {
     }
 
     //点赞/关注/收藏
-    praiseClick = (flag, isLikesOrCollect) => {
+    praiseClick = async (type, isLikesOrCollect) => {
         if (clickTime()) {
             return;
         }
         const { article } = this.props;
-        const { user } = article;
+        const { user, userLikes } = article;
+        console.log('article', article)
         let userId = loadUserId();
         if (_.isEmpty(userId)) {
             return;
         }
 
         if (_.eq(userId, user.id)) {
-            _.eq(CHANGE_USER_INFO_TYPE.LIKES, flag) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
+            _.eq(CHANGE_USER_INFO_TYPE.ARTICLE_LIKE, type) ? message.info('自己的文章不能点赞~~~') : message.info('自己的文章无需收藏~~~')
             // return;
         }
 
-        let { mutate } = this.props.client;
-        let data = [];
-        switch (flag) {
-            case CHANGE_USER_INFO_TYPE.LIKES: data = user.likes;
-                break;
-            case CHANGE_USER_INFO_TYPE.COLLECTS: data = user.collects;
-                break;
-        }
-        let type = 1;
-        if (_.isEmpty(data)) {
-            data = []
-        } else {
-            if (isLikesOrCollect) {
-                type = 2;
-            }
-        }
-
-        mutate({
-            mutation: ADD_PRAISE_COUNT,
+        //===================================
+        let { mutate, query } = this.props.client;
+        let data = await mutate({
+            mutation: CREATE_ACTION,
             variables: {
-                articleId: article.id,
-                flag,
-                type
+                userId,
+                articleOrAuthorId: article.id,
+                type,
+                flag: userLikes.type ? 0 : 1
             },
             refetchQueries: [{
                 query: ARTICLE_DETIAL,
                 variables: {
-                    id: article.id
-                }
-            }, {
-                query: ALL_ARTICLES,
-                variables: {
-                    pageNum: 0,
-                    pageSize: 20
+                    id: article.id,
+                    userId
                 }
             }],
         })
 
+        // let { mutate } = this.props.client;
+        // let data = [];
+        // switch (flag) {
+        //     case CHANGE_USER_INFO_TYPE.LIKES: data = user.likes;
+        //         break;
+        //     case CHANGE_USER_INFO_TYPE.COLLECTS: data = user.collects;
+        //         break;
+        // }
+        // let type = 1;
+        // if (_.isEmpty(data)) {
+        //     data = []
+        // } else {
+        //     if (isLikesOrCollect) {
+        //         type = 2;
+        //     }
+        // }
 
-        this.changeUserInfo(userId, article.id, flag);
+        // mutate({
+        //     mutation: ADD_PRAISE_COUNT,
+        //     variables: {
+        //         articleId: article.id,
+        //         flag,
+        //         type
+        //     },
+        //     refetchQueries: [{
+        //         query: ARTICLE_DETIAL,
+        //         variables: {
+        //             id: article.id
+        //         }
+        //     }, {
+        //         query: ALL_ARTICLES,
+        //         variables: {
+        //             pageNum: 0,
+        //             pageSize: 20
+        //         }
+        //     }],
+        // })
+
+
+        this.changeUserInfo(userId, article.id, type);
     }
 
     changeUserInfo = async (userId, id, flag) => {
@@ -98,21 +118,20 @@ class UserComponent extends React.Component {
 
     render() {
         const { article, classify } = this.props;
-        const { user, comment } = article;
-
+        const { user, comment, userLikes } = article;
         // let commentCount = 0;//评论条数
         // comment.map((item, index) => {
         //     commentCount += item.comment.length + 1
         // })
         let currentUserInfo = loadUserInfo();
-        let isLikes = false;//是否点赞
-        let isCollect = false;//是否收藏
-        if (!_.isEmpty(currentUserInfo)) {
-            isLikes = _.includes(currentUserInfo.likes, article.id);
-        }
-        if (!_.isEmpty(currentUserInfo)) {
-            isCollect = _.includes(currentUserInfo.collects, article.id);
-        }
+        // let isLikes = false;//是否点赞
+        // let isCollect = false;//是否收藏
+        // if (!_.isEmpty(currentUserInfo)) {
+        //     isLikes = _.includes(currentUserInfo.likes, article.id);
+        // }
+        // if (!_.isEmpty(currentUserInfo)) {
+        //     isCollect = _.includes(currentUserInfo.collects, article.id);
+        // }
 
         return (
             <div className='article_left_root'>
@@ -127,8 +146,8 @@ class UserComponent extends React.Component {
                         article={article}
                         // commentCount={commentCount}
                         praiseClick={this.praiseClick.bind(this)}
-                        isCollect={isCollect}
-                        isLikes={isLikes}
+                        // isCollect={isCollect}
+                        isLikes={userLikes.type}
                     />
                     {/* <div style={{ display: 'flex', marginRight: 10, marginTop: '10px' }}>
 

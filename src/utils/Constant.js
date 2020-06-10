@@ -5,6 +5,7 @@ import { eq } from 'semver';
 let moment = require('moment');
 
 export const CHANGE_USER_INFO_TYPE = {
+    ARTICLE_LIKE:0,//用户给文章点赞
     LIKES: 1,//点赞
     COLLECTS: 2,//收藏
     HISTORY: 3,//浏览记录
@@ -75,7 +76,7 @@ export function clickTime() {
     } else {
         data3 = (date2.getTime() - date1.getTime()) / 1000;
     }
-    if (data3 < 2) {
+    if (data3 < 1) {
         message.info('请不要频繁操作')
         return true;
     }

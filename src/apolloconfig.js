@@ -60,11 +60,11 @@ const errorLink = onError(
         if (graphQLErrors) {
             graphQLErrors.map(({ message, locations, path }) =>
 
-                window.location.href = '/error'
+                // window.location.href = '/error'
 
-                // console.log(
-                //     `[GraphQL error]: Message: ${message}`,
-                // ),
+                console.log(
+                    `[GraphQL error]: Message: ${message}`,
+                ),
             );
         }
         else if (networkError) {
@@ -80,7 +80,7 @@ const errorLink = onError(
                     message.error(msg);
                     break;
                 case 402:
-                    window.location.href = '/error'
+                    // window.location.href = '/error'
                     break;
                 default:
                     // window.location.href = '/Loading'

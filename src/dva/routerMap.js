@@ -8,7 +8,7 @@ import Loading from '../pages/Loading';
 export default [
     { path: '/', name: 'Home', component: Articles },
     { path: '/article/:id', name: 'Article', component: ArticlePage },
-    { path: '/write', name: 'WriteArticle', component: WriteArticlePage, auth: false },
+    { path: '/write', name: 'WriteArticle', component: WriteArticlePage, auth: true },
     { path: "/login", name: "Login", component: Login },
     { path: "/userInfo/:id", name: "UserInfo", component: UserInfoPage },
     { path: "/Loading", name: "Loading", component: Loading },

@@ -3,7 +3,7 @@ import { gql } from "apollo-boost";
 // 文章详情（包含评论，评论中所有用户）
 export const ARTICLE_DETIAL = gql`
   # 根据文章id获取文章详情
-  query ArticleDetail($id: ID!) {
+  query ArticleDetail($id: ID!,$userId:ID) {
     article(id: $id) {
       id
       articleTitle
@@ -13,6 +13,11 @@ export const ARTICLE_DETIAL = gql`
       articleDisLikeCount
       articleCommentCount
       createDate
+      articleCollectCount
+      userLikes(userId:$userId) {
+        userId
+        type
+      }
       user {
         id
         username
@@ -133,6 +138,20 @@ export const COMMENT_LIKE = gql`
 mutation likeComment($type:String!,$userId:ID!,$commentId:String!){
   likeComment(type:$type,userId:$userId,commentId:$commentId){
    id
+  }
+}
+`
+
+
+/**
+ * 点赞、收藏、关注、历史
+ */
+export const CREATE_ACTION = gql`
+mutation createAction($userId:ID!,$articleOrAuthorId:ID!,$type:Int!,$flag:Int!){
+  createAction(userId:$userId,articleOrAuthorId:$articleOrAuthorId,type:$type,flag:$flag){
+    response{
+      code
+    }
   }
 }
 `
