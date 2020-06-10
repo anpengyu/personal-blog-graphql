@@ -95,7 +95,7 @@ class UserComponent extends React.Component {
         // })
 
 
-        this.changeUserInfo(userId, article.id, type);
+        // this.changeUserInfo(userId, article.id, type);
     }
 
     changeUserInfo = async (userId, id, flag) => {
