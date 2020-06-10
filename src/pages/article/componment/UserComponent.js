@@ -24,7 +24,8 @@ class UserComponent extends React.Component {
             return;
         }
         const { article } = this.props;
-        const { user, userLikes } = article;
+        const { user, userLikes, userCollect } = article;
+        let flag = _.eq(CHANGE_USER_INFO_TYPE.ARTICLE_LIKE, type) ? userLikes.type : userCollect.type
         console.log('article', article)
         let userId = loadUserId();
         if (_.isEmpty(userId)) {
@@ -44,7 +45,7 @@ class UserComponent extends React.Component {
                 userId,
                 articleOrAuthorId: article.id,
                 type,
-                flag: userLikes.type ? 0 : 1
+                flag: flag ? 0 : 1
             },
             refetchQueries: [{
                 query: ARTICLE_DETIAL,
@@ -118,7 +119,8 @@ class UserComponent extends React.Component {
 
     render() {
         const { article, classify } = this.props;
-        const { user, comment, userLikes } = article;
+        const { user, comment, userLikes, userCollect } = article;
+        console.log('userCollect', userCollect)
         // let commentCount = 0;//评论条数
         // comment.map((item, index) => {
         //     commentCount += item.comment.length + 1
@@ -146,7 +148,7 @@ class UserComponent extends React.Component {
                         article={article}
                         // commentCount={commentCount}
                         praiseClick={this.praiseClick.bind(this)}
-                        // isCollect={isCollect}
+                        isCollect={userCollect.type}
                         isLikes={userLikes.type}
                     />
                     {/* <div style={{ display: 'flex', marginRight: 10, marginTop: '10px' }}>
