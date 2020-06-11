@@ -9,7 +9,7 @@
       background-color: #fff;
       margin-right: 20px;
       padding:20px;
-      height: 150px;
+      // height: 150px;
       position: sticky;    // 兼容 -webkit 内核的浏览器
       top: 60px;  
       .article_user_date{
@@ -98,4 +98,23 @@
   color: black;
   margin: 20px 0;
 }
+}
+
+.attention_default{
+  cursor: pointer;
+  font-size: 12px;
+  padding: 3px 15px;
+  color: #fff;
+  background-color: #ff0000;
+  border-radius: 20px
+}
+
+.attention {
+  @extend .attention_default;
+  // cursor: pointer;
+  // font-size: 14px;
+  // padding: 3px 15px;
+  // color: #fff;
+  background-color: rgb(108, 103, 103);
+  // border-radius: 20px
 }

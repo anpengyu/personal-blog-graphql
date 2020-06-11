@@ -22,6 +22,10 @@ export const ARTICLE_DETIAL = gql`
         userId
         type
       }
+      attention(userId:$userId) {
+        userId
+        type
+      }
       user {
         id
         username

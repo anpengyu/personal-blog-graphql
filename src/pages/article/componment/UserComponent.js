@@ -24,9 +24,23 @@ class UserComponent extends React.Component {
             return;
         }
         const { article } = this.props;
-        const { user, userLikes, userCollect } = article;
-        let flag = _.eq(CHANGE_USER_INFO_TYPE.ARTICLE_LIKE, type) ? userLikes.type : userCollect.type
-        console.log('article', article)
+        const { user, userLikes, userCollect, attention } = article;
+        let flag;
+        let articleOrAuthorId;
+        switch (type) {
+            case CHANGE_USER_INFO_TYPE.ARTICLE_LIKE:
+                flag = userLikes.type
+                articleOrAuthorId = article.id
+                break;
+            case CHANGE_USER_INFO_TYPE.COLLECTS:
+                flag = userCollect.type
+                articleOrAuthorId = article.id
+                break;
+            case CHANGE_USER_INFO_TYPE.ATTENTION:
+                flag = attention.type
+                articleOrAuthorId = user.id
+                break;
+        }
         let userId = loadUserId();
         if (_.isEmpty(userId)) {
             return;
@@ -43,7 +57,7 @@ class UserComponent extends React.Component {
             mutation: CREATE_ACTION,
             variables: {
                 userId,
-                articleOrAuthorId: article.id,
+                articleOrAuthorId,
                 type,
                 flag: flag ? 0 : 1
             },
@@ -119,8 +133,8 @@ class UserComponent extends React.Component {
 
     render() {
         const { article, classify } = this.props;
-        const { user, comment, userLikes, userCollect } = article;
-        console.log('userCollect', userCollect)
+        const { user, comment, userLikes, userCollect, attention } = article;
+
         // let commentCount = 0;//评论条数
         // comment.map((item, index) => {
         //     commentCount += item.comment.length + 1
@@ -138,7 +152,7 @@ class UserComponent extends React.Component {
         return (
             <div className='article_left_root'>
                 <div className='article_user_root'>
-                    <TitleComponment user={user} />
+                    <TitleComponment user={user} isAttention={attention.type} praiseClick={this.praiseClick.bind(this)} />
 
                     <div className='article_user_date'>
                         发布时间：{article.createDate}
