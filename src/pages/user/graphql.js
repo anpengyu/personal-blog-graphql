@@ -18,7 +18,7 @@ export const USER_INFO = gql`
 
 //用户中心获取用户信息
 export const USER_DETAIL_INFO = gql`
-  query UserInfo($id:ID!){
+  query UserInfo($id:ID!,$userId:ID){
     user(id:$id){
       id
       username
@@ -46,6 +46,15 @@ export const USER_DETAIL_INFO = gql`
         id
         name
         detail
+      }
+      userLikesAll(userId:$userId){
+        articleId
+      }
+      userCollectAll(userId:$userId){
+        articleId
+      }
+      attentionAll(userId:$userId){
+        authorId
       }
       response{
         code

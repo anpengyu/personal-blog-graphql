@@ -7,11 +7,13 @@ import MarksComponment from './componment/MarksComponment';
 import CourseComponment from './componment/CourseComponment';
 import ContentComponment from './componment/ContentComponment';
 import AboutAuthComponment from './componment/AboutAuthComponment';
+import UserAttentionComponment from './componment/UserAttentionComponment';
 import { message, Tabs } from 'antd';
 import { USER_DETAIL_INFO } from './graphql';
 import { withApollo } from 'react-apollo';
 import { withRouter } from "react-router-dom";
 import { connect } from 'dva';
+import { loadUserId } from '../../utils/Constant';
 const { TabPane } = Tabs;
 /**
   * @author apy
@@ -34,12 +36,15 @@ class UserInfoPage extends React.Component {
 
     async componentDidMount() {
         let id = this.props.match.params.id;
+        let userId = loadUserId()
+        console.log('userId',userId)
         let { query } = this.props.client;
         try {
             const result = await query({
                 query: USER_DETAIL_INFO,
                 variables: {
-                    id
+                    id,
+                    userId
                 },
             });
             console.log('result', result.data)
@@ -64,7 +69,7 @@ class UserInfoPage extends React.Component {
                                 <ContentComponment allArticles={allArticles} />
                             </TabPane>
                             <TabPane tab="关注" key="2">
-                                Content of Tab Pane 2
+                                <UserAttentionComponment allArticles={allArticles} />
                             </TabPane>
                             <TabPane tab="收藏" key="3">
                                 Content of Tab Pane 3
