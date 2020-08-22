@@ -6,6 +6,7 @@ import ArticleItemComponent from './component/ArticleItemComponent';
 import Base from '../Base'
 import { connect } from 'dva';
 import { BackTop } from 'antd';
+import HomeTitleCompnent from './component/HomeTitleComponent';
 
 const BackTopStyle = {
     height: 40,
@@ -24,24 +25,34 @@ class Articles extends Base {
 
         return (
             <Fragment>
-                <div style={{ width: '40%' }}>
+                <div>
                     <Query
                         query={ALL_ARTICLES}
-                        variables={{ pageNum: 0, pageSize: 20,audit:1 }}>
+                        variables={{ pageNum: 0, pageSize: 20, audit: 1 }}>
                         {({ loading, data, error, refetch }) => {
-                            console.log('error.......', error && error.networkError.statusCode)
                             if (error) return <Loading isCenter={true} />;
                             if (loading) return <Loading isCenter={true} />;
                             // refetch();
                             return (
                                 <Fragment>
-                                    {data.allArticles.map((item, index) => {
-                                        return (
-                                            <div key={index} style={{}}>
-                                                <ArticleItemComponent item={item} />
+                                    <div style={{ display: 'flex'}}>
+                                        <div style={{width:'694px' }}>
+                                            <div>
+                                                <HomeTitleCompnent />
                                             </div>
-                                        );
-                                    })}
+                                            {data.allArticles.articles.map((item, index) => {
+                                                return (
+                                                    <div key={index} style={{}}>
+                                                        <ArticleItemComponent item={item} />
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                        <div style={{marginLeft:'20px',backgroundColor:'#fff',width:'200px',height:'200px',padding:'20px'}}>
+                                            ddd
+                                        </div>
+                                    </div>
+
                                 </Fragment>
                             );
                         }}

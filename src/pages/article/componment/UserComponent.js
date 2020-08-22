@@ -69,47 +69,6 @@ class UserComponent extends React.Component {
                 }
             }],
         })
-
-        // let { mutate } = this.props.client;
-        // let data = [];
-        // switch (flag) {
-        //     case CHANGE_USER_INFO_TYPE.LIKES: data = user.likes;
-        //         break;
-        //     case CHANGE_USER_INFO_TYPE.COLLECTS: data = user.collects;
-        //         break;
-        // }
-        // let type = 1;
-        // if (_.isEmpty(data)) {
-        //     data = []
-        // } else {
-        //     if (isLikesOrCollect) {
-        //         type = 2;
-        //     }
-        // }
-
-        // mutate({
-        //     mutation: ADD_PRAISE_COUNT,
-        //     variables: {
-        //         articleId: article.id,
-        //         flag,
-        //         type
-        //     },
-        //     refetchQueries: [{
-        //         query: ARTICLE_DETIAL,
-        //         variables: {
-        //             id: article.id
-        //         }
-        //     }, {
-        //         query: ALL_ARTICLES,
-        //         variables: {
-        //             pageNum: 0,
-        //             pageSize: 20
-        //         }
-        //     }],
-        // })
-
-
-        // this.changeUserInfo(userId, article.id, type);
     }
 
     changeUserInfo = async (userId, id, flag) => {
@@ -134,20 +93,8 @@ class UserComponent extends React.Component {
     render() {
         const { article, classify } = this.props;
         const { user, comment, userLikes, userCollect, attention } = article;
-
-        // let commentCount = 0;//评论条数
-        // comment.map((item, index) => {
-        //     commentCount += item.comment.length + 1
-        // })
+        console.log('article',article);
         let currentUserInfo = loadUserInfo();
-        // let isLikes = false;//是否点赞
-        // let isCollect = false;//是否收藏
-        // if (!_.isEmpty(currentUserInfo)) {
-        //     isLikes = _.includes(currentUserInfo.likes, article.id);
-        // }
-        // if (!_.isEmpty(currentUserInfo)) {
-        //     isCollect = _.includes(currentUserInfo.collects, article.id);
-        // }
 
         return (
             <div className='article_left_root'>
@@ -165,12 +112,6 @@ class UserComponent extends React.Component {
                         isCollect={userCollect.type}
                         isLikes={userLikes.type}
                     />
-                    {/* <div style={{ display: 'flex', marginRight: 10, marginTop: '10px' }}>
-
-                    </div> */}
-
-
-
                 </div>
                 {
                     _.isEmpty(classify) ? null : <div className='article_classify_root'>

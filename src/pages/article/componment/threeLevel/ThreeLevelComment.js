@@ -128,6 +128,7 @@ class SecondLevelComment extends React.Component {
         <ThreeLevelBottomComponment
           item={comment}
           commentId={comment.id}
+          creator={creator}
           articleId={this.props.article.id}
           secondaryCommentVisible={secondaryCommentVisible}
           publishButton={this.publishButton.bind(this)} />

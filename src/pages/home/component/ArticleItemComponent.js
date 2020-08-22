@@ -19,7 +19,7 @@ export default class ArticleItemComponent extends React.Component {
     return (
       <div className='article_item_root'>
         <div className='article_item_title'>
-          <Link to={`/article/${item.id}`}>{item.articleTitle}</Link>
+          <Link style={{color:'#000'}} to={`/article/${item.id}`}>{item.articleTitle}</Link>
         </div>
         <div className='article_title_subtitle'>
           {item.articleSubTitle}
@@ -29,7 +29,7 @@ export default class ArticleItemComponent extends React.Component {
 
           <div style={{ display: 'flex' }}>
             <div>
-              <Link to={`/userInfo/${id}`}>
+              <Link  style={{color:'#787878'}}  to={`/userInfo/${id}`}>
                 <div className='img_title'>
                   <img
                     alt='个人头像'

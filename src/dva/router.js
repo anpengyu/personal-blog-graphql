@@ -9,7 +9,9 @@ import TitleComponment from '../pages/componments/TitleComponment'
 import monent_cn from '../moment-cn'
 import client from '../apolloconfig';
 import { setClient } from '../dva/servises'
+import '../index.scss';
 let moment = require('moment');
+
 
 function RouterConfig({ history, app }) {
 
@@ -21,7 +23,7 @@ function RouterConfig({ history, app }) {
         <ApolloProvider client={client}>
             <Router>
                 <TitleComponment />
-                <div style={{ backgroundColor: '#f7f7f7', width: '100%', minHeight:'90vh', height: '100%', display: 'flex', justifyContent: 'center', padding: 20 }}>
+                <div className='parent'>
 
                     <Switch>
                         {routers.map((item, index) => {

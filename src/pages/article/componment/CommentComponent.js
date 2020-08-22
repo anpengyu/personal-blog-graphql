@@ -104,7 +104,7 @@ class CommentComponent extends React.Component {
         let { article } = this.props;
         const { comment, user } = article;
         const { secondaryCommentVisible, secondaryComment } = this.state;
-
+console.log(comment );
         return (
             <div className='comment'>
                 <FirstLevelComment article={article} />
@@ -123,6 +123,7 @@ class CommentComponent extends React.Component {
                             comment={comment}
                             article={article}
                             commentId={item.id}
+                            creator={creator}
                             unfold={this.state.unfold}
                             unfoldFun={this.unfoldFun.bind(this)}
                             secondaryCommentVisible={secondaryCommentVisible}

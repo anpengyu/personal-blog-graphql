@@ -42,9 +42,12 @@ class BottomComponment extends React.Component {
     }
 
     render() {
-        const { item, comment, unfold } = this.props;
+        const { item, comment, unfold ,creator} = this.props;
         let userLikes = JSON.parse(item.userLikes)
-        let userId = loadUserId()
+        console.log('comment....');
+        console.log(comment)
+        // let userId = loadUserId()
+        let userId = creator.id;
         let itemId = item.id;
         return (
             <div style={{ display: 'flex', height: '30px', lineHeight: '30px' }}>

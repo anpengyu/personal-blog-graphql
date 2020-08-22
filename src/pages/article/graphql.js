@@ -31,17 +31,17 @@ export const ARTICLE_DETIAL = gql`
         username
         headImg
         sex
-        likes
-        attention
-        collects
-        historys
+        # likes
+        # attention
+        # collects
+        # historys
       }
       comment {
         articleId
         id
         content
         createDate
-        likes
+        # likes
         userLikes
         rootCommentId
         creator {
@@ -57,7 +57,7 @@ export const ARTICLE_DETIAL = gql`
           createDate
           rootCommentId
           replyToCommentId
-          likes
+          # likes
           userLikes
           creator {
             id
@@ -133,8 +133,7 @@ mutation addPraiseCount($articleId:ID!,$flag:Int!,$type:Int!){
 export const CHANGE_USERINFO = gql`
 mutation changeUserInfo($userId:ID!,$id:ID!,$type:Int!){
   changeUserInfo(userId:$userId,id:$id,type:$type){
-    likes
-    collects
+id
   }
 }
 `

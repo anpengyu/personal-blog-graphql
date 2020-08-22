@@ -15,10 +15,11 @@ class Articles extends BasePage {
     render() {
         let id = this.props.match.params.id;
         let userId = loadUserId();
+        console.log('userId',userId);
         return (
             <Query
                 query={ARTICLE_DETIAL}
-                variables={{ id, userId }}>
+                variables={{ id ,userId}}>
                 {({ loading, error, data }) => {
                     if (loading) return <Loading />;
                     if (error) return <Loading />;

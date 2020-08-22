@@ -29,7 +29,7 @@
 .article_item_root{
   background:#fff;
   padding: 20px;
-  margin-top: 2px;
+  margin-top: 1px;
 
   //文章标题
   .article_item_title{
@@ -67,4 +67,21 @@
     }
   }
 
+}
+
+.home_title_bg{
+  display: flex;
+  padding: 20px;
+  background-color: #fff;
+}
+.home_title_tv{
+  margin-right: 30px;
+  color: #000;
+  font-size: 16px;
+}
+.home_title_tv_select{
+  margin-right: 30px;
+  color: #0084ff;
+  font-size: 16px;
+  font-weight: 500;
 }

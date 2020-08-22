@@ -2,9 +2,9 @@
 
 import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
-
+import {ContentUtils} from 'braft-utils'
 import React from 'react';
-import { Input, message } from 'antd';
+import { Input, message ,Upload,Icon,Form} from 'antd';
 import { connect } from 'dva';
 import BraftEditor from 'braft-editor';
 import _ from 'lodash';
@@ -36,6 +36,7 @@ String.prototype.replaceAll = function (s1, s2) {
  * 文章编辑器
  * @date 2020-03-31
  */
+
 class BraftEditorComponent extends React.Component {
 
     constructor(props) {
@@ -98,7 +99,7 @@ class BraftEditorComponent extends React.Component {
                 variables: {
                     userId: userInfo.id,//userInfo.id,
                     articleContent: content,
-                    articleSubTitle: this.delHtmlTag(content).substring(0,100),
+                    articleSubTitle: this.delHtmlTag(content).substring(0, 100),
                     articleTitle,
                     ...values
                 },
@@ -130,79 +131,106 @@ class BraftEditorComponent extends React.Component {
             modelVisible: true,
         });
     };
-
+    beforeUpload = file => {
+        this.props.form.setFieldsValue({
+            content: ContentUtils.insertMedias(this.props.form.getFieldValue('content'), [{
+                type: 'IMAGE',
+                url: '', // imgUrl 为上传成功后 后台返回的url地址
+            }])
+     
+        })  }
     handleChange = (editorState) => {
-        const { handleChange } = this.props;
-        handleChange(editorState)
-        this.setState({ editorState });
-    };
+                const { handleChange } = this.props;
+                handleChange(editorState)
+                this.setState({ editorState });
+            };
 
-    changeTitle = (e) => {
-        this.setState({
-            articleTitle: e.target.value,
-        });
-    };
-    render() {
+        changeTitle = (e) => {
+            this.setState({
+                articleTitle: e.target.value,
+            });
+        };
+        render() {
+            // const {
+            //     form: { getFieldDecorator },
+            // } = this.props;
+            const extendControls = [
+                {
+                    key: 'custom-button',
+                    type: 'button',
+                    text: '预览',
+                    onClick: this.showModal,
+                },
+                {
+                    key: 'save-button',
+                    type: 'button',
+                    text: '保存到草稿',
+                    onClick: this.showModal,
+                },
+                {
+                    key: 'submit-button',
+                    type: 'button',
+                    text: '提交',
+                    onClick: this.showModal,
+                },
+                {
+                    key: 'antd-uploader',
+                    type: 'component',
 
-        const extendControls = [
-            {
-                key: 'custom-button',
-                type: 'button',
-                text: '预览',
-                onClick: this.showModal,
-            },
-            {
-                key: 'save-button',
-                type: 'button',
-                text: '保存到草稿',
-                onClick: this.showModal,
-            },
-            {
-                key: 'submit-button',
-                type: 'button',
-                text: '提交',
-                onClick: this.showModal,
-            },
-        ];
-        return (
-            <div style={{ display: 'inline-block', width: 1000 }}>
-                <div
-                    style={{
-                        borderWidth: 1,
-                        height: '100vh',
-                        borderColor: '#000',
-                        borderStyle: 'solid',
-                    }}
-                >
-                    <div>
-                        <Input
-                            style={{ height: 50, fontSize: 20 }}
-                            onChange={this.changeTitle}
-                            placeholder="文章标题"
-                        ></Input>
+                    text: '图片',
+                    component: (
+                        <Upload
+                            accept="image/*"
+                            showUploadList={false}
+                            beforeUpload={this.beforeUpload}
+                        >
+                            {/* 这里的按钮最好加上type="button"，以避免在表单容器中触发表单提交，用Antd的Button组件则无需如此 */}
+                            <button type="button" className="control-item button upload-button" data-title="插入图片">
+                                插入图片<Icon type="picture" theme="filled" />
+                            </button>
+                        </Upload>
+                    )
+                }
+            ];
+            return (
+                <div style={{ display: 'inline-block', width: 1000 }}>
+                    <div
+                        style={{
+                            borderWidth: 1,
+                            height: '100vh',
+                            borderColor: '#000',
+                            borderStyle: 'solid',
+                        }}
+                    >
+                        <div>
+                            <Input
+                                style={{ height: 50, fontSize: 20 }}
+                                onChange={this.changeTitle}
+                                placeholder="文章标题"
+                            ></Input>
+                        </div>
+                        <div className="editor-wrapper">
+                            <BraftEditor
+                                id="editor-id-1"
+                                extendControls={extendControls}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="editor-wrapper">
-                        <BraftEditor
-                            id="editor-id-1"
-                            extendControls={extendControls}
-                            onChange={this.handleChange}
-                        />
-                    </div>
+
+                    <ArticleModal
+                        articleTitle={this.state.articleTitle}
+                        modelVisible={this.state.modelVisible}
+                        handleOk={this.handleOk}
+                        handleCancel={this.handleCancel}
+                        submit={this.submit}
+                        classify={this.props.writeArticle.classify}
+                    />
                 </div>
-
-                <ArticleModal
-                    articleTitle={this.state.articleTitle}
-                    modelVisible={this.state.modelVisible}
-                    handleOk={this.handleOk}
-                    handleCancel={this.handleCancel}
-                    submit={this.submit}
-                    classify={this.props.writeArticle.classify}
-                />
-            </div>
-        );
+            );
+        }
     }
-}
 
-export default withApollo(withRouter(connect(({ writeArticle }) => ({
-    writeArticle,
-}))(BraftEditorComponent)));
+    export default withApollo(withRouter(connect(({ writeArticle }) => ({
+        writeArticle,
+    }))(BraftEditorComponent)));

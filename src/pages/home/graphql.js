@@ -5,6 +5,7 @@ export const ALL_ARTICLES = gql`
   # 获取所有文章/用户信息
   query AllArticles($pageNum:Int!,$pageSize:Int!,$audit:Int) {
     allArticles(pageNum:$pageNum,pageSize:$pageSize,audit:$audit) {
+     articles{
       id
       articleTitle
       articleSubTitle
@@ -19,6 +20,7 @@ export const ALL_ARTICLES = gql`
         sex
         headImg
       }
+     }
     }
   }
 `;

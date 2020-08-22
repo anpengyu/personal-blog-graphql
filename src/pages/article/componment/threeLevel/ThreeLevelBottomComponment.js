@@ -6,7 +6,7 @@ import { withApollo } from 'react-apollo';
 import { COMMENT_LIKE, ARTICLE_DETIAL } from '../../graphql';
 import { loadUserId } from '../../../../utils/Constant';
 
-class BottomComponment extends React.Component {
+class ThreeLevelBottomComponment extends React.Component {
 
     unfoldComent = () => {
         let { item, unfold } = this.props;
@@ -43,9 +43,9 @@ class BottomComponment extends React.Component {
     }
 
     render() {
-        const { item, comment, unfold } = this.props;
+        const { item, comment, unfold,creator} = this.props;
         let userLikes = JSON.parse(item.userLikes)
-        let userId = loadUserId()
+        let userId = creator.id;
         let itemId = item.id;
         return (
             <div style={{ display: 'flex', height: '30px', lineHeight: '30px' }}>
@@ -67,4 +67,4 @@ class BottomComponment extends React.Component {
 
 }
 
-export default withApollo(BottomComponment);
+export default withApollo(ThreeLevelBottomComponment);
