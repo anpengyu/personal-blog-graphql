@@ -1,0 +1,28 @@
+.sidebar {
+    position: fixed;
+    top: 54px;
+    border-right: 1px solid #e4e6e9;
+    background-color: #fff;
+}
+.content {
+    // position: absolute;
+    // top: 54px;
+    // right: 0;
+    // bottom: 0;
+    // left: 321px;
+    // overflow-y: auto;
+    // background-color: #fff;
+}
+// backgroundColor:answerType==1?'#eee':'#fff',, 
+@mixin type($type){
+    cursor:pointer;
+    padding: 10px 20px;
+    border-width: 1;
+
+    border-color: 'var(--black-300)';
+    border-style: 'solid';
+}
+
+.answerType{
+    @include type(1);
+}

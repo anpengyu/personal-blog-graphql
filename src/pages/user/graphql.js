@@ -23,7 +23,6 @@ export const USER_DETAIL_INFO = gql`
       id
       username
       headImg
-      collects
       articles{
           id
           articleTitle

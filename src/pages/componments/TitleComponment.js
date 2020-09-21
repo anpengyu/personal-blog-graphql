@@ -70,6 +70,13 @@ class TitleComponment extends React.Component {
         this.setState({
             currentTab,
         });
+        this.props.dispatch({
+            type:'titleComponent/updateState',
+            payload:{
+                currentTab
+            }
+        })
+        this.props.history.push('/')
     };
 
     clickWriteArticle = () => {
@@ -181,6 +188,6 @@ class TitleComponment extends React.Component {
 // export default connect(({ home }) => ({
 //     home,
 // }))(Articles);
-export default withApollo(withRouter(connect(({ home }) => ({
-    home,
+export default withApollo(withRouter(connect(({ titleComponent }) => ({
+    titleComponent,
 }))(TitleComponment)));

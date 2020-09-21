@@ -7,7 +7,7 @@ export const buildPreviewHtml = (content) => {
           <style>
             html,body{
               height: 100%;
-              min-height:100vh;
+              min-height:0vh;
               margin: 0;
               padding: 0;
               overflow: auto;
@@ -17,7 +17,7 @@ export const buildPreviewHtml = (content) => {
               box-sizing: border-box;
               width: 730px;
               max-width: 730px;
-              min-height: 100vh;
+              min-height: 0vh;
               margin: 0 100 auto;
               padding: 30px 20px;
               overflow: hidden;

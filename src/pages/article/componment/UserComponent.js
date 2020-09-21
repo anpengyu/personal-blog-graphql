@@ -82,12 +82,12 @@ class UserComponent extends React.Component {
             }
         })
         //获取最新点赞列表
-        let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO))
-        userInfo.likes = mutateUserInfoResult.data.changeUserInfo.likes;
-        localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(userInfo))
-        //获取最新收藏列表
-        userInfo.collects = mutateUserInfoResult.data.changeUserInfo.collects;
-        localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(userInfo))
+        // let userInfo = JSON.parse(localStorage.getItem(CONSTANT_USER_INFO))
+        // userInfo.likes = mutateUserInfoResult.data.changeUserInfo.likes;
+        // localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(userInfo))
+        // //获取最新收藏列表
+        // userInfo.collects = mutateUserInfoResult.data.changeUserInfo.collects;
+        // localStorage.setItem(CONSTANT_USER_INFO, JSON.stringify(userInfo))
     }
 
     render() {

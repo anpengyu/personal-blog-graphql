@@ -23,11 +23,11 @@ export const USER_INFO = gql`
       id
       username
       headImg
-      likes
-      collects
-      comments
-      historys
-      attention
+      # likes
+      # collects
+      # comments
+      # historys
+      # attention
       response{
         code
         message

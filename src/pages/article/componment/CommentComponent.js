@@ -6,7 +6,6 @@ import _ from 'lodash';
 import { Button, message, BackTop, Input } from 'antd';
 import { connect } from 'dva'
 import { loadUserInfo, loadUserId } from '../../../utils/Constant';
-import BraftEditor from 'braft-editor';
 import SecondLevelTitleComponment from './secondLevel/SecondLevelTitleComponment';
 import ReplyComponment from './PublishComponment';
 import FirstLevelComment from './firstLevel/FirstLevelComment';

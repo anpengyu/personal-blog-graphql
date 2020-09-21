@@ -19,7 +19,7 @@ export default class ArticleItemComponent extends React.Component {
     return (
       <div className='article_item_root'>
         <div className='article_item_title'>
-          <Link style={{color:'#000'}} to={`/article/${item.id}`}>{item.articleTitle}</Link>
+          <Link style={{color:'#000'}} target="_blank" to={`/article/${item.id}`}>{item.articleTitle}</Link>
         </div>
         <div className='article_title_subtitle'>
           {item.articleSubTitle}
