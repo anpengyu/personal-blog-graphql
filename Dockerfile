@@ -1,22 +1,25 @@
-# 依赖
-FROM node:10-alpine
-# 安装 nodejs
+FROM node:alpine as NodeBuilder
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/
+USER root
 
-# npm install
-COPY package.json /usr/src/app/package.json
-COPY package-lock.json /usr/src/app/package-lock.json
+RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org --unsafe-perm=true --allow-root
 
-RUN npm i  --production --registry=https://registry.npm.taobao.org --unsafe-perm=true --allow-root
+COPY package.json ./
+COPY yarn.lock ./
 
 
-EXPOSE 3001
-ENV PATH=/usr/src/app/node_modules/.bin:$PATH
+# RUN yarn --registry=https://registry.npm.taobao.org
+RUN npm install
 
-# 复制项目所有代码
-COPY . /usr/src/app
+COPY ./ ./
+RUN  yarn build
+RUN  find build -name "*" -type f -print0 | xargs -0 gzip -9 -k
 
 
-RUN npm start
+FROM nginx:alpine as ServerBuilder
+
+WORKDIR /usr/share/nginx/html/
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=NodeBuilder /usr/src/app/build  /usr/share/nginx/html/

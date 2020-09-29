@@ -4,7 +4,7 @@ import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
 import {ContentUtils} from 'braft-utils'
 import React from 'react';
-import { Input, message ,Upload,Icon,Form} from 'antd';
+import { Input, message ,Upload,Form} from 'antd';
 import { connect } from 'dva';
 import BraftEditor from 'braft-editor';
 import _ from 'lodash';
@@ -173,24 +173,7 @@ class BraftEditorComponent extends React.Component {
                     text: '提交',
                     onClick: this.showModal,
                 },
-                {
-                    key: 'antd-uploader',
-                    type: 'component',
 
-                    text: '图片',
-                    component: (
-                        <Upload
-                            accept="image/*"
-                            showUploadList={false}
-                            beforeUpload={this.beforeUpload}
-                        >
-                            {/* 这里的按钮最好加上type="button"，以避免在表单容器中触发表单提交，用Antd的Button组件则无需如此 */}
-                            <button type="button" className="control-item button upload-button" data-title="插入图片">
-                                插入图片<Icon type="picture" theme="filled" />
-                            </button>
-                        </Upload>
-                    )
-                }
             ];
             return (
                 <div style={{ display: 'inline-block', width: 1000 }}>
