@@ -1,7 +1,7 @@
 FROM node:alpine as NodeBuilder
 
 WORKDIR /usr/src/app/
-USER root
+USER gitlab-runner
 
 RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org --unsafe-perm=true --allow-root
 RUN ls -la
