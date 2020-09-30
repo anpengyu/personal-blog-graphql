@@ -13,7 +13,7 @@ COPY yarn.lock ./
 RUN npm install
 
 COPY ./ ./
-RUN  yarn build
+RUN  npm run build
 RUN  find build -name "*" -type f -print0 | xargs -0 gzip -9 -k
 
 
