@@ -12,8 +12,6 @@ variables:
 
 before_script:
   - echo "开始"
-  - echo $NODE_BRANCH_IMAGE:$CI_COMMIT_SHA
-  - echo $SERVER_BRANCH_IMAGE:$CI_COMMIT_SHA
 
   # - docker info
 
@@ -29,7 +27,7 @@ build:
   only:
     - master
   tags:
-    - test
+    - test1
 
 build_tag:
   stage: build_tag
@@ -42,7 +40,7 @@ build_tag:
   only:
     - master
   tags:
-    - test
+    - test1
     
 deploy:
   stage: deploy
@@ -52,4 +50,4 @@ deploy:
   only:
     - master
   tags:
-    - test
+    - test1
