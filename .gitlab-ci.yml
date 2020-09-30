@@ -12,6 +12,9 @@ variables:
 
 before_script:
   - echo "开始"
+  - echo $NODE_BRANCH_IMAGE:$CI_COMMIT_SHA
+  - echo $SERVER_BRANCH_IMAGE:$CI_COMMIT_SHA
+
   # - docker info
 
 build:

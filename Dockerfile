@@ -6,8 +6,8 @@ USER root
 RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org --unsafe-perm=true --allow-root
 
 COPY package.json ./
-COPY package-lock.json ./
-COPY yarn.lock ./
+# COPY package-lock.json ./
+# COPY yarn.lock ./
 
 
 # RUN yarn --registry=https://registry.npm.taobao.org
