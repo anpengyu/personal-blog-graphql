@@ -27,7 +27,7 @@ build:
   only:
     - master
   tags:
-    - test1
+    - test2
 
 build_tag:
   stage: build_tag
@@ -40,7 +40,7 @@ build_tag:
   only:
     - master
   tags:
-    - test1
+    - test2
     
 deploy:
   stage: deploy
@@ -50,4 +50,4 @@ deploy:
   only:
     - master
   tags:
-    - test1
+    - test2
