@@ -11,7 +11,7 @@ variables:
 
 before_script:
   - echo "开始"
-  - docker info
+  # - docker info
 
 build:
   stage: build 
