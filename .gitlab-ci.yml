@@ -32,7 +32,7 @@ build:
     - blog3
 
 build_tag:
-  stage: build_tag1
+  stage: build_tag
   script:
     - docker tag $NODE_BRANCH_IMAGE:$CI_COMMIT_SHA $NODE_BRANCH_IMAGE:latest
     - docker tag $SERVER_BRANCH_IMAGE:$CI_COMMIT_SHA $SERVER_BRANCH_IMAGE:latest
