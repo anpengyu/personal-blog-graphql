@@ -6,6 +6,7 @@ stages:
 image: docker:stable
 
 variables:
+  DOCKER_HOST: http://121/36.9.185:22
   NODE_BRANCH_IMAGE: $CI_PROJECT_NAME-node-$CI_COMMIT_REF_SLUG
   SERVER_BRANCH_IMAGE: $CI_PROJECT_NAME-server-$CI_COMMIT_REF_SLUG
 
