@@ -4,7 +4,7 @@ WORKDIR /usr/src/app/
 USER root
 
 RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org --unsafe-perm=true --allow-root
-
+RUN ls -la
 COPY package.json ./
 # COPY package-lock.json ./
 # COPY yarn.lock ./
