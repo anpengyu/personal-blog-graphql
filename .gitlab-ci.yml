@@ -6,7 +6,7 @@ stages:
 image: docker:stable
 
 variables:
-  DOCKER_HOST: 121.36.9.185:22
+  # DOCKER_HOST: 121.36.9.185:22
   NODE_BRANCH_IMAGE: $CI_PROJECT_NAME-node-$CI_COMMIT_REF_SLUG
   SERVER_BRANCH_IMAGE: $CI_PROJECT_NAME-server-$CI_COMMIT_REF_SLUG
 
@@ -29,10 +29,10 @@ build:
   only:
     - master
   tags:
-    - blog3
+    - blog4
 
 build_tag:
-  stage: build_tag
+  stage: build_tag1
   script:
     - docker tag $NODE_BRANCH_IMAGE:$CI_COMMIT_SHA $NODE_BRANCH_IMAGE:latest
     - docker tag $SERVER_BRANCH_IMAGE:$CI_COMMIT_SHA $SERVER_BRANCH_IMAGE:latest
@@ -42,7 +42,7 @@ build_tag:
   only:
     - master
   tags:
-    - blog3
+    - blog4
     
 deploy:
   stage: deploy
@@ -52,4 +52,4 @@ deploy:
   only:
     - master
   tags:
-    - blog3
+    - blog4
