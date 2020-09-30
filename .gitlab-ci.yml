@@ -29,7 +29,7 @@ build:
   only:
     - master
   tags:
-    - blog3
+    - test
 
 build_tag:
   stage: build_tag
@@ -42,7 +42,7 @@ build_tag:
   only:
     - master
   tags:
-    - blog3
+    - test
     
 deploy:
   stage: deploy
@@ -52,4 +52,4 @@ deploy:
   only:
     - master
   tags:
-    - blog3
+    - test
