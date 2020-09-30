@@ -26,7 +26,7 @@ build:
   only:
     - master
   tags:
-    - blog2
+    - blog3
 
 build_tag:
   stage: build_tag
@@ -39,7 +39,7 @@ build_tag:
   only:
     - master
   tags:
-    - blog2
+    - blog3
     
 deploy:
   stage: deploy
@@ -49,4 +49,4 @@ deploy:
   only:
     - master
   tags:
-    - blog2
+    - blog3
